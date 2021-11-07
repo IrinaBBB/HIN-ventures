@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using HIN_ventures.DataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace HIN_ventures.DataAccess.Data
 {
@@ -7,5 +8,7 @@ namespace HIN_ventures.DataAccess.Data
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Assignment> Assignments { get; set; }
     }
 }
