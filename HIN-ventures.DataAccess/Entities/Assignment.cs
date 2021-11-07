@@ -22,6 +22,14 @@ namespace HIN_ventures.DataAccess.Entities
         [Required]
         public string Description { get; set; }
 
+        [Column("category")]
+        [Required]
+        public string Category { get; set; }
+
+        [Column("deadline")]
+        [Required]
+        public DateTime Deadline { get; set; }
+
         [Column("created_by")]
         public string CreatedBy { get; set; }
 
