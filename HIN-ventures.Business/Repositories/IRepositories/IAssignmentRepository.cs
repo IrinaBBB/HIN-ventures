@@ -8,7 +8,8 @@ namespace HIN_ventures.Business.Repositories.IRepositories
     {
         public Task<AssignmentDto> CreateAssignment(AssignmentDto assignmentDto);
         public Task<AssignmentDto> UpdateAssignment(int assignmentId, AssignmentDto assignmentDto);
+        public Task<int> DeleteAssignment(int assignmentId);
         public Task<AssignmentDto> GetAssignment(int assignmentId);
-        public Task<IEnumerable<AssignmentDto>> GetAllAssignments();
+        public IEnumerable<AssignmentDto> GetAllAssignments();
     }
 }
