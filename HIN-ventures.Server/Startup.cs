@@ -1,3 +1,4 @@
+using System;
 using HIN_ventures.DataAccess.Data;
 using HIN_ventures.Server.Data;
 using Microsoft.AspNetCore.Builder;
@@ -27,6 +28,7 @@ namespace HIN_ventures.Server
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
