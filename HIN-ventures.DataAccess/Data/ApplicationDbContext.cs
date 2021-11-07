@@ -1,4 +1,5 @@
-﻿using HIN_ventures.DataAccess.Entities;
+﻿using System.Collections.Generic;
+using HIN_ventures.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace HIN_ventures.DataAccess.Data
