@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MudBlazor.Services;
 
 namespace HIN_ventures.Server
 {
@@ -29,6 +30,7 @@ namespace HIN_ventures.Server
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMudServices();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
