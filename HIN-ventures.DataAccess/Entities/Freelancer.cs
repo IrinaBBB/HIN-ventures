@@ -11,7 +11,7 @@ namespace HIN_ventures.DataAccess.Entities
     [Table("freelancer")]
     public class Freelancer
     {
-        [Column("id")]
+        [Column("freelancerid")]
         [Key]
         public int FreelancerId { get; set; }
 
