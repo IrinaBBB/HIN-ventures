@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIN-ventures.Server", "HIN-ventures.Server\HIN-ventures.Server.csproj", "{39A8BD0C-754B-46F4-91B3-DE88941AF343}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Server", "HIN-ventures.Server\HIN-ventures.Server.csproj", "{39A8BD0C-754B-46F4-91B3-DE88941AF343}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIN-ventures.DataAccess", "HIN-ventures.DataAccess\HIN-ventures.DataAccess.csproj", "{BC4180D8-F94E-4D17-B25D-A3221EC144B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.DataAccess", "HIN-ventures.DataAccess\HIN-ventures.DataAccess.csproj", "{BC4180D8-F94E-4D17-B25D-A3221EC144B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIN-ventures.Common", "HIN-ventures.Common\HIN-ventures.Common.csproj", "{9AD68D25-5BBF-4DE7-87DA-365BCAA55F95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Common", "HIN-ventures.Common\HIN-ventures.Common.csproj", "{9AD68D25-5BBF-4DE7-87DA-365BCAA55F95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIN-ventures.Models", "HIN-ventures.Models\HIN-ventures.Models.csproj", "{816B7FA5-EE61-4C06-9679-E828565AAEF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Models", "HIN-ventures.Models\HIN-ventures.Models.csproj", "{816B7FA5-EE61-4C06-9679-E828565AAEF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIN-ventures.Business", "HIN-ventures.Business\HIN-ventures.Business.csproj", "{416EA9F5-AAD2-4B82-BE71-EA03C2B87879}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Business", "HIN-ventures.Business\HIN-ventures.Business.csproj", "{416EA9F5-AAD2-4B82-BE71-EA03C2B87879}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

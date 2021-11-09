@@ -15,10 +15,11 @@ namespace HIN_ventures.Models
         [Required(ErrorMessage = "Please enter your name")]
         public string Name { get; set; }
         [Required]
+        public string Speciality { get; set; }
         public int AverageRating{ get; set; }
-        [Required]
+        
         public int TotalLinesOfCode{ get; set; }
-        [Required]
+        
         public int LinesOfCodeMonth{ get; set; }
 
         public virtual ICollection<Assignment> Assignments { get; set; }

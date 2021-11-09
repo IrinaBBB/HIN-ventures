@@ -44,6 +44,7 @@ namespace HIN_ventures.Business.Repositories
             }
             catch (Exception e)
             {
+                Console.Write(e.Message);
                 return null;
             }
         }

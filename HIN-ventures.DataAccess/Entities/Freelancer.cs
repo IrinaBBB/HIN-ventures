@@ -19,16 +19,17 @@ namespace HIN_ventures.DataAccess.Entities
         [Column("name")]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "Please enter your speciality")]
+        [Column("Speciality")]
+        public string Speciality { get; set; }
+
         [Column("averagerating")]
-        [Required]
         public int AverageRating{ get; set; }
         
         [Column("totallinesofcode")]
-        [Required]
         public int TotalLinesOfCode{ get; set; }
 
         [Column("linesofcodemonth")]
-        [Required]
         public int LinesOfCodeMonth{ get; set; }
 
         [Column("assignments")]

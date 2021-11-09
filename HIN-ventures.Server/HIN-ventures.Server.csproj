@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HIN-ventures.Business\HIN-ventures.Business.csproj" />
     <ProjectReference Include="..\HIN-ventures.DataAccess\HIN-ventures.DataAccess.csproj" />
+    <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
   </ItemGroup>
 
 </Project>
