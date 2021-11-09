@@ -1,4 +1,6 @@
 using System;
+using HIN_ventures.Business.Repositories;
+using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
 using HIN_ventures.Server.Data;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +31,8 @@ namespace HIN_ventures.Server
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IFreelancerRepository, FreelancerRepository>(); //Har du glemt tilsvarende på Assignment Irina?
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>(); //Legger den til her
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

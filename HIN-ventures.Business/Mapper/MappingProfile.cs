@@ -10,6 +10,9 @@ namespace HIN_ventures.Business.Mapper
         {
             CreateMap<AssignmentDto, Assignment>();
             CreateMap<Assignment, AssignmentDto>();
+
+            CreateMap<FreelancerDto, Freelancer>();
+            CreateMap<Freelancer, FreelancerDto>();
         }
     }
 }
