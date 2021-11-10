@@ -20,6 +20,6 @@ namespace HIN_ventures.Models
         public string Category { get; set; }
 
         [Required]
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
     }
 }

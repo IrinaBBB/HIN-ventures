@@ -1,0 +1,111 @@
+﻿@page "/assignment/create"
+@using HIN_ventures.Models
+@using HIN_ventures.Business.Repositories.IRepositories
+@inject IAssignmentRepository _assignmentRepository
+@inject NavigationManager _navigationManager
+
+
+<MudCard>
+    <MudCardContent>
+        <MudText Typo="Typo.h4">@Title a new assignment</MudText>
+        <MudForm>
+            <MudTextField Label="Title"
+                          @bind-Value="@AssignmentModel.Title"
+                          HelperText="Title is required!"
+                          Required="true"
+                          RequiredError="Title is required!"/>
+            <MudTextField Label="Category"
+                          @bind-Value="@AssignmentModel.Category"
+                          HelperText="Category of your assignment, e.g. FrontEnd, BackEnd etc."
+                          Required="true"
+                          RequiredError="Title is required!"/>
+            <MudNumericField Label="Rate"
+                             @bind-Value="@AssignmentModel.Price"
+                             HelperText="Price estimate for completion of this assignment."
+                             Required="true"
+                             RequiredError="Price is required!"/>
+            <MudItem>
+                <MudDatePicker PickerVariant="PickerVariant.Dialog"
+                               Label="Deadline"
+                               @bind-Date="@AssignmentModel.Deadline"
+                               HelperText="Assignment should be ready due to this date."/>
+            </MudItem>
+            <MudTextField Label="Description"
+                          @bind-Value="@AssignmentModel.Description"
+                          HelperText="Describe in detail what your assignment involves."
+                          Lines="5"
+                          Required="true"
+                          RequiredError="Description is required!">
+            </MudTextField>
+
+
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled" Class="ml-auto" Link="assignments">Back To List</MudButton>
+                <MudButton Variant="Variant.Filled" Class="ml-4" Color="Color.Primary" OnClick="@(async () => await HandleAssignmentUpsert())">Add New Assignment</MudButton>
+            </MudCardActions>
+        </MudForm>
+    </MudCardContent>
+</MudCard>
+@*<div class="row mt-2 mb-5">
+    <h3 class="card-title text-info mb-3 ml-3">@Title a new assignment</h3>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="AssignmentModel" OnValidSubmit="HandleAssignmentUpsert">
+                    <DataAnnotationsValidator/>
+                    <ValidationSummary/>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <InputText @bind-Value="AssignmentModel.Title" class="form-control"></InputText>
+                        <ValidationMessage For="() => AssignmentModel.Title"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <InputText @bind-Value="AssignmentModel.Category" class="form-control"></InputText>
+                        <ValidationMessage For="() => AssignmentModel.Category"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label>Rate</label>
+                        <InputNumber @bind-Value="AssignmentModel.Price" class="form-control"></InputNumber>
+                        <ValidationMessage For="() => AssignmentModel.Price"></ValidationMessage>
+                    </div>
+                    <div class="form-group col-5 pl-0">
+                        <label>Deadline</label>
+                        <InputDate @bind-Value="AssignmentModel.Deadline"
+                                   class="form-control">
+                        </InputDate>
+                        <ValidationMessage For="() => AssignmentModel.Deadline"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <InputTextArea @bind-Value="AssignmentModel.Description" class="form-control" rows="7"></InputTextArea>
+                        <ValidationMessage For="() => AssignmentModel.Description"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary">@Title Assignment</button>
+                        <NavLink href="assignments" class="btn btn-secondary">Back to List</NavLink>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+@code {
+    private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
+    private string Title { get; set; } = "Add";
+    private DateTime? DueDate { get; set; }
+
+    protected override void OnInitialized()
+    {
+        DueDate = (AssignmentModel.Deadline == null) ? AssignmentModel.Deadline : DateTime.Now.AddDays(1);
+    }
+
+    private async Task HandleAssignmentUpsert()
+    {
+        var createdAssignment = await _assignmentRepository.CreateAssignment(AssignmentModel);
+        _navigationManager.NavigateTo("assignments");
+    }
+
+}

@@ -1,4 +1,6 @@
 using System;
+using HIN_ventures.Business.Repositories;
+using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
 using HIN_ventures.Server.Data;
 using Microsoft.AspNetCore.Builder;
@@ -31,6 +33,7 @@ namespace HIN_ventures.Server
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMudServices();
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

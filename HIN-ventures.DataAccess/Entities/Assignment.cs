@@ -28,7 +28,7 @@ namespace HIN_ventures.DataAccess.Entities
 
         [Column("deadline")]
         [Required]
-        public DateTime Deadline { get; set; }
+        public DateTime? Deadline { get; set; }
 
         [Column("created_by")]
         public string CreatedBy { get; set; }
