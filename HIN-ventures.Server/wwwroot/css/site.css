@@ -48,3 +48,15 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+.fab-button {
+    position: absolute;
+    bottom: 3rem;
+    right: 3rem;
+    z-index: 100;
+}
+
+.mud-paper {
+    min-width: 360px;
+    min-height: 130px;
+}
