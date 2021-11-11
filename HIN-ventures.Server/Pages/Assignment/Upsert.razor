@@ -3,8 +3,12 @@
 @using HIN_ventures.Business.Repositories.IRepositories
 @inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
 
-
+@*<MudButton OnClick="TestSuccess">Test Success</MudButton>
+<MudButton OnClick="TestFailure">Test Failure</MudButton>*@
+<button class="btn btn-secondary" @onclick="TestSuccess"></button>
+<button class="btn btn-secondary" @onclick="TestFailure"></button>
 <MudCard>
     <MudCardContent>
         <MudText Typo="Typo.h4">@Title a new assignment</MudText>
@@ -108,4 +112,14 @@
         _navigationManager.NavigateTo("assignments");
     }
 
+    private async Task TestSuccess()
+    {
+        await _jsRuntime.ToastrSuccess("Success");
+    }
+
+    private async Task TestFailure()
+    {
+        await _jsRuntime.ToastrError("Error");
+
+    }
 }
