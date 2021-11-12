@@ -2,9 +2,11 @@ using System;
 using HIN_ventures.Business.Repositories;
 using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
+using HIN_ventures.DataAccess.Entities;
 using HIN_ventures.Server.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,11 @@ namespace HIN_ventures.Server
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMudServices();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
@@ -50,11 +57,13 @@ namespace HIN_ventures.Server
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
