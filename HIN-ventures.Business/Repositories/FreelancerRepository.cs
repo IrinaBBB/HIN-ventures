@@ -24,12 +24,12 @@ namespace HIN_ventures.Business.Repositories
             _mapper = mapper;
         }
 
-        public Task<IEnumerable<AssignmentDto>> GetAllAssignmentsOnFreelancer(int freelancerId)
+        public async Task<IEnumerable<AssignmentDto>> GetAllAssignmentsOnFreelancer(int freelancerId)
         {
             IEnumerable<AssignmentDto> assignmentDtos =
                 _mapper.Map<IEnumerable<Assignment>, IEnumerable<AssignmentDto>>(
                     _db.Assignments.Where(x => x.FreelancerId == freelancerId));
-            return Task.FromResult(assignmentDtos);
+            return await Task.FromResult(assignmentDtos);
 
         }
 
@@ -69,6 +69,23 @@ namespace HIN_ventures.Business.Repositories
 
             //if problems
             return 0;
+        }
+
+        public async Task<IEnumerable<FreelancerDto>> GetAllFreelancers()
+        {
+            try
+            {
+                IEnumerable<FreelancerDto> freelancerDtos =
+                    _mapper.Map<IEnumerable<Freelancer>, IEnumerable<FreelancerDto>>
+                        (_db.Freelancers.Include(x => x.Assignments));
+                
+                return await Task.FromResult(freelancerDtos);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                return null;
+            }
         }
     }
 }

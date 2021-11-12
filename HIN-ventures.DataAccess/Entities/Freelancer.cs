@@ -11,7 +11,7 @@ namespace HIN_ventures.DataAccess.Entities
     [Table("freelancer")]
     public class Freelancer
     {
-        [Column("freelancerid")]
+        [Column("freelancer_id")]
         [Key]
         public int FreelancerId { get; set; }
 
@@ -20,16 +20,16 @@ namespace HIN_ventures.DataAccess.Entities
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Please enter your speciality")]
-        [Column("Speciality")]
+        [Column("speciality")]
         public string Speciality { get; set; }
 
-        [Column("averagerating")]
+        [Column("average_rating")]
         public int AverageRating{ get; set; }
         
-        [Column("totallinesofcode")]
+        [Column("total_lines_of_code")]
         public int TotalLinesOfCode{ get; set; }
 
-        [Column("linesofcodemonth")]
+        [Column("lines_of_code_month")]
         public int LinesOfCodeMonth{ get; set; }
 
         [Column("assignments")]

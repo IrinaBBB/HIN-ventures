@@ -13,8 +13,6 @@ namespace HIN_ventures.Business.Repositories.IRepositories
         public Task<IEnumerable<AssignmentDto>> GetAllAssignmentsOnFreelancer(int freelancerId);
         public Task<FreelancerDto> CreateFreelancer(FreelancerDto freelancerDto);
         public Task<int> DeleteFreelancer(int freelancerId);
-
-
-
+        public Task<IEnumerable<FreelancerDto>> GetAllFreelancers();
     }
 }

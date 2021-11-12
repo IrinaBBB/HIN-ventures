@@ -42,7 +42,7 @@ namespace HIN_ventures.DataAccess.Entities
         [Column("updated_date")]
         public DateTime UpdatedDate { get; set; }
 
-        [ForeignKey("Freelancer")]
+        [ForeignKey("FreelancerId")]
         public int FreelancerId { get; set; }
 
         [Column("freelancer")]

@@ -1,4 +1,4 @@
-﻿@page  "/freelancer/create"
+﻿@page  "/freelancer/manage"
 @using Models
 @using Business.Repositories.IRepositories
 @inject IFreelancerRepository FreelancerRepository
@@ -36,6 +36,19 @@
 @code {
     private FreelancerDto FreelancerModel { get; set; } = new FreelancerDto();
     private string Title { get; set; } = "Create";
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticationState = await AuthenticationState;
+        if (!authenticationState.User.IsInRole(Common.SD.Role_Admin))
+        {
+            var uri = new Uri(NavigationManager.Uri);
+            NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        }
+    }
 
     private async Task HandelFreelancerUpsert()
     {
