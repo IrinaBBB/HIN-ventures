@@ -9,6 +9,10 @@
     {
       "library": "jquery@3.6.0",
       "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "limonte-sweetalert2@11.1.10",
+      "destination": "wwwroot/lib/limonte-sweetalert2/"
     }
   ]
 }
