@@ -1,7 +1,8 @@
 ﻿body {
     /*background: url("../img/freelancer.jpg") no-repeat left top, linear-gradient(#eb01a5, #d13531);*/
-    background: linear-gradient(180deg, rgba(5, 39, 103, 0.92) 0%, rgba(58, 6, 71, 0.92)70%), url("../img/freelancer.jpg") no-repeat;
+    background: linear-gradient(180deg, rgba(5, 39, 103, 1) 0%, rgba(58, 6, 71, 1)70%), url("../img/freelancer.jpg") no-repeat;
     background-size: cover;
+    background-position: center;
 }
 
 .form-container {

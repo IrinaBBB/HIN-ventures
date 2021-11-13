@@ -23,6 +23,10 @@
                             </MudCardContent>
                             <MudCardActions>
                                 <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+                                <MudButton Link="@($"assignment/edit/{assignment.Id}")"
+                                           Variant="Variant.Text" Color="Color.Secondary">
+                                    Edit
+                                </MudButton>
                             </MudCardActions>
                         </MudCard>
                     </MudItem>
@@ -45,4 +49,5 @@
     {
         Assignments = _assignmentRepository.GetAllAssignments();
     }
+
 }
