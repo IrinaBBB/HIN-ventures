@@ -33,7 +33,7 @@ namespace HIN_ventures.Business.Repositories
 
         }
 
-        public async Task<FreelancerDto> GetFreelancer(int freelancerId)
+        public async Task<FreelancerDto> GetFreelancer(int? freelancerId)
         {
             try
             {

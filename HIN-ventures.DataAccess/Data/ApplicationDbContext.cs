@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HIN_ventures.DataAccess.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -25,6 +25,8 @@ namespace HIN_ventures.DataAccess.Data
                 .HasOne(f => f.Freelancer)
                 .WithMany(a => a.Assignments)
                 .HasForeignKey(k => k.FreelancerId);
+                
+                
 
         }
     }
