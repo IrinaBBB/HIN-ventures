@@ -1,0 +1,74 @@
+﻿@page "/freelancer"
+@attribute [Authorize(Roles = Common.SD.Role_Admin)]
+@using Models
+@using Business.Repositories.IRepositories
+@using HIN_ventures.DataAccess.Entities
+@inject IFreelancerRepository FreelancerRepository
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavigationManager
+
+<div class="row mt-4">
+    <div class="col-8">
+        <h4 class="card-title text-info">Freelancers</h4>
+    </div>
+    <div class="col-3 offset-1">
+        <NavLink href="/freelancer/manage" class="btn btn-info" form-control>Add Freelancer</NavLink>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Field of expertise</th>
+                    <th>
+                        Current Assignments
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Freelancers.Any())
+                {
+                    foreach (var lancer in Freelancers)
+                    {
+                <tr>
+                    <td>@lancer.Name</td>
+                    <td>@lancer.Speciality</td>
+                    @foreach (var task in lancer.Assignments)
+                    {
+
+                        <text> &nbsp;  @task.Title,&nbsp;</text>
+                    }
+
+                    @*<td>
+            <NavLink href="@($"hotel-room/edit/{room.Id}")" class="btn btn-primary">Edit</NavLink>
+            <button class="btn btn-danger" @onclick="()=>HandleDelete(room.Id)">Delete</button>
+        </td>*@
+                </tr>
+                    }
+
+                    
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No records found</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@code {
+    private IEnumerable<FreelancerDto> Freelancers { get; set; } = new List<FreelancerDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Freelancers = await FreelancerRepository.GetAllFreelancers();
+    }
+
+}

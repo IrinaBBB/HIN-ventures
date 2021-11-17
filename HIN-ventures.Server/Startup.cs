@@ -49,9 +49,13 @@ namespace HIN_ventures.Server
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMudServices();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+            services.AddScoped<IFreelancerRepository, FreelancerRepository>(); //Har du glemt tilsvarende på Assignment Irina?
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>(); //Legger den til her
+            services.AddScoped<IDbInitializer, DbInitializer>();
+            services.AddScoped<IFreelancerRepository, FreelancerRepository>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
             if (env.IsDevelopment())
             {
@@ -68,6 +72,12 @@ namespace HIN_ventures.Server
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+            dbInitializer.Initalize();
+
+           
 
             app.UseEndpoints(endpoints =>
             {

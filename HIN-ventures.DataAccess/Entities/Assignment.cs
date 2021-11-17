@@ -42,6 +42,13 @@ namespace HIN_ventures.DataAccess.Entities
         [Column("updated_date")]
         public DateTime UpdatedDate { get; set; }
 
+        [ForeignKey("FreelancerId")]
+        public int FreelancerId { get; set; }
+
+        [Column("freelancer")]
+        public Freelancer Freelancer { get; set; }
+
         public virtual ICollection<CodeFile> CodeFiles { get; set; }
+
     }
 }
