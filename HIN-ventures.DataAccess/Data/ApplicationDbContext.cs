@@ -12,5 +12,6 @@ namespace HIN_ventures.DataAccess.Data
 
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<CodeFile> CodeFiles { get; set; }
     }
 }

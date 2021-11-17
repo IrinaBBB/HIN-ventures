@@ -8,8 +8,8 @@ namespace HIN_ventures.Business.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<AssignmentDto, Assignment>();
-            CreateMap<Assignment, AssignmentDto>();
+            CreateMap<AssignmentDto, Assignment>().ReverseMap();
+            CreateMap<CodeFileDto, CodeFile>().ReverseMap();
         }
     }
 }
