@@ -5,4 +5,13 @@
     <RootNamespace>HIN_ventures.Business</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HIN-ventures.DataAccess\HIN-ventures.DataAccess.csproj" />
+    <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
+  </ItemGroup>
+
 </Project>

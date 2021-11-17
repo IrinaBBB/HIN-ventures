@@ -1,0 +1,53 @@
+﻿@page "/assignments"
+@using HIN_ventures.Models
+@using HIN_ventures.Business.Repositories.IRepositories
+@inject IAssignmentRepository _assignmentRepository
+
+<div class="mt-2">
+    <div class="row col-12">
+        <MudText Typo="Typo.h4" Align="Align.Center">Assignments</MudText>
+
+        <MudGrid Spacing="2" Justify="Justify.Center">
+            @if (Assignments.Any())
+            {
+                foreach (var assignment in Assignments)
+                {
+                    <MudItem>
+                        <MudCard>
+                            <MudCardContent>
+                                <MudText>@assignment.Title</MudText>
+                                @if (assignment.Description.Length > 50)
+                                {
+                                    <MudText Typo="Typo.body2">@assignment.Description[..50]</MudText>
+                                }
+                            </MudCardContent>
+                            <MudCardActions>
+                                <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
+                                <MudButton Link="@($"assignment/edit/{assignment.Id}")"
+                                           Variant="Variant.Text" Color="Color.Secondary">
+                                    Edit
+                                </MudButton>
+                            </MudCardActions>
+                        </MudCard>
+                    </MudItem>
+                }
+            }
+            else
+            {
+                <div>No records found</div>
+            }
+        </MudGrid>
+    </div>
+    <MudFab Link="/assignment/create" Class="fab-button" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" aria-label="add"/>
+</div>
+
+
+@code {
+    private IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
+
+    protected override void OnInitialized()
+    {
+        Assignments = _assignmentRepository.GetAllAssignments();
+    }
+
+}

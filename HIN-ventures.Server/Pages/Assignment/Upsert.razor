@@ -1,0 +1,161 @@
+﻿@page "/assignment/create"
+@page "/assignment/edit/{Id:int}"
+@using HIN_ventures.Models
+@using HIN_ventures.Business.Repositories.IRepositories
+@inject IAssignmentRepository _assignmentRepository
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+
+
+<button class="btn btn-secondary" @onclick="TestSuccess"></button>
+<button class="btn btn-secondary" @onclick="TestFailure"></button>
+<button class="btn btn-secondary" @onclick="TestSuccessSwal"></button>
+<button class="btn btn-secondary" @onclick="TestFailureSwal"></button>
+<MudCard>
+    <MudCardContent>
+        <MudText Typo="Typo.h4">@Title a new assignment</MudText>
+        <MudForm>
+            <MudTextField Label="Title"
+                          @bind-Value="@AssignmentModel.Title"
+                          HelperText="Title is required!"
+                          Required="true"
+                          RequiredError="Title is required!"/>
+            <MudTextField Label="Category"
+                          @bind-Value="@AssignmentModel.Category"
+                          HelperText="Category of your assignment, e.g. FrontEnd, BackEnd etc."
+                          Required="true"
+                          RequiredError="Title is required!"/>
+            <MudNumericField Label="Rate"
+                             @bind-Value="@AssignmentModel.Price"
+                             HelperText="Price estimate for completion of this assignment."
+                             Required="true"
+                             RequiredError="Price is required!"/>
+            <MudItem>
+                <MudDatePicker PickerVariant="PickerVariant.Dialog"
+                               Label="Deadline"
+                               @bind-Date="@AssignmentModel.Deadline"
+                               HelperText="Assignment should be ready due to this date."/>
+            </MudItem>
+            <MudTextField Label="Description"
+                          @bind-Value="@AssignmentModel.Description"
+                          HelperText="Describe in detail what your assignment involves."
+                          Lines="5"
+                          Required="true"
+                          RequiredError="Description is required!">
+            </MudTextField>
+
+
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled" Class="ml-auto" Link="assignments">Back To List</MudButton>
+                <MudButton Variant="Variant.Filled" Class="ml-4" Color="Color.Primary" OnClick="@(async () => await HandleAssignmentUpsert())">@Title Assignment</MudButton>
+            </MudCardActions>
+        </MudForm>
+    </MudCardContent>
+</MudCard>
+@*<div class="row mt-2 mb-5">
+        <h3 class="card-title text-info mb-3 ml-3">@Title a new assignment</h3>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <EditForm Model="AssignmentModel" OnValidSubmit="HandleAssignmentUpsert">
+                        <DataAnnotationsValidator/>
+                        <ValidationSummary/>
+                        <div class="form-group">
+                            <label>Title</label>
+                            <InputText @bind-Value="AssignmentModel.Title" class="form-control"></InputText>
+                            <ValidationMessage For="() => AssignmentModel.Title"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <InputText @bind-Value="AssignmentModel.Category" class="form-control"></InputText>
+                            <ValidationMessage For="() => AssignmentModel.Category"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label>Rate</label>
+                            <InputNumber @bind-Value="AssignmentModel.Price" class="form-control"></InputNumber>
+                            <ValidationMessage For="() => AssignmentModel.Price"></ValidationMessage>
+                        </div>
+                        <div class="form-group col-5 pl-0">
+                            <label>Deadline</label>
+                            <InputDate @bind-Value="AssignmentModel.Deadline"
+                                       class="form-control">
+                            </InputDate>
+                            <ValidationMessage For="() => AssignmentModel.Deadline"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <InputTextArea @bind-Value="AssignmentModel.Description" class="form-control" rows="7"></InputTextArea>
+                            <ValidationMessage For="() => AssignmentModel.Description"></ValidationMessage>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">@Title Assignment</button>
+                            <NavLink href="assignments" class="btn btn-secondary">Back to List</NavLink>
+                        </div>
+                    </EditForm>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+
+@code {
+
+    [Parameter]
+    public int? Id { get; set; }
+
+
+    private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
+    private string Title { get; set; } = "Add";
+    private DateTime? DueDate { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        DueDate = (AssignmentModel.Deadline == null) ? AssignmentModel.Deadline : DateTime.Now.AddDays(1);
+        if (Id != null)
+        {
+            Title = "Update";
+            AssignmentModel = await _assignmentRepository.GetAssignment(Id.Value);
+        }
+        else
+        {
+            AssignmentModel = new AssignmentDto();
+        }
+    }
+
+    private async Task HandleAssignmentUpsert()
+    {
+        if (AssignmentModel.Id != 0 && Title == "Update")
+        {
+            var updateAssignmentResult = await _assignmentRepository.UpdateAssignment(AssignmentModel.Id, AssignmentModel);
+            await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.Title} Updated Successfully.");
+        }
+        else
+        {
+            var createdAssignment = await _assignmentRepository.CreateAssignment(AssignmentModel);
+            await _jsRuntime.ToastrSuccess($"{createdAssignment.Title} Updated Successfully.");
+        }
+        _navigationManager.NavigateTo("assignments");
+
+    }
+
+    private async Task TestSuccess()
+    {
+        await _jsRuntime.ToastrSuccess("Success");
+    }
+
+    private async Task TestFailure()
+    {
+        await _jsRuntime.ToastrError("Error");
+    }
+
+    private async Task TestSuccessSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "Task Completed Successfully!");
+    }
+
+    private async Task TestFailureSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
+    }
+
+}

@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Common", "HIN-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Models", "HIN-ventures.Models\HIN-ventures.Models.csproj", "{816B7FA5-EE61-4C06-9679-E828565AAEF0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIN-ventures.Business", "HIN-ventures.Business\HIN-ventures.Business.csproj", "{9A6B5508-78F8-4F11-8C28-3B968DFC27F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Business", "HIN-ventures.Business\HIN-ventures.Business.csproj", "{416EA9F5-AAD2-4B82-BE71-EA03C2B87879}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{816B7FA5-EE61-4C06-9679-E828565AAEF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{816B7FA5-EE61-4C06-9679-E828565AAEF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{816B7FA5-EE61-4C06-9679-E828565AAEF0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A6B5508-78F8-4F11-8C28-3B968DFC27F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A6B5508-78F8-4F11-8C28-3B968DFC27F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A6B5508-78F8-4F11-8C28-3B968DFC27F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A6B5508-78F8-4F11-8C28-3B968DFC27F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{416EA9F5-AAD2-4B82-BE71-EA03C2B87879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{416EA9F5-AAD2-4B82-BE71-EA03C2B87879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{416EA9F5-AAD2-4B82-BE71-EA03C2B87879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{416EA9F5-AAD2-4B82-BE71-EA03C2B87879}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
