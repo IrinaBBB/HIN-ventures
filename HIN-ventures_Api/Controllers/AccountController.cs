@@ -6,12 +6,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using HIN_ventures.DataAccess.Data;
+//using HIN_ventures.DataAccess.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using HIN_ventures.Models;
 using HIN_ventures.Common;
+using HIN_ventures.DataAccess.Entities;
 using HIN_ventures_Api.Helper;
 using Microsoft.IdentityModel.Tokens;
 

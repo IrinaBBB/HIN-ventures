@@ -4,6 +4,8 @@ using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
 using HIN_ventures.DataAccess.Entities;
 using HIN_ventures.Server.Data;
+using HIN_ventures.Server.Service;
+using HIN_ventures.Server.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,10 +51,8 @@ namespace HIN_ventures.Server
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMudServices();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
-            services.AddScoped<IFreelancerRepository, FreelancerRepository>(); //Har du glemt tilsvarende på Assignment Irina?
-            services.AddScoped<IAssignmentRepository, AssignmentRepository>(); //Legger den til her
-            services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IFreelancerRepository, FreelancerRepository>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
@@ -69,9 +69,6 @@ namespace HIN_ventures.Server
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

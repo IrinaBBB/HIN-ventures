@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using HIN_ventures.Business.Repositories;
 using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
+using HIN_ventures.DataAccess.Entities;
 using HIN_ventures_Api.Helper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
