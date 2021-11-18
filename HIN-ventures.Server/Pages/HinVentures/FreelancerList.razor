@@ -26,6 +26,7 @@
                     <th>
                         Current Assignments
                     </th>
+                    <th>Rating</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,10 +39,9 @@
                     <td>@lancer.Speciality</td>
                     @foreach (var task in lancer.Assignments)
                     {
-
-                        <text> &nbsp;  @task.Title,&nbsp;</text>
+                        <td>@task.Title</td>
                     }
-
+                    <td>@lancer.AverageRating</td>
                     @*<td>
             <NavLink href="@($"hotel-room/edit/{room.Id}")" class="btn btn-primary">Edit</NavLink>
             <button class="btn btn-danger" @onclick="()=>HandleDelete(room.Id)">Delete</button>

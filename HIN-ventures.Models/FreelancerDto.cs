@@ -11,7 +11,7 @@ namespace HIN_ventures.Models
 {
     public class FreelancerDto
     {
-        public int Id { get; set; }
+        public int FreelancerId { get; set; }
         [Required(ErrorMessage = "Please enter your name")]
         public string Name { get; set; }
         [Required]
