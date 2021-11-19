@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HIN_ventures.DataAccess.Entities
 {
+    [Table("assignment")]
     public class Assignment
     {
         [Column("id")]

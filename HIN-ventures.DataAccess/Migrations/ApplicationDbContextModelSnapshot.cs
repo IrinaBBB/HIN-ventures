@@ -19,7 +19,7 @@ namespace HIN_ventures.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("HIN_ventures.DataAccess.Data.ApplicationUser", b =>
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -37,6 +37,9 @@ namespace HIN_ventures.DataAccess.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FieldOfExpertise")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -108,7 +111,8 @@ namespace HIN_ventures.DataAccess.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("created_date");
 
-                    b.Property<DateTime>("Deadline")
+                    b.Property<DateTime?>("Deadline")
+                        .IsRequired()
                         .HasColumnType("datetime2")
                         .HasColumnName("deadline");
 
@@ -142,6 +146,29 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.HasIndex("FreelancerId");
 
                     b.ToTable("assignment");
+                });
+
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.CodeFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AssignmentId")
+                        .HasColumnType("int")
+                        .HasColumnName("assignment_id");
+
+                    b.Property<string>("CodeFileUrl")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("code_file_url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.ToTable("CodeFiles");
                 });
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Freelancer", b =>
@@ -321,6 +348,17 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Navigation("Freelancer");
                 });
 
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.CodeFile", b =>
+                {
+                    b.HasOne("HIN_ventures.DataAccess.Entities.Assignment", "Assignment")
+                        .WithMany("CodeFiles")
+                        .HasForeignKey("AssignmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -332,7 +370,7 @@ namespace HIN_ventures.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("HIN_ventures.DataAccess.Data.ApplicationUser", null)
+                    b.HasOne("HIN_ventures.DataAccess.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -341,7 +379,7 @@ namespace HIN_ventures.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("HIN_ventures.DataAccess.Data.ApplicationUser", null)
+                    b.HasOne("HIN_ventures.DataAccess.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -356,7 +394,7 @@ namespace HIN_ventures.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HIN_ventures.DataAccess.Data.ApplicationUser", null)
+                    b.HasOne("HIN_ventures.DataAccess.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -365,11 +403,16 @@ namespace HIN_ventures.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("HIN_ventures.DataAccess.Data.ApplicationUser", null)
+                    b.HasOne("HIN_ventures.DataAccess.Entities.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Assignment", b =>
+                {
+                    b.Navigation("CodeFiles");
                 });
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Freelancer", b =>

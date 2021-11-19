@@ -22,12 +22,10 @@ namespace HIN_ventures.DataAccess.Data
             modelBuilder.Entity<Freelancer>().ToTable("freelancer")
                 .HasMany(a => a.Assignments);
 
-            modelBuilder.Entity<Assignment>().ToTable("assignment")
+            modelBuilder.Entity<Assignment>().ToTable("Assignments")
                 .HasOne(f => f.Freelancer)
                 .WithMany(a => a.Assignments)
                 .HasForeignKey(k => k.FreelancerId);
-                
-                
 
         }
     }

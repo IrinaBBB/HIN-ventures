@@ -30,7 +30,7 @@ namespace HIN_ventures.DataAccess.Data
                     TotalLinesOfCode = 7722,
                     LinesOfCodeMonth = 1200
                 };
-
+                
                 if (!db.Assignments.Any())
                 {
                     var assignments = new[]
@@ -84,8 +84,6 @@ namespace HIN_ventures.DataAccess.Data
                     var freelancers = new Freelancer[] { freelancer1, freelancer2 };
                     db.Freelancers.AddRange(freelancers);
                     db.SaveChanges();
-
-                    
                 }
             }
         }

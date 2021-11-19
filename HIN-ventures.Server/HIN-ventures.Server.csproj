@@ -28,6 +28,7 @@
     <ProjectReference Include="..\HIN-ventures.Common\HIN-ventures.Common.csproj" />
     <ProjectReference Include="..\HIN-ventures.DataAccess\HIN-ventures.DataAccess.csproj" />
     <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
+    <ProjectReference Include="..\HIN-ventures_Api\HIN-ventures_Api.csproj" />
   </ItemGroup>
 
 </Project>
