@@ -32,7 +32,7 @@ namespace HIN_ventures.DataAccess.Data
             modelBuilder.Entity<Freelancer>().ToTable("Freelancer")
                 .HasMany(a => a.Assignments);
 
-            modelBuilder.Entity<Assignment>().ToTable("Assignments")
+            modelBuilder.Entity<Assignment>().ToTable("assignment")
                 .HasOne(f => f.Freelancer)
                 .WithMany(a => a.Assignments)
                 .HasForeignKey(k => k.FreelancerId);
