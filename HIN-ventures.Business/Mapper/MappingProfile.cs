@@ -15,6 +15,8 @@ namespace HIN_ventures.Business.Mapper
             CreateMap<Freelancer, FreelancerDto>();
             CreateMap<CodeFileDto, CodeFile>().ReverseMap();
 
+            CreateMap<CustomerDto, Customer>();
+            CreateMap<Customer, CustomerDto>();
         }
     }
 }
