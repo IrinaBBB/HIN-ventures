@@ -36,9 +36,9 @@ namespace HIN_ventures.DataAccess.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_assignment_freelancer_FreelancerId",
-                table: "assignment",
+                table: "Assignment",
                 column: "FreelancerId",
-                principalTable: "freelancer",
+                principalTable: "Freelancer",
                 principalColumn: "id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -47,18 +47,18 @@ namespace HIN_ventures.DataAccess.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_assignment_freelancer_FreelancerId",
-                table: "assignment");
+                table: "Assignment");
 
             migrationBuilder.DropTable(
-                name: "freelancer");
+                name: "Freelancer");
 
             migrationBuilder.DropIndex(
                 name: "IX_assignment_FreelancerId",
-                table: "assignment");
+                table: "Assignment");
 
             migrationBuilder.DropColumn(
                 name: "FreelancerId",
-                table: "assignment");
+                table: "Assignment");
         }
     }
 }

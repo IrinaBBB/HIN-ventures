@@ -10,16 +10,26 @@ namespace HIN_ventures.DataAccess.Data
         {
         }
 
-        public DbSet<Assignment> Assignments { get; set; }
-        public DbSet<Freelancer> Freelancers { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
         public DbSet<CodeFile> CodeFiles { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Freelancer> Freelancers { get; set; }
+        public DbSet<Portal> Portals { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Freelancer>().ToTable("freelancer")
+            modelBuilder.Entity<Customer>().ToTable("Customer")
+                .HasMany(a => a.Portals);
+            modelBuilder.Entity<Customer>().ToTable("Customer")
+                .HasMany(a => a.Assignments);
+            modelBuilder.Entity<Customer>().ToTable("Customer")
+                .HasMany(a => a.Ratings);
+
+            modelBuilder.Entity<Freelancer>().ToTable("Freelancer")
                 .HasMany(a => a.Assignments);
 
             modelBuilder.Entity<Assignment>().ToTable("Assignments")

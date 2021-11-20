@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HIN_ventures.DataAccess.Entities
 {
-    [Table("portal")]
+    [Table("Portal")]
     public class Portal
     {
         [Column("portal_id")]

@@ -34,9 +34,11 @@ namespace HIN_ventures.DataAccess.Entities
         public int TotalCost { get; set; }
 
         [Column("portals")] public virtual ICollection<Portal> Portals { get; set; } //der denne kunden er abonnert på, halil
+        
+        [Column("assignments")] public virtual ICollection<Assignment> Assignments { get; set; }
 
         [Column("ratings")] public virtual ICollection<Rating> Ratings { get; set; }
 
-        [Column("assignments")] public virtual ICollection<Assignment> Assignments { get; set; }
+
     }
 }

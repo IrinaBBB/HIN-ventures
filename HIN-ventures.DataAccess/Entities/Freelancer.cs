@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HIN_ventures.DataAccess.Entities
 {
-    [Table("freelancer")]
+    [Table("Freelancer")]
     public class Freelancer
     {
         [Column("freelancer_id")]

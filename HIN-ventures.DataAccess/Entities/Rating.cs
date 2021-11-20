@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HIN_ventures.DataAccess.Entities
 {
-    [Table("rating")]
+    [Table("Rating")]
     public class Rating
     {
         [Column("customer_id")]
