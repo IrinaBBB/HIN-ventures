@@ -20,7 +20,7 @@ namespace HIN_ventures.DataAccess.Entities
         public string Speciality { get; set; }
 
         [Column("average_rating")]
-        public int AverageRating{ get; set; }
+        public int AverageRating{ get; set; } //denne må ha egen entitet. Rating entity. Så legger vi en liste med rating her. halil
         
         [Column("total_lines_of_code")]
         public int TotalLinesOfCode{ get; set; }
