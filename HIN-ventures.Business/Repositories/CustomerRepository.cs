@@ -51,7 +51,6 @@ namespace HIN_ventures.Business.Repositories
                 IEnumerable<CustomerDto> customerDtos =
                     _mapper.Map<IEnumerable<Customer>, IEnumerable<CustomerDto>>
                         (_db.Customers
-                            .Include(x => x.Portals)
                             .Include(x => x.Assignments)
                             .Include(x => x.Ratings)
                         );
@@ -71,7 +70,6 @@ namespace HIN_ventures.Business.Repositories
             {
                 CustomerDto customer = _mapper.Map<Customer, CustomerDto>(
                     await _db.Customers
-                        .Include(x => x.Portals)
                         .Include(x => x.Assignments)
                         .Include(x => x.Ratings)
                         .FirstOrDefaultAsync(x => x.CustomerId == CustomerId));

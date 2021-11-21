@@ -4,17 +4,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HIN_ventures.DataAccess.Entities
 {
-    [Table("Rating")]
     public class Rating
     {
-        [Column("customer_id")]
+        [Key]
+        public int RatingId { get; set; }
+
         public int CustomerId { get; set; }
 
-        [Column("freelancer_id")]
-        [Key]
         public int FreelancerId { get; set; }
 
-        [Column("rating")]
         public int RatingValue { get; set; }
 
     }

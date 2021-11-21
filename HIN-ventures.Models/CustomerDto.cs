@@ -25,8 +25,6 @@ namespace HIN_ventures.Models
 
         public int TotalCost { get; set; }
 
-        public virtual ICollection<Portal> Portals { get; set; } 
-
         public virtual ICollection<Assignment> Assignments { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }

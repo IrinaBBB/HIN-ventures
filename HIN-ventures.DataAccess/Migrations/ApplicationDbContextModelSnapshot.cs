@@ -19,21 +19,6 @@ namespace HIN_ventures.DataAccess.Migrations
                 .HasAnnotation("ProductVersion", "5.0.12")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CustomerPortal", b =>
-                {
-                    b.Property<int>("CustomersCustomerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PortalsPortalId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CustomersCustomerId", "PortalsPortalId");
-
-                    b.HasIndex("PortalsPortalId");
-
-                    b.ToTable("CustomerPortal");
-                });
-
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -110,65 +95,50 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Category")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("category");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("created_by");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("created_date");
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("Deadline")
                         .IsRequired()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("deadline");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("description");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("FreelancerId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PortalId")
-                        .HasColumnType("int");
-
                     b.Property<double>("Price")
-                        .HasColumnType("float")
-                        .HasColumnName("price");
+                        .HasColumnType("float");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("title");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("updated_by");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("updated_date");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("FreelancerId");
-
-                    b.HasIndex("PortalId");
 
                     b.ToTable("Assignments");
                 });
@@ -178,16 +148,13 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AssignmentId")
-                        .HasColumnType("int")
-                        .HasColumnName("assignment_id");
+                        .HasColumnType("int");
 
                     b.Property<string>("CodeFileUrl")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("code_file_url");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -201,35 +168,29 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("customer_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("email");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("customer_name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalCost")
-                        .HasColumnType("int")
-                        .HasColumnName("total_cost");
+                        .HasColumnType("int");
 
                     b.Property<int>("TotalLinesOfCode")
-                        .HasColumnType("int")
-                        .HasColumnName("total_lines_of_code");
+                        .HasColumnType("int");
 
                     b.Property<string>("VAT_number")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("vat");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customer");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Freelancer", b =>
@@ -237,75 +198,51 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<int>("FreelancerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("freelancer_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AverageRating")
-                        .HasColumnType("int")
-                        .HasColumnName("average_rating");
+                        .HasColumnType("int");
 
                     b.Property<int>("LinesOfCodeMonth")
-                        .HasColumnType("int")
-                        .HasColumnName("lines_of_code_month");
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("name");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Speciality")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("speciality");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TotalLinesOfCode")
-                        .HasColumnType("int")
-                        .HasColumnName("total_lines_of_code");
+                        .HasColumnType("int");
 
                     b.HasKey("FreelancerId");
 
-                    b.ToTable("Freelancer");
-                });
-
-            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Portal", b =>
-                {
-                    b.Property<int>("PortalId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("portal_id")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("portal_name");
-
-                    b.HasKey("PortalId");
-
-                    b.ToTable("Portal");
+                    b.ToTable("Freelancers");
                 });
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Rating", b =>
                 {
-                    b.Property<int>("FreelancerId")
+                    b.Property<int>("RatingId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("freelancer_id")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CustomerId")
-                        .HasColumnType("int")
-                        .HasColumnName("customer_id");
+                        .HasColumnType("int");
+
+                    b.Property<int>("FreelancerId")
+                        .HasColumnType("int");
 
                     b.Property<int>("RatingValue")
-                        .HasColumnType("int")
-                        .HasColumnName("rating");
+                        .HasColumnType("int");
 
-                    b.HasKey("FreelancerId");
+                    b.HasKey("RatingId");
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Rating");
+                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -439,21 +376,6 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("CustomerPortal", b =>
-                {
-                    b.HasOne("HIN_ventures.DataAccess.Entities.Customer", null)
-                        .WithMany()
-                        .HasForeignKey("CustomersCustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("HIN_ventures.DataAccess.Entities.Portal", null)
-                        .WithMany()
-                        .HasForeignKey("PortalsPortalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Assignment", b =>
                 {
                     b.HasOne("HIN_ventures.DataAccess.Entities.Customer", null)
@@ -465,10 +387,6 @@ namespace HIN_ventures.DataAccess.Migrations
                         .HasForeignKey("FreelancerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("HIN_ventures.DataAccess.Entities.Portal", null)
-                        .WithMany("Assignments")
-                        .HasForeignKey("PortalId");
 
                     b.Navigation("Freelancer");
                 });
@@ -557,11 +475,6 @@ namespace HIN_ventures.DataAccess.Migrations
                 });
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Freelancer", b =>
-                {
-                    b.Navigation("Assignments");
-                });
-
-            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Portal", b =>
                 {
                     b.Navigation("Assignments");
                 });
