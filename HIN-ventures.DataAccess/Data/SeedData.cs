@@ -15,7 +15,7 @@ namespace HIN_ventures.DataAccess.Data
             {
                 Freelancer freelancer1 = new()
                 {
-                    //Name = "Rasputin",
+                    Name = "Rasputin",
                     Speciality = "Machine Learning",
                     AverageRating = 45,
                     TotalLinesOfCode = 11111,
@@ -24,7 +24,7 @@ namespace HIN_ventures.DataAccess.Data
 
                 Freelancer freelancer2 = new()
                 {
-                    //Name = "Megatron",
+                    Name = "Megatron",
                     Speciality = "Hacking",
                     AverageRating = 71,
                     TotalLinesOfCode = 7722,

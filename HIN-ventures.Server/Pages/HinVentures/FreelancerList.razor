@@ -23,7 +23,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Field of expertise</th>
-                    <th rowspan="2">
+                    <th rowspan="3">
                         Current Assignments
                     </th>
                 </tr>
@@ -36,12 +36,12 @@
                 <tr>
                     <td>@lancer.Name</td>
                     <td>@lancer.Speciality</td>
-                   
+                    <td>
                         @foreach (var task in lancer.Assignments)
                         {
-                            <td>@task.Title</td>
+                            <text> &nbsp;  @task.Title,&nbsp;</text>
                         }
-                    
+                    </td>
 
                     @*<td>
             <NavLink href="@($"hotel-room/edit/{room.Id}")" class="btn btn-primary">Edit</NavLink>
