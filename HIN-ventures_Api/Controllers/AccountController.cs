@@ -70,7 +70,7 @@ namespace HIN_ventures_Api.Controllers
             // if customer valgt i UI på klienten, sett role.customer. 
             var roleResult = await _userManager.AddToRoleAsync(user, SD.Role_Customer);
             //else if freelancer valgt i klienten  
-            //var freelancerRoleResult = await _userManager.AddToRoleAsync(user, SD.Role_Freelancer);
+            var freelancerRoleResult = await _userManager.AddToRoleAsync(user, SD.Role_Freelancer);
             if (!roleResult.Succeeded)
             {
                 var errors = result.Errors.Select(e => e.Description);
