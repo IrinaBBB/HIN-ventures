@@ -52,7 +52,7 @@ namespace HIN_ventures_Api.Controllers
             {
                 UserName = userRequestDTO.Email,
                 Email = userRequestDTO.Email,
-                Name = userRequestDTO.Name,
+                LastName = userRequestDTO.Name,
                 PhoneNumber = userRequestDTO.PhoneNo,
                 EmailConfirmed = true
             };
@@ -65,7 +65,12 @@ namespace HIN_ventures_Api.Controllers
                 return BadRequest(new RegistrationResponseDto
                     { Errors = errors, IsRegisterationSuccessful = false });
             }
+
+            //muligens her vi må inn med egen logikk knyttet til prosjektoppgave 2. Skal velge Customer eller Freelancer rolle basert på valg i UI.
+            // if customer valgt i UI på klienten, sett role.customer. 
             var roleResult = await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+            //else if freelancer valgt i klienten  
+            //var freelancerRoleResult = await _userManager.AddToRoleAsync(user, SD.Role_Freelancer);
             if (!roleResult.Succeeded)
             {
                 var errors = result.Errors.Select(e => e.Description);
@@ -113,7 +118,7 @@ namespace HIN_ventures_Api.Controllers
                     Token = token,
                     userDto = new UserDto
                     {
-                        Name = user.Name,
+                        Name = user.LastName,
                         Id = user.Id,
                         Email = user.Email,
                         PhoneNo = user.PhoneNumber

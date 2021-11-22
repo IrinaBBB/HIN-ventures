@@ -13,23 +13,12 @@ namespace HIN_ventures.DataAccess.Entities
         [Key] 
         public int CustomerId { get; set; }
 
-        [Required(ErrorMessage = "Please enter the company name")]
-        public string Name { get; set; }
-
         [Required(ErrorMessage = "Please enter the company's VAT number")]
         public string VAT_number { get; set; }
-
-        [Required(ErrorMessage = "Please enter the company's email number")]
-        public string Email { get; set; }
-
-        public int TotalLinesOfCode { get; set; }
-
-        public int TotalCost { get; set; }
 
         public virtual ICollection<Assignment> Assignments { get; set; }
 
        public virtual ICollection<Rating> Ratings { get; set; }
-
 
     }
 }
