@@ -19,22 +19,22 @@
                           @bind-Value="@AssignmentModel.Title"
                           HelperText="Title is required!"
                           Required="true"
-                          RequiredError="Title is required!"/>
+                          RequiredError="Title is required!" />
             <MudTextField Label="Category"
                           @bind-Value="@AssignmentModel.Category"
                           HelperText="Category of your assignment, e.g. FrontEnd, BackEnd etc."
                           Required="true"
-                          RequiredError="Title is required!"/>
+                          RequiredError="Title is required!" />
             <MudNumericField Label="Rate"
                              @bind-Value="@AssignmentModel.Price"
                              HelperText="Price estimate for completion of this assignment."
                              Required="true"
-                             RequiredError="Price is required!"/>
+                             RequiredError="Price is required!" />
             <MudItem>
                 <MudDatePicker PickerVariant="PickerVariant.Dialog"
                                Label="Deadline"
                                @bind-Date="@AssignmentModel.Deadline"
-                               HelperText="Assignment should be ready due to this date."/>
+                               HelperText="Assignment should be ready due to this date." />
             </MudItem>
             <MudTextField Label="Description"
                           @bind-Value="@AssignmentModel.Description"

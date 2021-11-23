@@ -23,7 +23,8 @@
                                 }
                             </MudCardContent>
                             <MudCardActions>
-                                <MudButton Link="@($"assignment/details/{assignment.Id}")" Variant="Variant.Text" Color="Color.Primary">Learn More </MudButton>
+                                <MudButton Link="@($"assignment/details/{assignment.Id}")" OnClick="@(()=>GoToDetails(assignment.Id))" Variant="Variant.Text" Color="Color.Primary">Learn More </MudButton>
+                                <MudLink Href="@($"assignment/details/{assignment.Id}")">@assignment.Id</MudLink>
                                 <MudButton Link="@($"assignment/edit/{assignment.Id}")" Variant="Variant.Text" Color="Color.Secondary">Edit</MudButton>
                             </MudCardActions>
                         </MudCard>
@@ -41,17 +42,31 @@
 
 
 @code {
+    //[Parameter]
+    //public EventCallback<int> Func { get; set; }
+
+    private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        StateHasChanged();
+    }
+
     private IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
 
     protected override void OnInitialized()
     {
         Assignments = _assignmentRepository.GetAllAssignments();
+        _navigationManager.LocationChanged += HandleLocationChanged;
     }
 
-    private async Task GoToDetails(int Id)
+    private void GoToDetails(int Id)
     {
         _navigationManager.NavigateTo($"assignment/details/{Id}");
-        @*OnClick="@(async () => await GoToDetails(assignment.Id))"*@
+        StateHasChanged();
     }
 
+    public void Dispose()
+    {
+        // remove from the NavigationManager event
+        _navigationManager.LocationChanged -= HandleLocationChanged;
+    }
 }
