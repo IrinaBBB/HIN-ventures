@@ -1,0 +1,38 @@
+﻿@page "/assignment/details/{Id:int}"
+@using HIN_ventures.Models
+@using HIN_ventures.Business.Repositories.IRepositories
+@inject IAssignmentRepository _assignmentRepository
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+
+<div class="mt-2">
+    <div class="row col-12">
+        <MudText Typo="Typo.h4" Align="Align.Center">Assignment Details</MudText>
+
+        <MudGrid Spacing="2" Justify="Justify.Center">
+            @if (Assignment.Id != 0)
+            {
+            <div>Assignment.Id</div>
+            }
+            else
+            {
+                <div>No records found</div>
+            }
+        </MudGrid>
+    </div>
+   
+</div>
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private AssignmentDto Assignment { get; set; } = new AssignmentDto();
+
+    protected override void OnInitialized()
+    {
+        Assignment = _assignmentRepository.GetAssignment(Id.Value).Result;
+    }
+
+}

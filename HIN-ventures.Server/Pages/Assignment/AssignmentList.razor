@@ -2,6 +2,7 @@
 @using HIN_ventures.Models
 @using HIN_ventures.Business.Repositories.IRepositories
 @inject IAssignmentRepository _assignmentRepository
+@inject NavigationManager _navigationManager
 
 <div class="mt-2">
     <div class="row col-12">
@@ -22,11 +23,8 @@
                                 }
                             </MudCardContent>
                             <MudCardActions>
-                                <MudButton Variant="Variant.Text" Color="Color.Primary">Learn More</MudButton>
-                                <MudButton Link="@($"assignment/edit/{assignment.Id}")"
-                                           Variant="Variant.Text" Color="Color.Secondary">
-                                    Edit
-                                </MudButton>
+                                <MudButton Link="@($"assignment/details/{assignment.Id}")" Variant="Variant.Text" Color="Color.Primary">Learn More </MudButton>
+                                <MudButton Link="@($"assignment/edit/{assignment.Id}")" Variant="Variant.Text" Color="Color.Secondary">Edit</MudButton>
                             </MudCardActions>
                         </MudCard>
                     </MudItem>
@@ -38,7 +36,7 @@
             }
         </MudGrid>
     </div>
-    <MudFab Link="/assignment/create" Class="fab-button" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" aria-label="add"/>
+    <MudFab Link="/assignment/create" Class="fab-button" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" aria-label="add" />
 </div>
 
 
@@ -48,6 +46,12 @@
     protected override void OnInitialized()
     {
         Assignments = _assignmentRepository.GetAllAssignments();
+    }
+
+    private async Task GoToDetails(int Id)
+    {
+        _navigationManager.NavigateTo($"assignment/details/{Id}");
+        @*OnClick="@(async () => await GoToDetails(assignment.Id))"*@
     }
 
 }
