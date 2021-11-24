@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using BlockIoLib;
 using HIN_ventures.DataAccess.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 namespace HIN_ventures.DataAccess.Data
 {
     public static class SeedData
     {
-
+        
         public static void Initialize(ApplicationDbContext db)
         {
+           
             if (!db.Freelancers.Any())
             {
                 Freelancer freelancer1 = new()

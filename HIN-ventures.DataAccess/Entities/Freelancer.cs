@@ -13,6 +13,8 @@ namespace HIN_ventures.DataAccess.Entities
 
         public int TotalLinesOfCode{ get; set; }
 
+        public string CryptoAddress { get; set; }
+
         public int LinesOfCodeMonth{ get; set; }
 
         public virtual ICollection<Assignment> Assignments { get; set; }
