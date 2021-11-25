@@ -41,11 +41,7 @@ namespace HIN_ventures.Server
             {
                 options.UseMySql(dbConnectionString, ServerVersion.AutoDetect(dbConnectionString));
             });
-     
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //{
-            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-            //});
+            
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
@@ -89,6 +85,9 @@ namespace HIN_ventures.Server
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{ action = Index2}/{ id ?}");
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub(); //required for SignalR connection
                 endpoints.MapFallbackToPage("/_Host"); //if nothing is found on SignalR connection

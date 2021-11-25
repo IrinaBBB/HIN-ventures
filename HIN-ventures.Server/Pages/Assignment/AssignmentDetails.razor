@@ -5,34 +5,87 @@
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
 
-<div class="mt-2">
-    <div class="row col-12">
-        <MudText Typo="Typo.h4" Align="Align.Center">Assignment Details</MudText>
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">@AssignmentModel.Title</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    
+    <MudCardContent>
+        <MudText Typo="Typo.subtitle1">Category:</MudText>
+        <MudText>@AssignmentModel.Category</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-        <MudGrid Spacing="2" Justify="Justify.Center">
-            @if (Assignment.Id != 0)
-            {
-            <div>Assignment.Id</div>
-            }
-            else
-            {
-                <div>No records found</div>
-            }
-        </MudGrid>
-    </div>
-   
-</div>
+        <MudText Typo="Typo.subtitle1">Deadline:</MudText>
+        <MudText>@AssignmentModel.Deadline</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
+        <MudText Typo="Typo.subtitle1">Description:</MudText>
+        <MudText>@AssignmentModel.Description</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle1">Price:</MudText>
+        <MudText>@AssignmentModel.Price</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle1">Who working on it:</MudText>
+        <MudText>@AssignmentModel.Freelancer</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle1">Code Files:</MudText>
+        @*@if (AssignmentModel.CodeFiles.Any())
+        {
+            foreach (var codeFile in AssignmentModel.CodeFiles)
+            {
+                <MudText>codeFile.CodeFileUrl</MudText>
+                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+            }
+        }
+        else
+        {
+            <MudText>No records found</MudText>
+        }*@
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Class="ml-auto" Link="assignments">Back To List</MudButton>
+    </MudCardActions>
+</MudCard>
 
 @code {
     [Parameter]
     public int? Id { get; set; }
+    private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
 
-    private AssignmentDto Assignment { get; set; } = new AssignmentDto();
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Assignment = _assignmentRepository.GetAssignment(Id.Value).Result;
+        if (Id != null)
+        {
+            AssignmentModel = await _assignmentRepository.GetAssignment(Id.Value);
+        }
+        else
+        {
+            AssignmentModel = new AssignmentDto();
+        }
     }
 
+    private async Task TestSuccess()
+    {
+        await _jsRuntime.ToastrSuccess("Success");
+    }
+
+    private async Task TestFailure()
+    {
+        await _jsRuntime.ToastrError("Error");
+    }
+
+    private async Task TestSuccessSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "Task Completed Successfully!");
+    }
+
+    private async Task TestFailureSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
+    }
 }

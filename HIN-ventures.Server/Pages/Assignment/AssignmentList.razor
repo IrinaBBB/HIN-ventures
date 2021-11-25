@@ -23,8 +23,7 @@
                                 }
                             </MudCardContent>
                             <MudCardActions>
-                                <MudButton Link="@($"assignment/details/{assignment.Id}")" OnClick="@(()=>GoToDetails(assignment.Id))" Variant="Variant.Text" Color="Color.Primary">Learn More </MudButton>
-                                <MudLink Href="@($"assignment/details/{assignment.Id}")">@assignment.Id</MudLink>
+                                <MudButton Link="@($"assignment/details/{assignment.Id}")" Variant="Variant.Text" Color="Color.Primary">Details</MudButton>
                                 <MudButton Link="@($"assignment/edit/{assignment.Id}")" Variant="Variant.Text" Color="Color.Secondary">Edit</MudButton>
                             </MudCardActions>
                         </MudCard>
@@ -36,26 +35,25 @@
                 <div>No records found</div>
             }
         </MudGrid>
+        
     </div>
     <MudFab Link="/assignment/create" Class="fab-button" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" aria-label="add" />
 </div>
 
 
 @code {
-    //[Parameter]
-    //public EventCallback<int> Func { get; set; }
-
-    private void HandleLocationChanged(object sender, LocationChangedEventArgs e)
-    {
-        StateHasChanged();
-    }
-
     private IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
 
     protected override void OnInitialized()
     {
         Assignments = _assignmentRepository.GetAllAssignments();
-        _navigationManager.LocationChanged += HandleLocationChanged;
+        StateHasChanged();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
     }
 
     private void GoToDetails(int Id)
@@ -64,9 +62,4 @@
         StateHasChanged();
     }
 
-    public void Dispose()
-    {
-        // remove from the NavigationManager event
-        _navigationManager.LocationChanged -= HandleLocationChanged;
-    }
 }

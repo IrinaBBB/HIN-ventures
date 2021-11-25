@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using HIN_ventures.DataAccess.Entities;
 
 namespace HIN_ventures.Models
 {
@@ -21,5 +23,9 @@ namespace HIN_ventures.Models
 
         [Required]
         public DateTime? Deadline { get; set; }
+
+        public Freelancer Freelancer { get; set; }
+
+        public virtual ICollection<CodeFile> CodeFiles { get; set; }
     }
 }

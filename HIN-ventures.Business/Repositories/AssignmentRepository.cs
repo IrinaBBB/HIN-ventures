@@ -54,7 +54,7 @@ namespace HIN_ventures.Business.Repositories
         public async Task<AssignmentDto> GetAssignment(int assignmentId)
         {
             var assignment = _mapper.Map<Assignment, AssignmentDto>
-                (await _context.Assignments.FirstOrDefaultAsync(x => x.Id == assignmentId));
+                (await _context.Assignments.Include(x=>x.CodeFiles).FirstOrDefaultAsync(x => x.Id == assignmentId));
             return assignment;
         }
 
