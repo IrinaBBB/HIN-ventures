@@ -1,0 +1,105 @@
+﻿@page  "/transactions"
+@using Models
+@using Model
+@using Business.Repositories.IRepositories
+@using HIN_ventures.Common;
+@using System.Net.Http.Json
+@using Block.Io.Core
+@using MudBlazor.Extensions
+@using System.Linq
+@using ITransactionRepository = HIN_ventures.Business.Repositories.IRepositories.ITransactionRepository
+
+@inject ITransactionRepository _transactionRepository
+@inject HttpClient _http
+
+
+
+@attribute [Authorize(Roles = SD.Role_Admin)]
+
+<h3>Transactions</h3>
+
+<div class="bg-light border p-2">
+    HIN-Ventures current funds: @_hinVenturesBalance Dogecoin
+    <br />
+</div>
+
+<button class="btn btn-primary" @onclick="@SendOneCoin">Send 1 DogeCoin to test account</button>
+
+
+@code {
+    readonly IBlockIO _blockIo = new BlockIO("9da8-f106-e0c7-e733");
+
+    double _hinVenturesBalance;
+
+    public class TransferByLabel
+    {
+        public string FromLabel { get; set; }
+        public string ToLabel { get; set; }
+        public double Amount { get; set; }
+    }
+
+
+    public class TransferByAdress
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+        public double Amount { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var balance = await _blockIo.GetBalanceAsync();
+        _hinVenturesBalance = balance.Data.AvailableBalance;
+
+
+        //Postman post: https://block.io/api/v2/prepare_transaction/?api_key=9da8-f106-e0c7-e733&from_labels=HIN-Ventures&to_labels=FreelancerTest&amounts=1
+
+        //fetch balance
+        //var accountBalance = await _http.GetFromJsonAsync<AccountDto>("https://block.io/api/v2/get_balance/?api_key=9da8-f106-e0c7-e733&labels=HIN-Ventures");
+
+        //if (accountBalance != null)
+        //{
+        //    var test = accountBalance.data.available_balance;
+        //_hinVenturesBalance = test;
+        //}
+
+        //JsonContent content = JsonContent.Create(_transaction);
+        //var URL = "https://block.io/api/v2/prepare_transaction/";
+        //await _http.PostAsJsonAsync(URL,content);
+
+
+        await base.OnInitializedAsync();
+    }
+
+
+    private async Task SendOneCoin()
+    {
+        List<TransferByAdress> transfer = new List<TransferByAdress>
+        {
+            new() { From = "2N1spDd7mDaBfHbCRKGq9p28BwBo2XjmrEF", To = "2NBuGkA8bdxsH4GhQaURwsz3rmfeX4Mrekt", Amount = 1 }
+        };
+
+        IEnumerable<Tuple<string, string, double>> enumerableTuples = transfer
+            .Select(o => Tuple.Create(o.From, o.To, o.Amount));
+
+        await _blockIo.WithdrawFromLabelAsync(enumerableTuples, "H5sbN8Ra34KjgaTFEBcN");
+    }
+
+    readonly TransferDto _transaction = new()
+    {
+        api_key = SD.ApiKey,
+        from_labels = "HIN-Ventures",
+        to_labels = "FreelancerTest",
+        amounts = 1
+    };
+
+
+    public class TransferDto
+    {
+        public string api_key { get; set; }
+        public string from_labels { get; set; }
+        public string to_labels { get; set; }
+        public int amounts { get; set; }
+    }
+}

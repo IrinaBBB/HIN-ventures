@@ -20,6 +20,7 @@ namespace HIN_ventures.Models
 
         [Required(ErrorMessage = "Please enter the company's email number")]
         public string Email { get; set; }
+        public string CryptoAddress { get; set; }
 
         public int TotalLinesOfCode { get; set; }
 

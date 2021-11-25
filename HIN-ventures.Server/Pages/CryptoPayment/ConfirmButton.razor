@@ -1,0 +1,8 @@
+﻿@if (IsAdmin)
+{
+    <input type="button" class="btn btn-danger" value="Confirm" />
+}
+@code{
+    [Parameter]
+    public bool IsAdmin { get; set; }
+}

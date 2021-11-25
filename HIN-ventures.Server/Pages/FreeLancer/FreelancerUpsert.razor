@@ -3,6 +3,7 @@
 @using Business.Repositories.IRepositories
 @inject IFreelancerRepository FreelancerRepository
 @inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = Common.SD.Role_Admin)]
 
 
 <div class="row mt-2 mb-5">

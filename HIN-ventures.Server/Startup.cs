@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using HIN_ventures.Business.Repositories;
 using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
@@ -33,6 +34,8 @@ namespace HIN_ventures.Server
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
 
+            services.AddSingleton<HttpClient>(); //needed to consume external API in razor pages
+
             string dbConnectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -59,6 +62,7 @@ namespace HIN_ventures.Server
             services.AddMudServices();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<IFreelancerRepository, FreelancerRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<IDbInitializer, DbInitializer>();
         }
 

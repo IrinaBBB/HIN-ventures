@@ -16,13 +16,16 @@ namespace HIN_ventures.Models
         public string Name { get; set; }
         [Required]
         public string Speciality { get; set; }
-        public int AverageRating{ get; set; }
-        
-        public int TotalLinesOfCode{ get; set; }
-        
-        public int LinesOfCodeMonth{ get; set; }
+
+        public int AverageRating{ get ; set ; }
+
+        public int TotalLinesOfCode { get; set; }
+        public string CryptoAddress { get; set; }
+
+        public int LinesOfCodeMonth { get; set; }
 
         public virtual ICollection<Assignment> Assignments { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
 
 
     }
