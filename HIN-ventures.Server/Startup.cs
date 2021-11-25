@@ -86,8 +86,8 @@ namespace HIN_ventures.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapBlazorHub(); //required for SignalR connection
+                endpoints.MapFallbackToPage("/_Host"); //if nothing is found on SignalR connection
             });
         }
     }
