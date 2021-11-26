@@ -1,4 +1,24 @@
 ﻿@page "/"
+@using HIN_ventures.Client.wwwroot.Helper
+@inject ILocalStorageService localStorage
+@inject IJSRuntime jsRuntime
+@inject NavigationManager navigationManager
+
+
+<EditForm Model="HomeModel" OnValidSubmit="SaveInitialData">
+    <div class="row p-0 mx-0 mt-4">
+
+        <div class="col-4 col-md-2 p-0 pr-2">
+            <div class="form-group">
+                <label>&nbsp;</label>
+
+                <input type="submit" value="View Customer page" class="btn btn-success btn-block" />
+
+            </div>
+        </div>
+
+    </div>
+</EditForm>
 
 <div class="container-fluid">
     <div class="row">
@@ -113,3 +133,35 @@
         </div>
     </div>
 </div>
+
+
+
+@code{
+
+    public HomeVM HomeModel { get; set; } = new HomeVM();
+    //public IEnumerable<HotelAmenityDTO> HotelAmenities { get; set; } = new List<HotelAmenityDTO>();
+    public bool IsProcessing { get; set; } = false;
+    protected override async Task OnInitializedAsync()
+    {
+        IsProcessing = true;
+        //    HotelAmenities = await hotelAmenityService.GetHotelAmenities();
+        IsProcessing = false;
+    }
+
+
+    private async Task SaveInitialData()
+    {
+        try
+        {
+            HomeModel.EndDate = HomeModel.StartDate.AddDays(HomeModel.NoOfNights);
+
+            await localStorage.SetItemAsync(SD.Local_InitialBooking, HomeModel); //SD.Local_InitialBooking
+            navigationManager.NavigateTo("/customer/requestfreelancer", true);
+        }
+        catch (Exception e)
+        {
+            await jsRuntime.ToastrError(e.Message);
+        }
+    }
+
+}

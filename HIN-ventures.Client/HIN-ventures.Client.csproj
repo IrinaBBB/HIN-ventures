@@ -28,8 +28,4 @@
     <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\Customer\" />
-  </ItemGroup>
-
 </Project>
