@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using HIN_ventures.Models
+@inject IJSRuntime _jsRuntime
+@inject IAssignmentService _iAssignmentService
 
 <div class="container-fluid">
     <div class="row">
@@ -6,81 +9,19 @@
             <div class="container">
                 <div class="row p-3">
                     <h2 class="h4 text-center" style="text-transform: uppercase">Available Assignments</h2>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
+                    @foreach (var assignment in Assignments)
+                    {
+                        <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
+                            <div class="card-header">@assignment.Category</div>
+                            <div class="card-body">
+                                <h4 class="card-title">@assignment.Title</h4>
+                                <p class="card-text">@assignment.Description[..50]</p>
+                                <a class="btn btn-outline-success card-link">Learn More...</a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
-                        </div>
-                    </div>
-                    <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
-                        <div class="card-header">Header</div>
-                        <div class="card-body">
-                            <h4 class="card-title">Dark card title</h4>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                            <a class="btn btn-outline-success card-link">Learn More...</a>
-                        </div>
-                    </div>
+                    }
+                    <a class="btn btn-outline-warning col-12">Get More Assignments...</a>
                 </div>
-
-                <a class="btn btn-outline-warning col-12">Get More Assignments...</a>
             </div>
         </div>
         <div class="col-md-3 p-3">
@@ -113,3 +54,20 @@
         </div>
     </div>
 </div>
+
+@code {
+
+    public IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAssignments();
+    }
+
+
+    private async Task LoadAssignments()
+    {
+        Assignments = await _iAssignmentService.GetAssignments();
+    }
+
+}
