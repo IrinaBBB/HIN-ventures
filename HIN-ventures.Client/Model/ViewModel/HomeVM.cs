@@ -11,5 +11,6 @@ namespace HIN_ventures_Client.Model.ViewModel
         public DateTime EndDate { get; set; }
         public int NoOfNights { get; set; } = 1;
         public bool IsAvailable { get; set; } = true;
+        public string Speciality { get; set; }
     }
 }

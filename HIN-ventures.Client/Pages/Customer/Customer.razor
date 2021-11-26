@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components
 
 @using HIN_ventures.Client.wwwroot.Helper
+@using HIN_ventures.DataAccess.Entities
 @inject ILocalStorageService localStorage
 @inject IJSRuntime jsRuntime
 @inject IFreelancerService freelancerService
@@ -12,26 +13,14 @@
         <div class="pt-3 pb-2 px-5 mx-1 mx-md-0 bg-secondary">
             <DataAnnotationsValidator />
             <div class="row px-3 mx-3">
-                <div class="col-6 col-md-4">
-                    <div class="form-group">
-                        <label class="text-warning">Check in Date</label>
-                        <InputDate @bind-Value="HomeModel.StartDate" class="form-control" />
-                    </div>
-                </div>
-                <div class="col-6 col-md-4">
-                    <div class="form-group">
-                        <label class="text-warning">Check Out Date</label>
-                        <input @bind="HomeModel.EndDate" disabled="disabled" readonly="readonly" type="date" class="form-control" />
-                    </div>
-                </div>
                 <div class=" col-4 col-md-2">
                     <div class="form-group">
-                        <label class="text-warning">No. of nights</label>
-                        <select class="form-control" @bind="HomeModel.NoOfNights">
-                            <option value="Select" selected disabled="disabled">(Select No. Of Nights)</option>
-                            @for (var i = 1; i <= 10; i++)
+                        <label class="text-warning">Freelancer based on expertise</label>
+                        <select class="form-control" @bind="HomeModel.Speciality">
+                            <option value="Select" selected disabled="disabled">(Select field of expertise)</option>
+                            @foreach (var freelancer in FLancers)
                             {
-                                <option value="@i">@i</option>
+                                <option value="@freelancer">@freelancer.Specialty</option>
                             }
                         </select>
                     </div>
@@ -40,7 +29,7 @@
                 <div class="col-8 col-md-2">
                     <div class="form-group" style="margin-top: 1.9rem !important;">
 
-                        <input type="submit" value="Update" class="btn btn-success btn-block form-control" />
+                        <input type="submit" value="Request" class="btn btn-success btn-block form-control" />
 
                     </div>
                 </div>
@@ -132,7 +121,7 @@ else
             }
             else
             {
-                HomeModel.NoOfNights = 1;
+                HomeModel.Speciality = "Blazor";
             }
             await LoadFreelancers();
         }
@@ -158,8 +147,8 @@ else
     {
         //IsProcessing = true;
         //HomeModel.EndDate = HomeModel.StartDate.AddDays(HomeModel.NoOfNights);
-        //await localStorage.SetItemAsync(SD.Local_InitialBooking, HomeModel);
-        //await LoadFreelancers();
+        await localStorage.SetItemAsync(SD.Local_InitialBooking, HomeModel);
+        await LoadFreelancers();
         //IsProcessing = false;
     }
 }
