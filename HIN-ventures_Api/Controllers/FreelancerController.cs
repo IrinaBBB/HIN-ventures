@@ -23,14 +23,14 @@ namespace HIN_ventures_Api.Controllers
 
         //[Authorize(Roles = SD.Role_Admin)]
         [HttpGet]
-        public async Task<IActionResult> GetFreelancers()
+        public async Task<IActionResult> GetFreelancers() //bool IsActive?
         {
             var freelancers = await _freelancerRepository.GetAllFreelancers();
             return Ok(freelancers);
         }
 
         [HttpGet("{freelancerId}")]
-        public async Task<IActionResult> GetFreelancer(int? freelancerId)
+        public async Task<IActionResult> GetFreelancer(int? freelancerId) //bool IsActive?
         {
             if (freelancerId == null)
             {
