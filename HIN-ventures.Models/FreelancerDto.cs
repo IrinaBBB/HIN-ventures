@@ -24,6 +24,8 @@ namespace HIN_ventures.Models
 
         public int LinesOfCodeMonth { get; set; }
 
+        public bool IsActive { get; set; }
+
         public virtual ICollection<Assignment> Assignments { get; set; }
         public virtual ICollection<Rating> Ratings { get; set; }
 
