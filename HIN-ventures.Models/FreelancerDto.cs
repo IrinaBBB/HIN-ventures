@@ -27,7 +27,7 @@ namespace HIN_ventures.Models
 
         public int LinesOfCodeMonth { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = false;
 
         public virtual ICollection<Assignment> Assignments { get; set; }
       
