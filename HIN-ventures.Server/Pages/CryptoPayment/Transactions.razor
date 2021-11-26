@@ -27,7 +27,7 @@
 
 
 @code {
-    readonly IBlockIO _blockIo = new BlockIO("9da8-f106-e0c7-e733");
+
 
     double _hinVenturesBalance;
 
@@ -45,6 +45,8 @@
         public string To { get; set; }
         public double Amount { get; set; }
     }
+
+    readonly IBlockIO _blockIo = new BlockIO("9da8-f106-e0c7-e733");
 
     protected override async Task OnInitializedAsync()
     {
@@ -67,21 +69,22 @@
         //JsonContent content = JsonContent.Create(_transaction);
         //var URL = "https://block.io/api/v2/prepare_transaction/";
         //await _http.PostAsJsonAsync(URL,content);
-
+        //new() { From = "2N1spDd7mDaBfHbCRKGq9p28BwBo2XjmrEF", To = "2NBuGkA8bdxsH4GhQaURwsz3rmfeX4Mrekt", Amount = 1 }
 
         await base.OnInitializedAsync();
     }
-
 
     private async Task SendOneCoin()
     {
         List<TransferByAdress> transfer = new List<TransferByAdress>
         {
-            new() { From = "2N1spDd7mDaBfHbCRKGq9p28BwBo2XjmrEF", To = "2NBuGkA8bdxsH4GhQaURwsz3rmfeX4Mrekt", Amount = 1 }
+
+            new() { From = "HIN-Ventures", To = "FreelancerTest", Amount = 1 }
         };
 
         IEnumerable<Tuple<string, string, double>> enumerableTuples = transfer
             .Select(o => Tuple.Create(o.From, o.To, o.Amount));
+
 
         await _blockIo.WithdrawFromLabelAsync(enumerableTuples, "H5sbN8Ra34KjgaTFEBcN");
     }

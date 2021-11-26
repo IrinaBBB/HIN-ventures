@@ -1,11 +1,8 @@
 ﻿@page "/customer/requestfreelancer"
-@using Microsoft.AspNetCore.Components
-
-@using HIN_ventures.Client.wwwroot.Helper
-@using HIN_ventures.DataAccess.Entities
 @inject ILocalStorageService localStorage
 @inject IJSRuntime jsRuntime
 @inject IFreelancerService freelancerService
+
 @if (FLancers != null && FLancers.Any())
 {
     <EditForm Model="HomeModel" OnValidSubmit="SaveBookingInfo" class="bg-light">
