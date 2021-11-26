@@ -9,7 +9,9 @@ namespace HIN_ventures.DataAccess.Entities
         [Key]
         public int FreelancerId { get; set; }
 
-        public string Speciality { get; set; }
+        public string Name { get; set; }
+
+        public string Specialty { get; set; }
 
         public int TotalLinesOfCode{ get; set; }
 
@@ -18,6 +20,7 @@ namespace HIN_ventures.DataAccess.Entities
         public int LinesOfCodeMonth{ get; set; }
 
         public virtual ICollection<Assignment> Assignments { get; set; }
+
         public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

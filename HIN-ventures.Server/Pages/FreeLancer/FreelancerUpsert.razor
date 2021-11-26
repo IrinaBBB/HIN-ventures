@@ -1,28 +1,160 @@
-﻿@page  "/freelancer/manage"
+﻿@page "/freelancer/create"
+@page "/freelancer/edit/{Id:int}"
 @using Models
 @using Business.Repositories.IRepositories
-@inject IFreelancerRepository FreelancerRepository
-@inject NavigationManager NavigationManager
+@inject IFreelancerRepository _freelancerRepository
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
 @attribute [Authorize(Roles = Common.SD.Role_Admin)]
 
 
-<div class="row mt-2 mb-5">
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h4">@Title a new freelancer</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+
+    <MudCardContent>
+        <MudForm>
+            <MudTextField Label="Title"
+                          @bind-Value="@FreelancerModel.Name"
+                          HelperText="Name is required!"
+                          Required="true"
+                          RequiredError="Name is required!" />
+            <MudTextField Label="Category"
+                          @bind-Value="@FreelancerModel.Specialty"
+                          HelperText="Your specialty, e.g. FrontEnd, BackEnd, Java, Mobilprogramming etc."
+                          Required="true"
+                          RequiredError="Specialty is required!" />
+            <MudTextField Label="CryptoAddress"
+                          @bind-Value="@FreelancerModel.CryptoAddress"
+                          HelperText="CryptoAddress for you to get payments."
+                          Required="true"
+                          RequiredError="CryptoAddress is required!">
+            </MudTextField>
+            <MudCardContent>
+                <MudTable Items="@FreelancerModel.Assignments" Hover="true" Breakpoint="Breakpoint.None" Dense="@true">
+                    <HeaderContent>
+                        <MudTh>Title</MudTh>
+                        <MudTh>Category</MudTh>
+                        <MudTh>CreatedBy</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Title">
+                            <MudForm Model="@context">
+                                <MudTextField Label="Title" @bind-Value="context.Title" For="(() => context.Title)"/>
+                            </MudForm>
+                        </MudTd>
+                        <MudTd DataLabel="Category">
+                            <MudForm Model="@context">
+                                <MudTextField Label="Category" @bind-Value="context.Category" For="(() => context.Category)"/>
+                            </MudForm>
+                        </MudTd>
+                        <MudTd DataLabel="CreatedBy">
+                            <MudForm Model="@context">
+                                <MudTextField Label="CreatedBy" @bind-Value="context.CreatedBy" For="(() => context.CreatedBy)"/>
+                            </MudForm>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled" Class="ml-auto" Link="freelancers">Back To List</MudButton>
+                <MudButton Variant="Variant.Filled" Class="ml-4" Color="Color.Primary" OnClick="@(async () => await HandelFreelancerUpsert())">@Title Freelancer</MudButton>
+            </MudCardActions>
+        </MudForm>
+    </MudCardContent>
+</MudCard>
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    private FreelancerDto FreelancerModel { get; set; } = new FreelancerDto();
+    private string Title { get; set; } = "Add";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticationState = await AuthenticationState;
+        if (!authenticationState.User.IsInRole(Common.SD.Role_Admin))
+        {
+            var uri = new Uri(_navigationManager.Uri);
+            _navigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        }
+
+        // If Id null update/edit, else create
+        if (Id != null)
+        {
+            Title = "Update";
+            FreelancerModel = await _freelancerRepository.GetFreelancer(Id.Value);
+        }
+        else
+        {
+            FreelancerModel = new FreelancerDto();
+        }
+    }
+
+    private async Task HandelFreelancerUpsert()
+    {
+        if (FreelancerModel.FreelancerId != 0 && Title == "Update")
+        {
+            var updateAssignmentResult =
+                await _freelancerRepository.UpdateFreelancer(FreelancerModel.FreelancerId, FreelancerModel);
+            //await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.Name} Updated Successfully.");
+        }
+        else
+        {
+            var createdAssignment =
+                await _freelancerRepository.CreateFreelancer(FreelancerModel);
+            //await _jsRuntime.ToastrSuccess($"{createdAssignment.Name} Updated Successfully.");
+        }
+        _navigationManager.NavigateTo("freelancers");
+    }
+
+    private async Task TestSuccess()
+    {
+        await _jsRuntime.ToastrSuccess("Success");
+    }
+
+    private async Task TestFailure()
+    {
+        await _jsRuntime.ToastrError("Error");
+    }
+
+    private async Task TestSuccessSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "Task Completed Successfully!");
+    }
+
+    private async Task TestFailureSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
+    }
+}
+
+
+<!--<div class="row mt-2 mb-5">
     <h3 class="card-title text-info mb-3 ml-3">@Title Freelancer</h3>
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
                 <EditForm Model="FreelancerModel" OnValidSubmit="HandelFreelancerUpsert">
-                    <DataAnnotationsValidator />
-                    @*<ValidationSummary/>*@
-                    <div class="form-group">
+                    <DataAnnotationsValidator />-->
+@*<ValidationSummary/>*@
+<!--<div class="form-group">
                         <label>Name</label>
                         <InputText @bind-Value="FreelancerModel.Name" class="form-control"></InputText>
                         <ValidationMessage For="()=>FreelancerModel.Name"></ValidationMessage>
                     </div>
                     <div class="form-group">
                         <label>Field of expertise</label>
-                        <InputText @bind-Value="FreelancerModel.Speciality" class="form-control"></InputText>
-                        <ValidationMessage For="()=>FreelancerModel.Speciality"></ValidationMessage>
+                        <InputText @bind-Value="FreelancerModel.Specialty" class="form-control"></InputText>
+                        <ValidationMessage For="()=>FreelancerModel.Specialty"></ValidationMessage>
                     </div>
                     <div class="form-group">
                         <button class="btn btn-primary">@Title Freelancer</button>
@@ -32,35 +164,4 @@
             </div>
         </div>
     </div>
-</div>
-
-@code {
-    private FreelancerDto FreelancerModel { get; set; } = new FreelancerDto();
-    private string Title { get; set; } = "Create";
-
-    [CascadingParameter]
-    public Task<AuthenticationState> AuthenticationState { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        var authenticationState = await AuthenticationState;
-        if (!authenticationState.User.IsInRole(Common.SD.Role_Admin))
-        {
-            var uri = new Uri(NavigationManager.Uri);
-            NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
-        }
-    }
-
-    private async Task HandelFreelancerUpsert()
-    {
-        //var roomDetailsByName = await HotelRoomRepository.IsRoomUnique(HotelRoomModel.Name);
-        //if (roomDetailsByName != null)
-        //{
-        //    //there is duplicate rooms show error
-        //    return;
-        //}
-        var createdResult = await FreelancerRepository.CreateFreelancer(FreelancerModel);
-        NavigationManager.NavigateTo("freelancer");
-
-    }
-}
+</div>-->

@@ -17,6 +17,13 @@ namespace HIN_ventures.DataAccess.Entities
         public string VAT_number { get; set; }
 
         public string CryptoAddress { get; set; }
+
+        public int SubscriptionType { get; set; }
+
+        public int TotalLinesOfCode { get; set; }
+
+        public int TotalCost { get; set; }
+
         public virtual ICollection<Assignment> Assignments { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }

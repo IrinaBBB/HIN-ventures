@@ -11,41 +11,40 @@
             <MudText Typo="Typo.h5">@AssignmentModel.Title</MudText>
         </CardHeaderContent>
     </MudCardHeader>
-    
+
     <MudCardContent>
-        <MudText Typo="Typo.subtitle1">Category:</MudText>
+        <MudText Typo="Typo.subtitle2">Category:</MudText>
         <MudText>@AssignmentModel.Category</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-        <MudText Typo="Typo.subtitle1">Deadline:</MudText>
+        <MudText Typo="Typo.subtitle2">Deadline:</MudText>
         <MudText>@AssignmentModel.Deadline</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-        <MudText Typo="Typo.subtitle1">Description:</MudText>
+        <MudText Typo="Typo.subtitle2">Description:</MudText>
         <MudText>@AssignmentModel.Description</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-        <MudText Typo="Typo.subtitle1">Price:</MudText>
+        <MudText Typo="Typo.subtitle2">Price:</MudText>
         <MudText>@AssignmentModel.Price</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-        <MudText Typo="Typo.subtitle1">Who working on it:</MudText>
+        <MudText Typo="Typo.subtitle2">Who working on it:</MudText>
         <MudText>@AssignmentModel.Freelancer</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-        <MudText Typo="Typo.subtitle1">Code Files:</MudText>
-        @*@if (AssignmentModel.CodeFiles.Any())
+        <MudText Typo="Typo.subtitle2">Code Files:</MudText>
+        @if (Count != 0)
         {
             foreach (var codeFile in AssignmentModel.CodeFiles)
             {
                 <MudText>codeFile.CodeFileUrl</MudText>
-                <MudDivider DividerType="DividerType.Middle" Class="my-6" />
             }
-        }
-        else
+        }else
         {
-            <MudText>No records found</MudText>
-        }*@
+            <MudText>@GetNoDataString()</MudText>
+        }
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
     </MudCardContent>
     <MudCardActions>
         <MudButton Variant="Variant.Filled" Class="ml-auto" Link="assignments">Back To List</MudButton>
@@ -55,6 +54,7 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
+    public int Count { get; set; }
     private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
 
     protected override async Task OnInitializedAsync()
@@ -62,6 +62,10 @@
         if (Id != null)
         {
             AssignmentModel = await _assignmentRepository.GetAssignment(Id.Value);
+            if (AssignmentModel.CodeFiles.Count != 0)
+            {
+                Count = AssignmentModel.CodeFiles.Count;
+            }
         }
         else
         {
@@ -87,5 +91,10 @@
     private async Task TestFailureSwal()
     {
         await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
+    }
+
+    private string GetNoDataString()
+    {
+        return "-No codefiles registered on this assignment-";
     }
 }

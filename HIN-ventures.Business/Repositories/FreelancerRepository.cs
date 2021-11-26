@@ -75,10 +75,9 @@ namespace HIN_ventures.Business.Repositories
         {
             try
             {
-                IEnumerable<FreelancerDto> freelancerDtos =
-                    _mapper.Map<IEnumerable<Freelancer>, IEnumerable<FreelancerDto>>
+                IEnumerable<FreelancerDto> freelancerDtos = _mapper.Map<IEnumerable<Freelancer>, IEnumerable<FreelancerDto>>
                         (_db.Freelancers.Include(x => x.Assignments));
-                
+
                 return await Task.FromResult(freelancerDtos);
             }
             catch (Exception ex)
@@ -87,5 +86,26 @@ namespace HIN_ventures.Business.Repositories
                 return null;
             }
         }
+
+
+        public async Task<FreelancerDto> UpdateFreelancer(int freelancerId, FreelancerDto freelancerDto)
+        {
+            if (freelancerId != freelancerDto.FreelancerId) return null;
+           
+            var freelancerDetails = await _db.Freelancers.FindAsync(freelancerId);
+            var freelancer = _mapper.Map(freelancerDto, freelancerDetails);
+            
+            var updatedFreelancer = _db.Freelancers.Update(freelancer);
+            var result = _db.SaveChangesAsync().Result;
+            if (result == 1)
+            {
+                return _mapper.Map<Freelancer, FreelancerDto>(updatedFreelancer.Entity);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }
