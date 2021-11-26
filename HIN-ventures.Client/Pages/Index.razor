@@ -1,8 +1,10 @@
 ﻿@page "/"
 @using HIN_ventures.Client.wwwroot.Helper
+@using HIN_ventures.Client.Service.IService
 @inject ILocalStorageService localStorage
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
+@inject IAssignmentService _iAssignmentService 
 
 
 <EditForm Model="HomeModel" OnValidSubmit="SaveInitialData">
@@ -28,7 +30,7 @@
                     <h2 class="h4 text-center" style="text-transform: uppercase">Available Assignments</h2>
                     @foreach (var assignment in Assignments)
                     {
-                        <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem;">
+                        <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem; margin-right: 10px">
                             <div class="card-header">@assignment.Category</div>
                             <div class="card-body">
                                 <h4 class="card-title">@assignment.Title</h4>
@@ -72,34 +74,19 @@
     </div>
 </div>
 
-@code {
+
+@code{
+
+    public HomeVM HomeModel { get; set; } = new HomeVM();
+    public bool IsProcessing { get; set; } = false;
 
     public IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
 
     protected override async Task OnInitializedAsync()
     {
         await LoadAssignments();
-    }
 
-
-    private async Task LoadAssignments()
-    {
-        Assignments = await _iAssignmentService.GetAssignments();
-    }
-
-}
-
-
-
-@code{
-
-    public HomeVM HomeModel { get; set; } = new HomeVM();
-    //public IEnumerable<HotelAmenityDTO> HotelAmenities { get; set; } = new List<HotelAmenityDTO>();
-    public bool IsProcessing { get; set; } = false;
-    protected override async Task OnInitializedAsync()
-    {
         IsProcessing = true;
-        //    HotelAmenities = await hotelAmenityService.GetHotelAmenities();
         IsProcessing = false;
     }
 
@@ -117,6 +104,11 @@
         {
             await jsRuntime.ToastrError(e.Message);
         }
+    }
+
+    private async Task LoadAssignments()
+    {
+        Assignments = await _iAssignmentService.GetAssignments();
     }
 
 }
