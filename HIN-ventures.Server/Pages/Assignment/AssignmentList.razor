@@ -23,7 +23,11 @@
                                 }
                             </MudCardContent>
                             <MudCardActions>
-                                <MudButton Link="@($"assignment/details/{assignment.Id}")" Variant="Variant.Text" Color="Color.Primary">Details</MudButton>
+                                <NavLink class="nav-link" href="@($"assignment/details/{assignment.Id}")">
+                                    <span class="oi oi-list-rich" aria-hidden="true"></span> LearnMore
+                                </NavLink>
+                                <MudButton Link="freelancer" Variant="Variant.Text" Color="Color.Primary">Learn More </MudButton>
+                                <MudButton Link="@($"assignment/details/{assignment.Id}")" Variant="Variant.Text" Color="Color.Primary">@assignment.Id</MudButton>
                                 <MudButton Link="@($"assignment/edit/{assignment.Id}")" Variant="Variant.Text" Color="Color.Secondary">Edit</MudButton>
                             </MudCardActions>
                         </MudCard>
