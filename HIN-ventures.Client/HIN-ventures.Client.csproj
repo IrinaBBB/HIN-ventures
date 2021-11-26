@@ -5,6 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Helper\IJSRuntimeExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\Helper\IJSRuntimeExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="wwwroot\Helper\IJSRuntimeExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.12" PrivateAssets="all" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
