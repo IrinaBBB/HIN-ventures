@@ -24,6 +24,8 @@ namespace HIN_ventures.Models
         [Required]
         public DateTime? Deadline { get; set; }
 
+        public int? FreelancerId { get; set; }
+
         public Freelancer Freelancer { get; set; }
 
         public virtual ICollection<CodeFile> CodeFiles { get; set; }

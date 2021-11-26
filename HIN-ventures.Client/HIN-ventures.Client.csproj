@@ -24,11 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\ViewModel\" />
-    <Folder Include="Service\IService\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\HIN-ventures.Common\HIN-ventures.Common.csproj" />
     <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
   </ItemGroup>
 

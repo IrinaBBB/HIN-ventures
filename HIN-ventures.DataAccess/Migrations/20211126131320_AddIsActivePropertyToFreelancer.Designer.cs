@@ -3,14 +3,16 @@ using System;
 using HIN_ventures.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace HIN_ventures.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211126131320_AddIsActivePropertyToFreelancer")]
+    partial class AddIsActivePropertyToFreelancer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,15 +179,6 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<string>("CryptoAddress")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("SubscriptionType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalCost")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalLinesOfCode")
-                        .HasColumnType("int");
-
                     b.Property<string>("VAT_number")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -210,10 +203,7 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<int>("LinesOfCodeMonth")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Specialty")
+                    b.Property<string>("Speciality")
                         .HasColumnType("longtext");
 
                     b.Property<int>("TotalLinesOfCode")

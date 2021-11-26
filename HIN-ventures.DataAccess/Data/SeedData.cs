@@ -17,14 +17,14 @@ namespace HIN_ventures.DataAccess.Data
             {
                 Freelancer freelancer1 = new()
                 {
-                    Speciality = "Hacking",
+                    Specialty = "Hacking",
                     TotalLinesOfCode = 7722,
                     LinesOfCodeMonth = 2000
                 };
 
                 Freelancer freelancer2 = new()
                 {
-                    Speciality = "Machine Learning",
+                    Specialty = "Machine Learning",
                     TotalLinesOfCode = 11111,
                     LinesOfCodeMonth = 7777
                 };

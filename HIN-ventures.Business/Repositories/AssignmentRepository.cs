@@ -37,9 +37,17 @@ namespace HIN_ventures.Business.Repositories
             var assignment = _mapper.Map(assignmentDto, assignmentDetails);
             assignment.UpdatedDate = System.DateTime.Now;
             assignment.UpdatedBy = "";
+            
             var updatedAssignment = _context.Assignments.Update(assignment);
-            await _context.SaveChangesAsync();
-            return _mapper.Map<Assignment, AssignmentDto>(updatedAssignment.Entity);
+            var result = _context.SaveChangesAsync().Result;
+            if (result == 1)
+            {
+                return _mapper.Map<Assignment, AssignmentDto>(updatedAssignment.Entity);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<int> DeleteAssignment(int assignmentId)

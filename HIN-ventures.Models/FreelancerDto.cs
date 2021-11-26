@@ -11,20 +11,26 @@ namespace HIN_ventures.Models
 {
     public class FreelancerDto
     {
-        public int Id { get; set; }
+        public int FreelancerId { get; set; }
+        
         [Required(ErrorMessage = "Please enter your name")]
         public string Name { get; set; }
+        
         [Required]
-        public string Speciality { get; set; }
+        public string Specialty { get; set; }
 
         public int AverageRating{ get ; set ; }
 
         public int TotalLinesOfCode { get; set; }
+
         public string CryptoAddress { get; set; }
 
         public int LinesOfCodeMonth { get; set; }
 
+        public bool IsActive { get; set; } = false;
+
         public virtual ICollection<Assignment> Assignments { get; set; }
+      
         public virtual ICollection<Rating> Ratings { get; set; }
 
 
