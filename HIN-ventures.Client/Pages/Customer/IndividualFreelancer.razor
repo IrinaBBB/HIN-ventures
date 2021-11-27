@@ -1,0 +1,31 @@
+﻿<input type="text" @bind="@_message" />
+
+<button @onclick="ChangeMessage">Give a rating!</button>
+
+
+@code {
+ 
+    private string _message;
+
+    [Parameter]
+    public string Message {get; set;}
+       
+    [Parameter]
+    public EventCallback<string> OnClickCallback {get; set;}
+
+    [Parameter]
+    public FreelancerDto Freelancers { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnFreelancerSelection { get; set; }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickBtnMethod { get; set; }
+
+    
+    private async Task ChangeMessage()
+    {
+
+        await OnClickCallback.InvokeAsync(_message + $"{Freelancers.FreelancerId}");
+    }
+}
