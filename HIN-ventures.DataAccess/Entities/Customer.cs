@@ -13,6 +13,9 @@ namespace HIN_ventures.DataAccess.Entities
         [Key]
         public int CustomerId { get; set; }
 
+        [Required(ErrorMessage = "Please enter the company name")]
+        public string Name { get; set; }
+
         [Required(ErrorMessage = "Please enter the company's VAT number")]
         public string VAT_number { get; set; }
 

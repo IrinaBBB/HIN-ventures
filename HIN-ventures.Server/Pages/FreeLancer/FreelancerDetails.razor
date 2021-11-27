@@ -14,7 +14,17 @@
     </MudCardHeader>
     
     <MudCardContent>
-        <MudText Typo="Typo.subtitle2">FreelancerId:</MudText>
+        @if (@FreelancerModel.Ratings != null)
+        {
+            <MudRating SelectedValue="@GetAverage(@FreelancerModel.Ratings)" Size="Size.Medium" />
+        }
+        else
+        {
+            <MudRating SelectedValue="0" Size="Size.Medium" />
+        }
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Freelancer Id:</MudText>
         <MudText>@FreelancerModel.FreelancerId</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-3" />
 
@@ -22,29 +32,18 @@
         <MudText>@FreelancerModel.Specialty</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-3" />
 
-        <MudText Typo="Typo.subtitle2">LinesOfCodeMonth:</MudText>
+        <MudText Typo="Typo.subtitle2">Lines Of Code Month:</MudText>
         <MudText>@FreelancerModel.LinesOfCodeMonth</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-3" />
 
-        <MudText Typo="Typo.subtitle2">TotalLinesOfCode:</MudText>
+        <MudText Typo="Typo.subtitle2">Total Lines Of Code:</MudText>
         <MudText>@FreelancerModel.TotalLinesOfCode</MudText>
         <MudDivider DividerType="DividerType.Middle" Class="my-3" />
 
-        <MudText Typo="Typo.subtitle2">CryptoAddress:</MudText>
+        <MudText Typo="Typo.subtitle2">Crypto Address:</MudText>
         <MudText>@FreelancerModel.CryptoAddress</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
 
-        <MudText Typo="Typo.subtitle2">Rating:</MudText>
-        <MudText>
-            @if (CountRating != 0)
-            {
-                @GetAverage(@FreelancerModel.Ratings)
-            }
-            else
-            {
-                @GetNoDataString()
-            }
-        </MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
 
         <MudText Typo="Typo.subtitle2">Code Files:</MudText>

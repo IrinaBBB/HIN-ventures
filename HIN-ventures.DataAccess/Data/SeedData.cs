@@ -9,24 +9,52 @@ namespace HIN_ventures.DataAccess.Data
 {
     public static class SeedData
     {
-        
+
         public static void Initialize(ApplicationDbContext db)
         {
+            if (!db.Customers.Any())
+            {
+                Customer customer1 = new()
+                {
+                    Name = "Quick Applications",
+                    VAT_number = "ORG956121000",
+                    CryptoAddress = "TEST123123123123",
+                    SubscriptionType = 1,
+                    TotalLinesOfCode = 500,
+                    TotalCost = 24000,
+                };
 
-            if (!db.Freelancers.Any())
+                Customer customer2 = new()
+                {
+                    Name = "Brødrene Dahl",
+                    VAT_number = "ORG956121000",
+                    CryptoAddress = "TEST123123123123",
+                    SubscriptionType = 1,
+                    TotalLinesOfCode = 500,
+                    TotalCost = 52240,
+                };
+
+                var customers = new Customer[] { customer1, customer2 };
+                db.Customers.AddRange(customers);
+                db.SaveChanges();
+            }
+
+            if (!db.Freelancers.Any() && !db.Assignments.Any())
             {
                 Freelancer freelancer1 = new()
                 {
                     Specialty = "Hacking",
                     TotalLinesOfCode = 7722,
-                    LinesOfCodeMonth = 2000
+                    LinesOfCodeMonth = 2000,
+                    CryptoAddress = "TEST123123123123"
                 };
 
                 Freelancer freelancer2 = new()
                 {
                     Specialty = "Machine Learning",
                     TotalLinesOfCode = 11111,
-                    LinesOfCodeMonth = 7777
+                    LinesOfCodeMonth = 7777,
+                    CryptoAddress = "TEST123123123123"
                 };
 
                 ApplicationUser user1 = new()
@@ -34,7 +62,7 @@ namespace HIN_ventures.DataAccess.Data
                     FirstName = "Rasputin",
                     Email = "Rasputin@mail.com",
                     Freelancer = freelancer1,
-                   
+
                 };
 
                 ApplicationUser user2 = new()
@@ -44,10 +72,11 @@ namespace HIN_ventures.DataAccess.Data
                     Freelancer = freelancer2
                 };
 
-                if (!db.Assignments.Any())
+
+                List<Assignment> assignmentsList = new List<Assignment>();
+
+                ICollection<Assignment> assignments = new[]
                 {
-                    var assignments = new[]
-                    {
                     new Assignment
                     {
                         Title = "Api Task",
@@ -87,17 +116,20 @@ namespace HIN_ventures.DataAccess.Data
                     }
                 };
 
-                    db.Assignments.AddRange(assignments);
-                    db.SaveChanges();
+                db.Assignments.AddRange(assignments);
+                db.SaveChanges();
 
-
-                    freelancer1.Assignments = new List<Assignment> { assignments[0], assignments[1] };
-                    freelancer2.Assignments = new List<Assignment> { assignments[2], assignments[3] };
-
-                    var freelancers = new Freelancer[] { freelancer1, freelancer2 };
-                    db.Freelancers.AddRange(freelancers);
-                    db.SaveChanges();
+                foreach (var assignment in assignments)
+                {
+                    assignmentsList.Add(assignment);
                 }
+
+                freelancer1.Assignments = new List<Assignment> { assignmentsList[0], assignmentsList[1] };
+                freelancer2.Assignments = new List<Assignment> { assignmentsList[2], assignmentsList[3] };
+
+                var freelancers = new Freelancer[] { freelancer1, freelancer2 };
+                db.Freelancers.AddRange(freelancers);
+                db.SaveChanges();
             }
         }
     }

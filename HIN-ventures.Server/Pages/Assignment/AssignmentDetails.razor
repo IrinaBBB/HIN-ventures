@@ -1,6 +1,7 @@
 ﻿@page "/assignment/details/{Id:int}"
 @using HIN_ventures.Models
 @using HIN_ventures.Business.Repositories.IRepositories
+@using HIN_ventures.DataAccess.Entities
 @inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
@@ -30,17 +31,26 @@
         <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
         <MudText Typo="Typo.subtitle2">Who working on it:</MudText>
-        <MudText>@AssignmentModel.Freelancer.Name</MudText>
+        @*@if (CountFreelancer != 0)*@
+        @if (AssignmentModel.Freelancer != null)
+        {
+            <MudText>@AssignmentModel.Freelancer.Name</MudText>
+        }
+        else
+        {
+            <MudText>@GetNoDataString()</MudText>
+        }
         <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
         <MudText Typo="Typo.subtitle2">Code Files:</MudText>
-        @if (Count != 0)
+        @if (CountCodeFiles != 0)
         {
             foreach (var codeFile in AssignmentModel.CodeFiles)
             {
                 <MudText>codeFile.CodeFileUrl</MudText>
             }
-        }else
+        }
+        else
         {
             <MudText>@GetNoDataString()</MudText>
         }
@@ -54,7 +64,8 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
-    public int Count { get; set; }
+    public int CountCodeFiles { get; set; }
+    public int CountFreelancer { get; set; }
     private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
 
     protected override async Task OnInitializedAsync()
@@ -64,13 +75,23 @@
             AssignmentModel = await _assignmentRepository.GetAssignment(Id.Value);
             if (AssignmentModel.CodeFiles.Count != 0)
             {
-                Count = AssignmentModel.CodeFiles.Count;
+                CountCodeFiles = AssignmentModel.CodeFiles.Count;
+            }
+            if (AssignmentModel.Freelancer != null)
+            {
+                CountFreelancer = 1;
             }
         }
         else
         {
             AssignmentModel = new AssignmentDto();
         }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
     }
 
     private async Task TestSuccess()
@@ -95,6 +116,6 @@
 
     private string GetNoDataString()
     {
-        return "-No codefiles registered on this assignment-";
+        return "No data of this kind...";
     }
 }

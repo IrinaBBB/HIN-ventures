@@ -76,8 +76,9 @@ namespace HIN_ventures.Business.Repositories
             try
             {
                 IEnumerable<FreelancerDto> freelancerDtos = _mapper.Map<IEnumerable<Freelancer>, IEnumerable<FreelancerDto>>
-                        (_db.Freelancers.Include(x => x.Assignments));
-
+                        (_db.Freelancers
+                            .Include(x => x.Assignments)
+                            .OrderBy(x => x.TotalLinesOfCode));
                 return await Task.FromResult(freelancerDtos);
             }
             catch (Exception ex)
@@ -86,7 +87,6 @@ namespace HIN_ventures.Business.Repositories
                 return null;
             }
         }
-
 
         public async Task<FreelancerDto> UpdateFreelancer(int freelancerId, FreelancerDto freelancerDto)
         {

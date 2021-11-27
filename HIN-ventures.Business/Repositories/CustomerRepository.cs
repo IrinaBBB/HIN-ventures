@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HIN_ventures.Business.Repositories
 {
-    class CustomerRepository : ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly ApplicationDbContext _db;
         private readonly IMapper _mapper;
@@ -53,6 +53,7 @@ namespace HIN_ventures.Business.Repositories
                         (_db.Customers
                             .Include(x => x.Assignments)
                             .Include(x => x.Ratings)
+                            .OrderBy(x=>x.TotalCost)
                         );
 
                 return await Task.FromResult(customerDtos);
@@ -83,8 +84,9 @@ namespace HIN_ventures.Business.Repositories
             }
         }
 
-        public async Task<CustomerDto> UpdateCustomer(CustomerDto customerDto)
+        public async Task<CustomerDto> UpdateCustomer(int customerId, CustomerDto customerDto)
         {
+            if (customerId != customerDto.CustomerId) return null;
             var customer = _mapper.Map<CustomerDto, Customer>(customerDto);
 
             var customerToUpdate = _db.Customers.Update(customer);

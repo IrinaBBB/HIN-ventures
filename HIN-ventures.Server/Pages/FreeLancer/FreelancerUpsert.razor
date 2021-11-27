@@ -11,23 +11,23 @@
 <MudCard>
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.h4">@Title a new freelancer</MudText>
+            <MudText Typo="Typo.h4">@Title freelancer</MudText>
         </CardHeaderContent>
     </MudCardHeader>
 
     <MudCardContent>
         <MudForm>
-            <MudTextField Label="Title"
+            <MudTextField Label="Name"
                           @bind-Value="@FreelancerModel.Name"
                           HelperText="Name is required!"
                           Required="true"
                           RequiredError="Name is required!" />
-            <MudTextField Label="Category"
+            <MudTextField Label="Specialty"
                           @bind-Value="@FreelancerModel.Specialty"
                           HelperText="Your specialty, e.g. FrontEnd, BackEnd, Java, Mobilprogramming etc."
                           Required="true"
                           RequiredError="Specialty is required!" />
-            <MudTextField Label="CryptoAddress"
+            <MudTextField Label="Crypto Address"
                           @bind-Value="@FreelancerModel.CryptoAddress"
                           HelperText="CryptoAddress for you to get payments."
                           Required="true"
