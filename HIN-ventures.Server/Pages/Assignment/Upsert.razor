@@ -52,7 +52,6 @@
             <MudTextField Label="Freelancer"
                           @bind-Value="@AssignmentModel.FreelancerId"
                           HelperText="Id of the freelancer who working on this assignment."
-                          Required="true"
                           RequiredError="Description is required!">
             </MudTextField>
       
@@ -96,13 +95,15 @@
         {
             var updateAssignmentResult = 
                 await _assignmentRepository.UpdateAssignment(AssignmentModel.Id, AssignmentModel);
-            await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.Title} Updated Successfully.");
+            //TODO feil på toastere
+            //await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.Title} Updated Successfully.");
         }
         else
         {
             var createdAssignment = 
                 await _assignmentRepository.CreateAssignment(AssignmentModel);
-            await _jsRuntime.ToastrSuccess($"{createdAssignment.Title} Updated Successfully.");
+            //TODO
+            //await _jsRuntime.ToastrSuccess($"{createdAssignment.Title} Updated Successfully.");
         }
         _navigationManager.NavigateTo("assignments");
 

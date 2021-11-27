@@ -5,9 +5,11 @@
 @inject NavigationManager _navigationManager
 
 <div class="mt-2">
-    <div class="row col-12">
+    <div class="ml-1 mb-5">
         <MudText Typo="Typo.h4" Align="Align.Center">Assignments</MudText>
-
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-5"/>
+    </div>
+    <div class="col-12">
         <MudGrid Spacing="2" Justify="Justify.Center">
             @if (Assignments.Any())
             {
@@ -26,7 +28,11 @@
                                 <NavLink class="nav-link" href="@($"assignment/details/{assignment.Id}")">
                                     <span class="oi oi-list-rich" aria-hidden="true"></span> Details
                                 </NavLink>
-                                <MudButton Link="@($"assignment/edit/{assignment.Id}")" Variant="Variant.Text" Color="Color.Secondary">Edit</MudButton>
+                                <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Edit"
+                                           Color="Color.Info" Link="@($"assignment/edit/{assignment.Id}")">Edit</MudButton>
+
+                                <MudButton Variant="Variant.Text" StartIcon="@Icons.Material.Filled.Delete"
+                                           Color="Color.Error" Link="@($"assignment/delete/{assignment.Id}")">Delete</MudButton>
                             </MudCardActions>
                         </MudCard>
                     </MudItem>
@@ -37,7 +43,6 @@
                 <div>No records found</div>
             }
         </MudGrid>
-        
     </div>
     <MudFab Link="/assignment/create" Class="fab-button" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" aria-label="add" />
 </div>

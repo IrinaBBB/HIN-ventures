@@ -7,30 +7,39 @@
 @inject IFreelancerRepository _freelancerRepository
 @inject IJSRuntime _jsRuntime
 @inject NavigationManager _navigationManager
+@inject IDialogService _dialogService
 
-<MudText Typo="Typo.h4" Align="Align.Left">Freelancers</MudText>
-
-<MudTable Items="@Freelancers" Hover="true" SortLabel="Sort By">
-    <HeaderContent>
-        <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x=>x.FreelancerId)">FreelancerId</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Descending" SortBy="new Func<FreelancerDto, object>(x=>x.LinesOfCodeMonth)">LinesOfCodeMonth</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x=>x.TotalLinesOfCode)">TotalLinesOfCode</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x=>x.CryptoAddress)">CryptoAddress</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x=>x.Specialty)">Specialty</MudTableSortLabel></MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="FreelancerId">@context.FreelancerId</MudTd>
-        <MudTd DataLabel="Sign">@context.Name</MudTd>
-        <MudTd DataLabel="Name">@context.LinesOfCodeMonth</MudTd>
-        <MudTd DataLabel="Position">@context.TotalLinesOfCode</MudTd>
-        <MudTd DataLabel="Molar mass">@context.CryptoAddress</MudTd>
-        <MudTd DataLabel="Molar mass">@context.Specialty</MudTd>
-    </RowTemplate>
-    <PagerContent>
-        <MudTablePager PageSizeOptions="new int[]{50, 100}" />
-    </PagerContent>
-</MudTable>
+<div class="mt-2">
+    <div class="ml-1 mb-5">
+        <MudText Typo="Typo.h4" Align="Align.Left">Freelancers</MudText>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-5" />
+    </div>
+    <div class="col-12" align="left">
+        <MudTable @ref="@_table" Items="@Freelancers" Hover="true" SortLabel="Sort By" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
+            <HeaderContent>
+                <MudTh><MudTableSortLabel InitialDirection="SortDirection.Descending" SortBy="new Func<FreelancerDto, object>(x=>x.LinesOfCodeMonth)">Lines Of Code This Month</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.TotalLinesOfCode)">Total Lines Of Code</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.FreelancerId)">Freelancer Id</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.Name)">Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.Specialty)">Specialty</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.CryptoAddress)">CryptoAddress</MudTableSortLabel></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Name">@context.LinesOfCodeMonth</MudTd>
+                <MudTd DataLabel="Position">@context.TotalLinesOfCode</MudTd>
+                <MudTd DataLabel="FreelancerId">@context.FreelancerId</MudTd>
+                <MudTd DataLabel="Sign">@context.Name</MudTd>
+                <MudTd DataLabel="Molar mass">@context.Specialty</MudTd>
+                <MudTd DataLabel="Molar mass">@context.CryptoAddress</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudPagination SelectedChanged="PageChanged" ShowFirstButton="enabled" ShowLastButton="enabled"
+                               Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
+            </PagerContent>
+        </MudTable>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-5" />
+    </div>
+</div>
 
 <div class="mt-2">
     <div class="row col-12">
@@ -84,7 +93,8 @@
                                 <NavLink class="nav-link" href="@($"freelancer/details/{freelancer.FreelancerId}")">
                                     <span class="oi oi-list-rich" aria-hidden="true"></span> Details
                                 </NavLink>
-                                <MudButton Link="@($"/freelancer/edit/{freelancer.FreelancerId}")" Variant="Variant.Text" Color="Color.Secondary">Edit</MudButton>
+                                <MudButton Link="@($"/freelancer/edit/{freelancer.FreelancerId}")" Variant="Variant.Text" Color="Color.Info">Edit</MudButton>
+                                <MudButton OnClick="@(async () => await DeleteFreelancer(freelancer.FreelancerId))" Variant="Variant.Text" Color="Color.Error">Delete</MudButton>
                             </MudCardActions>
 
                         </MudCard>
@@ -102,7 +112,9 @@
 </div>
 
 @code {
+    private int _selected = 1;
     private bool enabled = true;
+    private MudTable<FreelancerDto> _table;
     private int ratingAverage;
     private int ratingAverageCount;
     private int ratingSize;
@@ -112,6 +124,12 @@
     protected override async Task OnInitializedAsync()
     {
         Freelancers = await _freelancerRepository.GetAllFreelancers();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
     }
 
     private int GetAverage(IEnumerable<Rating> Ratings)
@@ -136,9 +154,42 @@
 
     }
 
+    private async Task DeleteFreelancer(int id)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete the freelancer? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete Freelancer");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+        var dialogResult = await _dialogService.Show<Delete_Dialog>("Delete", parameters, options).Result;
+        if (dialogResult.Data != null)
+        {
+            var freelancerToDelete = await _freelancerRepository.GetFreelancer(id);
+            var result = await _freelancerRepository.DeleteFreelancer(id);
+            if (result == 1)
+            {
+                await _jsRuntime.ToastrSuccess($"{freelancerToDelete.Name} Deleted Successfully.");
+            }
+            else
+            {
+                await _jsRuntime.ToastrError($"Failed To Delete {freelancerToDelete.Name}.");
+            }
+            _navigationManager.NavigateTo("freelancers", forceLoad:true);
+        } else
+        {
+            _navigationManager.NavigateTo("freelancers", forceLoad: true);
+        }
+    }
+
     private string GetNoDataString()
     {
         return "No ratings set";
+    }
+
+    private void PageChanged(int i)
+    {
+        _table.NavigateTo(i - 1);
     }
 
 }
