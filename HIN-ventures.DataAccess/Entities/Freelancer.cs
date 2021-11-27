@@ -19,6 +19,8 @@ namespace HIN_ventures.DataAccess.Entities
 
         public int LinesOfCodeMonth{ get; set; }
 
+        public bool IsActive { get; set; }
+
         public virtual ICollection<Assignment> Assignments { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }

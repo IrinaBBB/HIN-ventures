@@ -204,6 +204,9 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<string>("CryptoAddress")
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<int>("LinesOfCodeMonth")
                         .HasColumnType("int");
 

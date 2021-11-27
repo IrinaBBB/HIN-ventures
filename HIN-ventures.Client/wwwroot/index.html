@@ -7,22 +7,29 @@
     <title>HIN-ventures.Client</title>
     <base href="/"/>
     <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <link href="lib/limonte-sweetalert2/sweetalert2.css" rel="stylesheet"/>
     <link href="lib/bootswatch/superhero/bootstrap.css" rel="stylesheet"/>
-    <link href="css/app.css" rel="stylesheet"/>
-    <link href="HIN-ventures.Client.styles.css" rel="stylesheet"/>
+
+
 </head>
 
 <body>
-<div id="app">Loading...</div>
+<div id="app">
+    <div style="position: fixed; top: 50%; left: 50%; margin-top: -50px; margin-left: -100px;">
+        <img src="images/ajax-loader.gif"/>
+    </div>
+</div>
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+<script src="https://js.stripe.com/v3/" defer></script>
 <script src="_framework/blazor.webassembly.js"></script>
 <script src="/lib/jquery/dist/jquery.js"></script>
 <script src="/lib/toastr.js/toastr.min.js"></script>
 <script src="/lib/limonte-sweetalert2/sweetalert2.all.min.js"></script>
-<script src="/js/common.js"></script>S
+<script src="/js/common.js"></script>
 </body>
