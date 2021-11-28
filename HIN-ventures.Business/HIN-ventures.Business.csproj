@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HIN-ventures.Common\HIN-ventures.Common.csproj" />
     <ProjectReference Include="..\HIN-ventures.DataAccess\HIN-ventures.DataAccess.csproj" />
     <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
   </ItemGroup>

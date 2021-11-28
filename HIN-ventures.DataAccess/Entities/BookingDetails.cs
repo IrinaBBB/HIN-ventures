@@ -17,8 +17,10 @@ namespace HIN_ventures.DataAccess.Entities
         [ForeignKey("FreelancerId")]
         [Required] public int FreelancerId; //the freelancer customer is hiring
 
-        //nav property
+        //nav properties
         public Freelancer Freelancer { get; set; } //kan bare booke en frilanser om gangen
+
+        public Assignment Assignment { get; set; } //må opprette en ny assignment
 
         //additional info on the customer who is booking
         [Required] public string Name { get; set; }

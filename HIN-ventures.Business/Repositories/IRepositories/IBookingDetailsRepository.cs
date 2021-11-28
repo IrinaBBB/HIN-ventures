@@ -10,9 +10,9 @@ namespace HIN_ventures.Business.Repositories.IRepositories
     public interface IBookingDetailsRepository
     {
         public Task<BookingDetailsDto> Create(BookingDetailsDto details);
-        public Task<BookingDetailsDto> GetRoomOrderDetail(int roomOrderId);
-        public Task<IEnumerable<BookingDetailsDto>> GetAllRoomOrderDetails();
-        public Task<bool> UpdateOrderStatus(int OrderId, string status);
+        public Task<BookingDetailsDto> GetFreelancerOrderDetail(int orderId);
+        public Task<IEnumerable<BookingDetailsDto>> GetBookingDetails();
+        public Task<bool> UpdateOrderStatus(int orderId, string status);
 
     }
 }

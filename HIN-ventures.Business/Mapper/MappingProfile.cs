@@ -17,6 +17,10 @@ namespace HIN_ventures.Business.Mapper
 
             CreateMap<CustomerDto, Customer>();
             CreateMap<Customer, CustomerDto>();
+
+            CreateMap<BookingDetails, BookingDetailsDto>()
+                .ReverseMap(); //.ForMember(x => x.CustomerDTO, opt => opt.MapFrom(c => c.Customer));
+
         }
     }
 }
