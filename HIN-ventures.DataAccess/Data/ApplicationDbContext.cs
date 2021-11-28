@@ -17,8 +17,7 @@ namespace HIN_ventures.DataAccess.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Freelancer> Freelancers { get; set; }
         public DbSet<Rating> Ratings { get; set; }
-
-
+        public DbSet<BookingDetails> BookingDetails { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder modelBuilder)
         //{

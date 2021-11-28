@@ -13,11 +13,11 @@ namespace HIN_ventures.DataAccess.Entities
 
         public string Specialty { get; set; }
 
-        public int TotalLinesOfCode{ get; set; }
+        public int TotalLinesOfCode{ get; set; } //kalkulasjon, hører hjemme i DTO 
 
         public string CryptoAddress { get; set; }
 
-        public int LinesOfCodeMonth{ get; set; }
+        public int LinesOfCodeMonth{ get; set; } //kalkulasjon, hører hjemme i DTO
 
         public bool IsActive { get; set; }
 
