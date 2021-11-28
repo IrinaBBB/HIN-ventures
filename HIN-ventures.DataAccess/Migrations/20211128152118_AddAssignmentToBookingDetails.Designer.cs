@@ -151,7 +151,7 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.ToTable("Assignments");
                 });
 
-            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.BookingDetails", b =>
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.AssignmentOrderDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -188,7 +188,7 @@ namespace HIN_ventures.DataAccess.Migrations
 
                     b.HasIndex("FreelancerId1");
 
-                    b.ToTable("BookingDetails");
+                    b.ToTable("AssignmentOrderDetails");
                 });
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.CodeFile", b =>
@@ -450,7 +450,7 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Navigation("Freelancer");
                 });
 
-            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.BookingDetails", b =>
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.AssignmentOrderDetails", b =>
                 {
                     b.HasOne("HIN_ventures.DataAccess.Entities.Assignment", "Assignment")
                         .WithMany()

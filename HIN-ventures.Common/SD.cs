@@ -18,7 +18,7 @@ namespace HIN_ventures.Common
         public const string ApiKey = "9da8-f106-e0c7-e733"; //API key for dogecoin on BlockIO testnet
         public const string Pin = "H5sbN8Ra34KjgaTFEBcN"; //Accessing BlockIO
 
-        public const string Local_RoomOrderDetails = "RoomOrderDetails";
+        public const string Local_OrderDetails = "RoomOrderDetails";
         public const string Local_Token = "JWT Token";
         public const string Local_UserDetails = "User Details";
 

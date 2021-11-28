@@ -8,18 +8,18 @@ namespace HIN_ventures.DataAccess.Migrations
         {
             migrationBuilder.AddColumn<int>(
                 name: "AssignmentId",
-                table: "BookingDetails",
+                table: "AssignmentOrderDetails",
                 type: "int",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookingDetails_AssignmentId",
-                table: "BookingDetails",
+                table: "AssignmentOrderDetails",
                 column: "AssignmentId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_BookingDetails_Assignments_AssignmentId",
-                table: "BookingDetails",
+                table: "AssignmentOrderDetails",
                 column: "AssignmentId",
                 principalTable: "Assignments",
                 principalColumn: "Id",
@@ -30,15 +30,15 @@ namespace HIN_ventures.DataAccess.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_BookingDetails_Assignments_AssignmentId",
-                table: "BookingDetails");
+                table: "AssignmentOrderDetails");
 
             migrationBuilder.DropIndex(
                 name: "IX_BookingDetails_AssignmentId",
-                table: "BookingDetails");
+                table: "AssignmentOrderDetails");
 
             migrationBuilder.DropColumn(
                 name: "AssignmentId",
-                table: "BookingDetails");
+                table: "AssignmentOrderDetails");
         }
     }
 }

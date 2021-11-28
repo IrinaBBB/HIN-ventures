@@ -10,6 +10,6 @@ namespace HIN_ventures_Client.Service.IService
     {
         public Task<IEnumerable<FreelancerDto>> GetFreelancers(); //no checkin and checkout date as in video 139
 
-        public Task<IEnumerable<FreelancerDto>> GetFreelancerDetails(int freelancerId); //no checkin and checkout date as in video 139
+        public Task<FreelancerDto> GetFreelancer(int freelancerId); //no checkin and checkout date as in video 139
     }
 }

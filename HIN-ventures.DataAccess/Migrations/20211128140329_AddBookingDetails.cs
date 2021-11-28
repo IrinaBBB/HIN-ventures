@@ -8,7 +8,7 @@ namespace HIN_ventures.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BookingDetails",
+                name: "AssignmentOrderDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -39,14 +39,14 @@ namespace HIN_ventures.DataAccess.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_BookingDetails_FreelancerId1",
-                table: "BookingDetails",
+                table: "AssignmentOrderDetails",
                 column: "FreelancerId1");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BookingDetails");
+                name: "AssignmentOrderDetails");
         }
     }
 }

@@ -98,7 +98,7 @@
             HomeModel.EndDate = HomeModel.StartDate.AddDays(HomeModel.NoOfNights);
 
             await localStorage.SetItemAsync(SD.Local_InitialBooking, HomeModel); //SD.Local_InitialBooking
-            navigationManager.NavigateTo("/customer/requestfreelancer", true);
+            navigationManager.NavigateTo($"customer/createassignment/1", true);
         }
         catch (Exception e)
         {

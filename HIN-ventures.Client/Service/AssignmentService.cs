@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,7 +28,20 @@ namespace HIN_ventures.Client.Service
 
         public async Task<AssignmentDto> GetAssignment(int assignmentId)
         {
-            throw new System.NotImplementedException();
+            var response = await _client.GetAsync($"api/assignment/{assignmentId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var assignment = JsonConvert.DeserializeObject<AssignmentDto>(content);
+                return assignment;
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(content);
+                throw new Exception(errorModel.ErrorMessage);
+            }
+
         }
     }
 }

@@ -25,6 +25,7 @@ namespace HIN_ventures.Client
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddScoped<IAssignmentService, AssignmentService>();
             builder.Services.AddScoped<IFreelancerService, FreelancerService>();
+            builder.Services.AddScoped<IBookingDetailsService, BookingDetailsService>();
 
             await builder.Build().RunAsync();
         }

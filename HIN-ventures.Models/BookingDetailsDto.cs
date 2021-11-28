@@ -17,9 +17,9 @@ namespace HIN_ventures.Models
 
         [Required] public int FreelancerId; //the freelancer customer is hiring
 
-        public Freelancer Freelancer { get; set; } //kan bare booke en frilanser om gangen
+        public FreelancerDto FreelancerDto { get; set; } //kan bare booke en frilanser om gangen
 
-        public Assignment Assignment { get; set; } //assignment som frilanseren skal bookes til
+        public Assignment AssignmentDto { get; set; } //assignment som frilanseren skal bookes til
 
         //additional info on the customer who is booking
         [Required] public string Name { get; set; }

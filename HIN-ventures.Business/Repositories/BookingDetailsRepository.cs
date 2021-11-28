@@ -27,8 +27,8 @@ namespace HIN_ventures.Business.Repositories
         {
             try
             {
-                details.FreelancerId = details.Freelancer.FreelancerId;
-                details.Freelancer = await _db.Freelancers.FindAsync(details.FreelancerId);
+                details.FreelancerId = details.FreelancerDto.FreelancerId;
+                details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerId);
                 var freelancerOrder = _mapper.Map<BookingDetailsDto, BookingDetails>(details);
                 freelancerOrder.OrderStatus = SD.Status_Pending;
                 
@@ -78,11 +78,16 @@ namespace HIN_ventures.Business.Repositories
             }
         }
 
+        public Task<bool> UpdateOrderStatus(int orderId, string status)
+        {
+            throw new NotImplementedException();
+        }
+
 
 
         //public async Task<BookingDetailsDto> MarkPaymentSuccessful(int id)
         //{
-        //    var data = await _db.BookingDetails.FindAsync(id);
+        //    var data = await _db.AssignmentOrderDetails.FindAsync(id);
         //    if (data == null)
         //    {
         //        return null;
@@ -91,38 +96,38 @@ namespace HIN_ventures.Business.Repositories
         //    {
         //        data.IsPaymentSuccessful = true;
         //        data.OrderStatus = SD.Status_Booked;
-        //        var markPaymentSuccessful = _db.BookingDetails.Update(data);
+        //        var markPaymentSuccessful = _db.AssignmentOrderDetails.Update(data);
         //        await _db.SaveChangesAsync();
-        //        return _mapper.Map<BookingDetails, BookingDetailsDto>(markPaymentSuccessful.Entity);
+        //        return _mapper.Map<AssignmentOrderDetails, BookingDetailsDto>(markPaymentSuccessful.Entity);
         //    }
         //    return new BookingDetailsDto();
         //}
 
-        public async Task<bool> UpdateOrderStatus(int RoomOrderId, string status)
-        {
-            try
-            {
-                var roomOrder = await _db.BookingDetails.FirstOrDefaultAsync(u => u.Id == RoomOrderId);
-                if (roomOrder == null)
-                {
-                    return false;
-                }
-                roomOrder.OrderStatus = status;
-                if (status == SD.Status_Booked)
-                {
-                    //roomOrder.ActualCheckInDate = DateTime.Now;
-                }
-                if (status == SD.Status_Assignment_Completed)
-                {
-                    //roomOrder.ActualCheckOutDate = DateTime.Now;
-                }
-                await _db.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
-        }
+        //public async Task<bool> UpdateOrderStatus(int RoomOrderId, string status)
+        //{
+        //    try
+        //    {
+        //        var roomOrder = await _db.AssignmentOrderDetails.FirstOrDefaultAsync(u => u.Id == RoomOrderId);
+        //        if (roomOrder == null)
+        //        {
+        //            return false;
+        //        }
+        //        roomOrder.OrderStatus = status;
+        //        if (status == SD.Status_Booked)
+        //        {
+        //            //roomOrder.ActualCheckInDate = DateTime.Now;
+        //        }
+        //        if (status == SD.Status_Assignment_Completed)
+        //        {
+        //            //roomOrder.ActualCheckOutDate = DateTime.Now;
+        //        }
+        //        await _db.SaveChangesAsync();
+        //        return true;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return false;
+        //    }
+        //}
     }
 }
