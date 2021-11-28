@@ -42,8 +42,8 @@ namespace HIN_ventures_Api.Controllers
                 });
             }
 
-            var roomDetails = await _freelancerRepository.GetFreelancer(freelancerId);
-            if (roomDetails == null)
+            var frelancerDetails = await _freelancerRepository.GetFreelancer(freelancerId);
+            if (frelancerDetails == null)
             {
                 return BadRequest(new ErrorModel()
                 {
@@ -53,7 +53,7 @@ namespace HIN_ventures_Api.Controllers
                 });
             }
 
-            return Ok(roomDetails);
+            return Ok(frelancerDetails);
 
         }
     }
