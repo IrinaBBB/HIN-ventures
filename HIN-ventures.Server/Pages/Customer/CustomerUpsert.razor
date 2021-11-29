@@ -3,7 +3,7 @@
 @inject ICustomerRepository _customerRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
-@attribute [Authorize(Roles = Common.SD.Role_Admin)]
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 
 
 <MudCard>
@@ -81,7 +81,7 @@
     protected override async Task OnInitializedAsync()
     {
         var authenticationState = await AuthenticationState;
-        if (!authenticationState.User.IsInRole(Common.SD.Role_Admin))
+        if (!authenticationState.User.IsInRole(Common.SD.RoleAdmin))
         {
             var uri = new Uri(_navigationManager.Uri);
             _navigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");

@@ -8,19 +8,19 @@ namespace HIN_ventures.Common
 {
     public static class SD
     {
-        public const string Role_Admin = "Admin";
+        public const string RoleAdmin = "Admin";
         public const string Role_Customer = "Customer";
         public const string Role_Freelancer = "Freelancer";
 
-        public const string Local_InitialBooking = "InitialFreelancerBookingInfo";
+        public const string Local_InitialBooking = "InitialAssignmentBookingInfo";
 
         public const string HinCryptoAddress = "2N1spDd7mDaBfHbCRKGq9p28BwBo2XjmrEF"; // Dogecoin (TESTNET!) address
         public const string ApiKey = "9da8-f106-e0c7-e733"; //API key for dogecoin on BlockIO testnet
         public const string Pin = "H5sbN8Ra34KjgaTFEBcN"; //Accessing BlockIO
 
-        public const string Local_OrderDetails = "RoomOrderDetails";
+        public const string Local_OrderDetails = "AssignmentOrderDetails";
         public const string Local_Token = "JWT Token";
-        public const string Local_UserDetails = "User Details";
+        public const string LocalUserDetails = "User Details";
 
 
         public const string Status_Pending = "Pending";

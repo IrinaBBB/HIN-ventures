@@ -39,9 +39,9 @@ namespace HIN_ventures.Server.Service
 
             }
 
-            if (_db.Roles.Any(x => x.Name == SD.Role_Admin)) return;
+            if (_db.Roles.Any(x => x.Name == SD.RoleAdmin)) return;
 
-            _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
+            _roleManager.CreateAsync(new IdentityRole(SD.RoleAdmin)).GetAwaiter().GetResult();
             _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
             _roleManager.CreateAsync(new IdentityRole(SD.Role_Freelancer)).GetAwaiter().GetResult();
 
@@ -53,7 +53,7 @@ namespace HIN_ventures.Server.Service
             }, "Admin123*").GetAwaiter().GetResult();
 
             ApplicationUser user = _db.Users.FirstOrDefault(u => u.Email == "admin@gmail.com");
-            _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
+            _userManager.AddToRoleAsync(user, SD.RoleAdmin).GetAwaiter().GetResult();
 
         }
     }
