@@ -5,6 +5,7 @@
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
 @inject IAssignmentService _iAssignmentService 
+@inject IFreelancerService _iFreelancerService 
 
 
 <EditForm Model="HomeModel" OnValidSubmit="SaveInitialData">
@@ -45,30 +46,20 @@
         </div>
         <div class="col-md-3 p-3">
             <h2 class="h4 text-center" style="text-transform: uppercase">Freelancers</h2>
-            <div class="card text-white bg-light mb-3 mr-3" style="max-width: 20rem;">
-                <div class="card-header">Header</div>
-                <div class="card-body">
-                    <h4 class="card-title">Dark card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a class="btn btn-outline-success card-link">Learn More...</a>
+            @foreach (var freelancer in Freelancers)
+            {
+                <div class="card text-white bg-light mb-3 mr-3" style="max-width: 20rem;">
+                    <div class="card-header">@freelancer.Specialty</div>
+                    <div class="card-body p-0">
+                        <div class="card-body freelancer-info">
+                            <h4 class="card-title">@freelancer.Name</h4>
+                            <img class="freelancer-image" src=@($"images/coder{freelancer.FreelancerId}.png")/>
+                        </div>
+                        <a class="btn btn-success card-link m-3">Learn More...</a>
+                    </div>
                 </div>
-            </div>
-            <div class="card text-white bg-light mb-3 mr-3" style="max-width: 20rem;">
-                <div class="card-header">Header</div>
-                <div class="card-body">
-                    <h4 class="card-title">Dark card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a class="btn btn-outline-success card-link">Learn More...</a>
-                </div>
-            </div>
-            <div class="card text-white bg-light mb-3 mr-3" style="max-width: 20rem;">
-                <div class="card-header">Header</div>
-                <div class="card-body">
-                    <h4 class="card-title">Dark card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <a class="btn btn-outline-success card-link">Learn More...</a>
-                </div>
-            </div>
+                
+            }
             <a class="btn btn-outline-warning col-12 mt-3">Get More Freelancers...</a>
         </div>
     </div>
@@ -81,6 +72,7 @@
     public bool IsProcessing { get; set; } = false;
 
     public IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
+    public IEnumerable<FreelancerDto> Freelancers { get; set; } = new List<FreelancerDto>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -109,6 +101,7 @@
     private async Task LoadAssignments()
     {
         Assignments = await _iAssignmentService.GetAssignments();
+        Freelancers = await _iFreelancerService.GetFreelancers();
     }
 
 }
