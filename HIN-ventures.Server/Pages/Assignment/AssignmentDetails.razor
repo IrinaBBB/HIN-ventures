@@ -64,7 +64,9 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
+    //[CascadingParameter]
     public int CountCodeFiles { get; set; }
+    //[CascadingParameter]
     public int CountFreelancer { get; set; }
     private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
 

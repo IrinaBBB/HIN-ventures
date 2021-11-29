@@ -1,4 +1,5 @@
 ﻿@page "/customer/requestfreelancer"
+@using MudBlazor
 @inject ILocalStorageService localStorage
 @inject IJSRuntime jsRuntime
 @inject IFreelancerService freelancerService
@@ -59,22 +60,25 @@
                         <div class="col-12 col-lg-4">
                             <div class="row pb-3 pt-2">
                                 <div class="col-1 col-lg-11 offset-lg-1">
-
                                     <a href="@($"customer/createassignment/{freelancer.FreelancerId}")" class="btn btn-success btn-block">Book</a>
-
                                 </div>
                             </div>
                             <div class="row ">
+                                <MudCard>
+                                    <MudCardContent>
+                                        <MudRating SelectedValue="@freelancer.AverageRating" Size="Size.Small"/>
+                                    </MudCardContent>
+                                </MudCard>
                                 <div class="col-12 pb-1">
-                                    <h4 class="text-warning font-weight-bold pt-4">Price <span style="border-bottom:1px solid #ff6a00">?</span></h4>
+                                    <h4 class="text-warning font-weight-bold pt-4">Price <span style="border-bottom: 1px solid #ff6a00">?</span></h4>
+
                                     <span class="float-right">
-                                        <span class="float-right">Current rating : @freelancer.AverageRating </span><br />
-                                        <span class="float-right pt-1">Lines of Code pr. month : @freelancer.LinesOfCodeMonth</span><br />
+                                        @*<span class="float-right">Current rating : @freelancer.AverageRating </span><br />*@
+                                        <span class="float-right pt-1">Lines of Code pr. month : @freelancer.LinesOfCodeMonth</span><br/>
                                         @*<input type=number @bind="@newRating" />*@
                                         @*<button @onclick="@(e => SetRating(freelancer.FreelancerId))">Rate</button>*@
                                         @*<span class="float-right">Something</span>*@
-                                        <IndividualFreelancer Message="message"OnClickCallback="@ShowMessage" Freelancers="@freelancer"></IndividualFreelancer>
-
+                                        <IndividualFreelancer Message="message" OnClickCallback="@ShowMessage" Freelancers="@freelancer"></IndividualFreelancer>
                                     </span>
                                 </div>
                             </div>
@@ -135,13 +139,10 @@ else
 
         foreach (var freelancer in freelancerDtos)
         {
-
             foreach (var rating in freelancer.Ratings)  //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
             {
                 sumRating += rating.RatingValue;
             }
-
-
             freelancer.AverageRating = sumRating/freelancerDtos.Count();
         }
 

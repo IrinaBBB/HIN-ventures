@@ -76,7 +76,6 @@
     private IEnumerable<Rating> Ratings { get; set; } = new List<Rating>();
     private int ratingAverage;
     private int ratingAverageCount;
-    private int ratingSize;
     public int CountRating { get; set; }
     public int CountAssingments { get; set; }
 
@@ -105,14 +104,12 @@
         if (Ratings.Any())
         {
             ratingAverageCount = 0;
-            ratingSize = 0;
             foreach (var rating in Ratings)
             {
                 var rateValue = rating.RatingValue;
                 ratingAverageCount += rateValue;
-                ratingSize += 1;
             }
-            ratingAverage = ratingAverageCount / ratingSize;
+            ratingAverage = ratingAverageCount / Ratings.Count();
             return ratingAverage;
         }
         else

@@ -9,6 +9,7 @@ using HIN_ventures.Client.Service.IService;
 using HIN_ventures_Client.Service;
 using HIN_ventures_Client.Service.IService;
 using Microsoft.Extensions.Configuration;
+using MudBlazor.Services;
 
 namespace HIN_ventures.Client
 {
@@ -26,6 +27,7 @@ namespace HIN_ventures.Client
             builder.Services.AddScoped<IAssignmentService, AssignmentService>();
             builder.Services.AddScoped<IFreelancerService, FreelancerService>();
             builder.Services.AddScoped<IBookingDetailsService, BookingDetailsService>();
+            builder.Services.AddMudServices();
 
             await builder.Build().RunAsync();
         }
