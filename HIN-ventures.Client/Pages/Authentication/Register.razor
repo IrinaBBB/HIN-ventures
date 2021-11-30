@@ -49,7 +49,14 @@
                                 <InputText @bind-Value="UserForRegisteration.ConfirmPassword" type="password" id="confirm" class="form-control" placeholder="Confirm Password..." />
                                 <ValidationMessage For="(()=>UserForRegisteration.ConfirmPassword)" />
                             </div>
-
+                            <div class="col">
+                                <label>Is Freelancer</label>
+                                <InputCheckbox @bind-Value="UserForRegisteration.IsFreelanser" />
+                            </div>
+                            <div class="col">
+                                <label>Is Customer</label>
+                                <InputCheckbox @bind-Value="UserForRegisteration.IsCustomer" />
+                            </div>
                         </div>
                         <hr style="background-color:aliceblue" />
                         <div class="py-2">

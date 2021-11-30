@@ -66,17 +66,31 @@ namespace HIN_ventures_Api.Controllers
                     { Errors = errors, IsRegisterationSuccessful = false });
             }
 
+            if (userRequestDTO.IsFreelanser)
+            {
+                var freelancerRoleResult = await _userManager.AddToRoleAsync(user, SD.Role_Freelancer);
+                if (!freelancerRoleResult.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description);
+                    return BadRequest(new RegistrationResponseDto
+                        { Errors = errors, IsRegisterationSuccessful = false });
+                }
+            }
+
+            if (userRequestDTO.IsCustomer)
+            {
+                var roleResult = await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+                if (!roleResult.Succeeded)
+                {
+                    var errors = result.Errors.Select(e => e.Description);
+                    return BadRequest(new RegistrationResponseDto
+                        { Errors = errors, IsRegisterationSuccessful = false });
+                }
+            }
             //muligens her vi må inn med egen logikk knyttet til prosjektoppgave 2. Skal velge Customer eller Freelancer rolle basert på valg i UI.
             // if customer valgt i UI på klienten, sett role.customer. 
-            var roleResult = await _userManager.AddToRoleAsync(user, SD.Role_Customer);
             //else if freelancer valgt i klienten  
-            var freelancerRoleResult = await _userManager.AddToRoleAsync(user, SD.Role_Freelancer);
-            if (!roleResult.Succeeded)
-            {
-                var errors = result.Errors.Select(e => e.Description);
-                return BadRequest(new RegistrationResponseDto
-                    { Errors = errors, IsRegisterationSuccessful = false });
-            }
+            
             return StatusCode(201);
         }
 

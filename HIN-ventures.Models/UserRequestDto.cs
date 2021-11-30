@@ -25,5 +25,11 @@ namespace HIN_ventures.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Password and confirm password is not matched")]
         public string ConfirmPassword { get; set; }
+
+        public bool IsFreelanser { get; set; } 
+
+        public bool IsCustomer { get; set; }
+
+
     }
 }
