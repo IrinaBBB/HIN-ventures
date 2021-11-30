@@ -17,7 +17,7 @@ else
 
     <div class="row p-2 my-3" style="border-radius:20px; ">
         <div class="col-12 col-lg-7 p-4" style="border: 1px solid #fff">
-            <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size:x-large;margin:0px;">Create Your Assignment</p></div></div>
+            <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size:x-large;margin:0px;">Describe Your Assignment</p></div></div>
             <div class="form-group" style="height: 300px; padding-top: 30px;">
               
                 <BlazoredTextEditor @ref="@QuillHtml" Placeholder="Please describe your request">
@@ -49,15 +49,14 @@ else
                         </span>
                     </ToolbarContent>
                     <EditorContent>
-                        @*<h4>This Toolbar works with HTML</h4>
+                        @*
                         <a href="http://BlazorHelpWebsite.com">
                             BlazorHelpWebsite.com</a>*@
                     </EditorContent>
                 </BlazoredTextEditor>
             </div>
-            @*<textarea class="form-control" rows="5" id="description"></textarea>*@
 
-            <div class="row">
+            @*<div class="row">
                 <div class="col-6">
                     <h4 class="text-warning font-weight-bold pt-5 pl-5"><span style="border-bottom:1px solid #ff6a00"></span></h4>
                     <span class="float-right pt-4">
@@ -66,7 +65,7 @@ else
                         <span class="float-right"></span>
                     </span>
                 </div>
-            </div>
+            </div>*@
 
         </div>
 
@@ -97,8 +96,8 @@ else
                     <label class="text-warning">Freelancers</label>
                     @*<select class="form-control" value="@FreelancerName" @onchange="HandleFreelancerChange">*@
                 <select class="form-control" @bind="@FreelancerName">
-                    <option value="Select" selected disabled="disabled">(Select freelancer or none)</option>
-                    <option value="none">none</option>
+                    <option value="Select" selected disabled="disabled">(Select freelancer or leave blank)</option>
+                    <option value="none">blank</option>
                     @foreach (var freelancer in FreelancerDtos)
                     {
                         <option value="@freelancer.Name">@freelancer.Name</option>
@@ -106,11 +105,11 @@ else
                 </select>
                 </div>
                 <div class="form-group">
-                    <br /> <div><a href="customer/requestfreelancer" class="btn btn-success form-control">View Freelancers</a></div><br />
+                    <br /> <div><a href="customer/requestfreelancer" class="btn btn-success form-control">Select Freelancer</a></div><br />
                 </div>
                 <div class="form-group">
 
-                    <button type="submit" class="btn btn-success form-control">Send Assignment</button>
+                    <button type="submit" class="btn btn-success form-control">Create Assignment</button>
                 </div></EditForm>
         </div>
     </div>
@@ -150,7 +149,6 @@ else
                     AssignmentBooking.OrderDetails.FreelancerDto = await freelancerService.GetFreelancer(FreelancerId.Value);
                     FreelancerName = AssignmentBooking.OrderDetails.FreelancerDto.Name;
                     FreelancerDtos = await freelancerService.GetFreelancers();
-                    SetHtml();
                 }
                 else
                 {
@@ -178,14 +176,28 @@ else
         }
     }
 
-
-    public void SetHtml()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!string.IsNullOrEmpty(AssignmentBooking.OrderDetails.AssignmentDto.Description))
+        if (!firstRender)
+            return;
+
+        var loading = true;
+        while (loading)
         {
-            this.QuillHtml.LoadHTMLContent(AssignmentBooking.OrderDetails.AssignmentDto.Description);
+            try
+            {
+                if (!string.IsNullOrEmpty(AssignmentBooking.OrderDetails.AssignmentDto.Description))
+                {
+                    await QuillHtml.LoadHTMLContent(AssignmentBooking.OrderDetails.AssignmentDto.Description);
+                }
+                loading = false;
+            }
+            catch
+            {
+                await Task.Delay(10);
+                loading = true;
+            }
         }
-        StateHasChanged();
     }
 
 

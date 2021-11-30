@@ -1,26 +1,44 @@
 ﻿@page "/"
 @using HIN_ventures.Client.Helper
+@using HIN_ventures.Client.Model.ViewModel
 @using HIN_ventures.Client.Service.IService
 @inject ILocalStorageService localStorage
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
-@inject IAssignmentService _iAssignmentService 
+@inject IAssignmentService _iAssignmentService
 
+<div class="container-fluid">
 
-<EditForm Model="HomeModel" OnValidSubmit="SaveInitialData">
-    <div class="row p-0 mx-0 mt-4">
+                    <EditForm Model="CustomerModel" OnValidSubmit="SaveInitialData">
+                        <div class="row p-0 mx-0 mt-4">
 
-        <div class="col-4 col-md-2 p-0 pr-2">
-            <div class="form-group">
-                <label>&nbsp;</label>
+                            <div class="col-4 col-md-2 p-0 pr-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
 
-                <input type="submit" value="View Customer page" class="btn btn-success btn-block" />
+                                    <input type="submit" value="View Customer page" class="btn btn-success btn-block" />
 
-            </div>
-        </div>
+                                </div>
+                            </div>
 
-    </div>
-</EditForm>
+                        </div>
+                    </EditForm>
+
+                    <EditForm Model="FreelancerModel" OnValidSubmit="GoToFreelancerProfile">
+                        <div class="row p-0 mx-0 mt-4">
+
+                            <div class="col-4 col-md-2 p-0 pr-2">
+                                <div class="form-group">
+                                    <label>&nbsp;</label>
+
+                                    <input type="submit" value="View Frelancer page" class="btn btn-success btn-block" />
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </EditForm>
+</div>
 
 <div class="container-fluid">
     <div class="row">
@@ -77,7 +95,8 @@
 
 @code{
 
-    public CustomerVM HomeModel { get; set; } = new CustomerVM();
+    public CustomerVM CustomerModel { get; set; } = new CustomerVM();
+    public FreelancerVM FreelancerModel { get; set; } = new FreelancerVM();
     public bool IsProcessing { get; set; } = false;
 
     public IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
@@ -95,10 +114,8 @@
     {
         try
         {
-            HomeModel.EndDate = HomeModel.StartDate.AddDays(HomeModel.NoOfNights);
-
-            await localStorage.SetItemAsync(SD.Local_InitialBooking, HomeModel); //SD.Local_InitialBooking
-            navigationManager.NavigateTo($"customer/createassignment/1", true);
+            await localStorage.SetItemAsync(SD.Local_InitialBooking, CustomerModel);
+            navigationManager.NavigateTo($"customer/createassignment/0", true); //no freelancer selected at first
         }
         catch (Exception e)
         {
@@ -109,6 +126,12 @@
     private async Task LoadAssignments()
     {
         Assignments = await _iAssignmentService.GetAssignments();
+    }
+
+    private async Task GoToFreelancerProfile()
+    {
+        //FreelancerModel.FreelancerDto = await freelancerService.GetFreelancer(FreelancerId.Value);
+        navigationManager.NavigateTo($"freelancer/createprofile", true); //no freelancer selected at first
     }
 
 }
