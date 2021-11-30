@@ -8,9 +8,20 @@
 @inject IAssignmentService _iAssignmentService 
 @inject IFreelancerService _iFreelancerService 
 
+<!--For Testing AuthorizeView with claimsbased authroization-->
+@*<AuthorizeView>
+    <Authorized>
+        <p>Welcome, @context.User.Identity.Name</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>Not signed in</p>
+    </NotAuthorized>
+</AuthorizeView>*@
+
+
 <div class="container-fluid">
 
-                    <EditForm Model="CustomerModel" OnValidSubmit="SaveInitialData">
+                    <EditForm Model="CustomerModel" OnValidSubmit="GoToCustomerOrder">
                         <div class="row p-0 mx-0 mt-4">
 
                             <div class="col-4 col-md-2 p-0 pr-2">
@@ -102,7 +113,7 @@
     }
 
 
-    private async Task SaveInitialData()
+    private async Task GoToCustomerOrder()
     {
         try
         {
@@ -123,7 +134,7 @@
 
     private async Task GoToFreelancerProfile()
     {
-        //FreelancerModel.FreelancerDto = await freelancerService.GetFreelancer(FreelancerId.Value);
+        //FreelancerModel.FreelancerDto = await freelancerService.GetFreelancer(FreelancerId.Value); // Id is provided on registering a user?
         navigationManager.NavigateTo($"freelancer/createprofile", true); 
     }
 
