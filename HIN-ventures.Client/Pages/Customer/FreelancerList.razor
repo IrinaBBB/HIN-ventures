@@ -1,12 +1,13 @@
 ﻿@page "/customer/requestfreelancer"
 @using MudBlazor
+@using HIN_ventures.Client.Model.ViewModel
 @inject ILocalStorageService localStorage
 @inject IJSRuntime jsRuntime
 @inject IFreelancerService freelancerService
 
 @if (FreelancerDtos != null && FreelancerDtos.Any())
 {
-    <EditForm Model="HomeModel" OnValidSubmit="SaveBookingInfo" class="bg-light">
+    <EditForm Model="FreelancerModel " OnValidSubmit="SaveBookingInfo" class="bg-light">
 
         <div class="pt-3 pb-2 px-5 mx-1 mx-md-0 bg-secondary">
             <DataAnnotationsValidator />
@@ -14,7 +15,7 @@
                 <div class=" col-4 col-md-2">
                     <div class="form-group">
                         <label class="text-warning">Freelancer based on expertise</label>
-                        <select class="form-control" @bind="HomeModel.Speciality">
+                        <select class="form-control" @bind="FreelancerModel.Speciality">
                             <option value="Select" selected disabled="disabled">(Select field of expertise)</option>
                             @foreach (var freelancer in FreelancerDtos)
                             {
@@ -98,7 +99,7 @@ else
 }
 @code {
     string selectedSpeciality;
-    private CustomerVM HomeModel { get; set; } = new();
+    private FreelancerVM FreelancerModel { get; set; } = new();
     public IEnumerable<FreelancerDto> FreelancerDtos { get; set; } = new List<FreelancerDto>();
     private bool IsProcessing { get; set; } = false;
     private int newRating;
@@ -112,13 +113,13 @@ else
     {
         try
         {
-            if (await localStorage.GetItemAsync<CustomerVM>(SD.Local_InitialBooking) != null)
+            if (await localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails) != null)
             {
-                HomeModel = await localStorage.GetItemAsync<CustomerVM>(SD.Local_InitialBooking);
+                FreelancerModel = await localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails);
             }
             else
             {
-                HomeModel.Speciality = "Blazor";
+                FreelancerModel.Speciality = "Blazor";
             }
 
             await LoadFreelancers();
@@ -151,7 +152,7 @@ else
     private async Task SaveBookingInfo()
     {
         IsProcessing = true;
-        await localStorage.SetItemAsync(SD.Local_InitialBooking, HomeModel);
+        await localStorage.SetItemAsync(SD.LocalUserDetails, FreelancerModel);
         await LoadFreelancers();
         IsProcessing = false;
     }

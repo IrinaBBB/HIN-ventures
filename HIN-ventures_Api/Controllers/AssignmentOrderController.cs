@@ -16,10 +16,9 @@ namespace HIN_ventures_Api.Controllers
         private readonly IBookingDetailsRepository _repository;
         //private readonly IEmailSender _emailSender;
 
-        public AssignmentOrderController(IBookingDetailsRepository repository /*, IEmailSender emailSender*/)
+        public AssignmentOrderController(IBookingDetailsRepository repository)
         {
             _repository = repository;
-            //_emailSender = emailSender;
         }
 
         [HttpPost]

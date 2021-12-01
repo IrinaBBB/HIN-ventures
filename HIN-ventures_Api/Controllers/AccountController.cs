@@ -153,7 +153,8 @@ namespace HIN_ventures_Api.Controllers
 
                 var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
                 
-                //var roles = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(user.Email)); //kopiert fra linje 170
+                
+                var roles = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(user.Email)); //kopiert fra linje 170
                 
                 return Ok(new AuthenticationResponseDto
                 {
@@ -165,7 +166,7 @@ namespace HIN_ventures_Api.Controllers
                         Id = user.Id,
                         Email = user.Email,
                         PhoneNo = user.PhoneNumber,
-                        //Role = roles.FirstOrDefault()
+                        Role = roles.FirstOrDefault()
                     }
                 });
             }

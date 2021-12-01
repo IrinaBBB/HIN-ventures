@@ -15,16 +15,16 @@ namespace HIN_ventures.Models
         
         public string UserId { get; set; } //the customer
 
-        [Required] public int FreelancerId; //the freelancer customer is hiring
+        public int FreelancerId; //the freelancer customer is hiring
 
         public FreelancerDto FreelancerDto { get; set; } //kan bare booke en frilanser om gangen
 
         public Assignment AssignmentDto { get; set; } //assignment som frilanseren skal bookes til
 
         //additional info on the customer who is booking
-        [Required] public string Name { get; set; }
-        [Required] public string Email { get; set; }
-        [Required] public string Phone { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
 
         public string OrderStatus { get; set; }
     }

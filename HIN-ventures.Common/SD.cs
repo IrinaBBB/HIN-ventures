@@ -12,7 +12,7 @@ namespace HIN_ventures.Common
         public const string Role_Customer = "Customer";
         public const string Role_Freelancer = "Freelancer";
 
-        public const string Local_InitialBooking = "InitialAssignmentBookingInfo";
+        //public const string Local_InitialBooking = "InitialAssignmentBookingInfo";
 
         public const string HinCryptoAddress = "2N1spDd7mDaBfHbCRKGq9p28BwBo2XjmrEF"; // Dogecoin (TESTNET!) address
         public const string ApiKey = "9da8-f106-e0c7-e733"; //API key for dogecoin on BlockIO testnet
@@ -20,7 +20,9 @@ namespace HIN_ventures.Common
 
         public const string Local_OrderDetails = "AssignmentOrderDetails";
         public const string Local_Token = "JWT Token";
-        public const string LocalUserDetails = "User Details";
+        public const string LocalUserDetails = "User Details"; //logged in user
+        public const string FreelancerDetails = "User Details"; //logged in user
+        public const string CustomerDetails = "User Details"; //logged in user
 
 
         public const string Status_Pending = "Pending";

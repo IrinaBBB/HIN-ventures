@@ -8,7 +8,11 @@ namespace HIN_ventures.Client.Model.ViewModel
 {
     public class FreelancerVM
     {
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Speciality { get; set; }
 
         public FreelancerDto FreelancerDto { get; set; }
 

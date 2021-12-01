@@ -27,14 +27,18 @@ namespace HIN_ventures.Business.Repositories
         {
             try
             {
-                //details.FreelancerId = details.FreelancerDto.FreelancerId;
-                //details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerId);
-               // details.FreelancerDto = _mapper.Map<FreelancerDto, Freelancer>(details.UserId);
+                var newOrder = _mapper.Map<BookingDetailsDto, BookingDetails>(details);
+                newOrder.OrderStatus = SD.Status_Pending; //status will change once the assignment is picked up by the freelancer
 
-                var freelancerOrder = _mapper.Map<BookingDetailsDto, BookingDetails>(details);
-                freelancerOrder.OrderStatus = SD.Status_Pending;
+                if(details.FreelancerDto.FreelancerId != 0)
+                {
+                    details.FreelancerId = details.FreelancerDto.FreelancerId;
+                    details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerId);
+
+                }
+
                 
-                var result = await _db.BookingDetails.AddAsync(freelancerOrder);
+                var result = await _db.BookingDetails.AddAsync(newOrder);
                 await _db.SaveChangesAsync();
                 return _mapper.Map<BookingDetails, BookingDetailsDto>(result.Entity);
             }

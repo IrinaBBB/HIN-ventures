@@ -10,6 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.12" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="5.0.12" />
     <PackageReference Include="MudBlazor" Version="5.2.0" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
@@ -17,6 +19,10 @@
   <ItemGroup>
     <ProjectReference Include="..\HIN-ventures.Common\HIN-ventures.Common.csproj" />
     <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Hubs\" />
   </ItemGroup>
 
 </Project>
