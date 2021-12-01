@@ -1,15 +1,18 @@
 using System;
+using System.Linq;
 using System.Net.Http;
 using HIN_ventures.Business.Repositories;
 using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
 using HIN_ventures.DataAccess.Entities;
+using HIN_ventures.Server.Hubs;
 using HIN_ventures.Server.Service;
 using HIN_ventures.Server.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +32,11 @@ namespace HIN_ventures.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddResponseCompression(opts =>
+            //{
+            //    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+            //        new[] { "application/octet-stream" });
+            //});
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
@@ -63,6 +71,8 @@ namespace HIN_ventures.Server
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
+
+            //app.UseResponseCompression();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -80,7 +90,6 @@ namespace HIN_ventures.Server
             app.UseAuthorization();
             dbInitializer.Initalize();
 
-           
 
             app.UseEndpoints(endpoints =>
             {
@@ -88,8 +97,9 @@ namespace HIN_ventures.Server
                 //    name: "default",
                 //    pattern: "{controller=Home}/{ action = Index2}/{ id ?}");
                 endpoints.MapRazorPages();
-                endpoints.MapBlazorHub(); //required for SignalR connection
-                endpoints.MapFallbackToPage("/_Host"); //if nothing is found on SignalR connection
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapHub<BlazorChatSampleHub>(BlazorChatSampleHub.HubUrl);
             });
         }
     }

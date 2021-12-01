@@ -21,7 +21,6 @@ namespace HIN_ventures_Api.Controllers
             _freelancerRepository = hotelRoomRepository;
         }
 
-        //[Authorize(Roles = SD.Role_Admin)]
         [HttpGet]
         public async Task<IActionResult> GetFreelancers() //bool IsActive?
         {

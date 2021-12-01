@@ -2,6 +2,7 @@ using HIN_ventures.DataAccess.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 
 namespace HIN_ventures.Server
 {
