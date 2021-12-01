@@ -41,7 +41,6 @@ namespace HIN_ventures.Client.Service
                 var errorModel = JsonConvert.DeserializeObject<ErrorModel>(content);
                 throw new Exception(errorModel.ErrorMessage);
             }
-
         }
     }
 }

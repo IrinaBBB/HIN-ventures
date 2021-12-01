@@ -20,36 +20,38 @@
 
 
 <div class="container-fluid">
+    <div class="d-flex">
+        <EditForm Model="CustomerModel" OnValidSubmit="GoToCustomerOrder">
+            <div class="row p-0 mx-0 mt-0">
 
-                    <EditForm Model="CustomerModel" OnValidSubmit="GoToCustomerOrder">
-                        <div class="row p-0 mx-0 mt-4">
+                <div class="col-4 col-md-2 p-0 pr-2">
+                    <div class="form-group">
+                        <label>&nbsp;</label>
 
-                            <div class="col-4 col-md-2 p-0 pr-2">
-                                <div class="form-group">
-                                    <label>&nbsp;</label>
+                        <input type="submit" value="View Customer page" class="btn btn-success btn-block" />
 
-                                    <input type="submit" value="View Customer page" class="btn btn-success btn-block" />
+                    </div>
+                </div>
 
-                                </div>
-                            </div>
+            </div>
+        </EditForm>
 
-                        </div>
-                    </EditForm>
+        <EditForm Model="FreelancerModel" OnValidSubmit="GoToFreelancerProfile">
+            <div class="row p-0 mx-0 mt-0">
 
-                    <EditForm Model="FreelancerModel" OnValidSubmit="GoToFreelancerProfile">
-                        <div class="row p-0 mx-0 mt-4">
+                <div class="col-4 col-md-2 p-0 pr-2">
+                    <div class="form-group">
+                        <label>&nbsp;</label>
 
-                            <div class="col-4 col-md-2 p-0 pr-2">
-                                <div class="form-group">
-                                    <label>&nbsp;</label>
+                        <input type="submit" value="View Frelancer page" class="btn btn-success btn-block" />
 
-                                    <input type="submit" value="View Frelancer page" class="btn btn-success btn-block" />
+                    </div>
+                </div>
 
-                                </div>
-                            </div>
-
-                        </div>
-                    </EditForm>
+            </div>
+        </EditForm>
+    </div>
+                    
 </div>
 
 <div class="container-fluid">
@@ -78,10 +80,14 @@
             @foreach (var freelancer in Freelancers)
             {
                 <div class="card text-white bg-light mb-3 mr-3" style="max-width: 20rem;">
-                    <div class="card-header">@freelancer.Specialty</div>
+                    <div class="card-header">@freelancer.Speciality</div>
                     <div class="card-body p-0">
                         <div class="card-body freelancer-info">
-                            <h4 class="card-title">@freelancer.Name</h4>
+                            <div>
+                                <h4 class="card-title">@freelancer.FirstName</h4>
+                                <h4 class="card-title">@freelancer.LastName</h4>
+                                <div>@freelancer.Email</div>
+                            </div>
                             <img class="freelancer-image" src=@($"images/coder{freelancer.FreelancerId}.png")/>
                         </div>
                         <a class="btn btn-success card-link m-3">Learn More...</a>
@@ -128,14 +134,14 @@
 
     private async Task LoadAssignments()
     {
-        Assignments = await _iAssignmentService.GetAssignments();
         Freelancers = await _iFreelancerService.GetFreelancers();
+        Assignments = await _iAssignmentService.GetAssignments();
     }
 
     private async Task GoToFreelancerProfile()
     {
         //FreelancerModel.FreelancerDto = await freelancerService.GetFreelancer(FreelancerId.Value); // Id is provided on registering a user?
-        navigationManager.NavigateTo($"freelancer/createprofile", true); 
+        navigationManager.NavigateTo($"freelancer/createprofile", true);
     }
 
 }

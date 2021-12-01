@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HIN_ventures.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211126144524_added SubscriptionType, TotalLinesOfCode, TotalCost to customer")]
-    partial class addedSubscriptionTypeTotalLinesOfCodeTotalCosttocustomer
+    [Migration("20211130132838_AddIdentityUserIdToFreelancerCustomer")]
+    partial class AddIdentityUserIdToFreelancerCustomer
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -151,6 +151,46 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.ToTable("Assignments");
                 });
 
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.BookingDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("FreelancerId1")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("FreelancerId1");
+
+                    b.ToTable("BookingDetails");
+                });
+
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.CodeFile", b =>
                 {
                     b.Property<int>("Id")
@@ -179,6 +219,13 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<string>("CryptoAddress")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("IdentityId")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<int>("SubscriptionType")
                         .HasColumnType("int");
 
@@ -205,6 +252,12 @@ namespace HIN_ventures.DataAccess.Migrations
 
                     b.Property<string>("CryptoAddress")
                         .HasColumnType("longtext");
+
+                    b.Property<string>("IdentityId")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<int>("LinesOfCodeMonth")
                         .HasColumnType("int");
@@ -399,6 +452,21 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.HasOne("HIN_ventures.DataAccess.Entities.Freelancer", "Freelancer")
                         .WithMany("Assignments")
                         .HasForeignKey("FreelancerId");
+
+                    b.Navigation("Freelancer");
+                });
+
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.BookingDetails", b =>
+                {
+                    b.HasOne("HIN_ventures.DataAccess.Entities.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentId");
+
+                    b.HasOne("HIN_ventures.DataAccess.Entities.Freelancer", "Freelancer")
+                        .WithMany()
+                        .HasForeignKey("FreelancerId1");
+
+                    b.Navigation("Assignment");
 
                     b.Navigation("Freelancer");
                 });

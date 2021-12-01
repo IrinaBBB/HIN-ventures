@@ -13,10 +13,12 @@ namespace HIN_ventures.DataAccess.Entities
         [Key]
         public int CustomerId { get; set; }
 
-        [Required(ErrorMessage = "Please enter the company name")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Please enter the company's VAT number")]
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        
         public string VAT_number { get; set; }
 
         public string CryptoAddress { get; set; }
@@ -31,5 +33,7 @@ namespace HIN_ventures.DataAccess.Entities
 
         public virtual ICollection<Rating> Ratings { get; set; }
 
+        [Required]
+        public string IdentityId { get; set; }
     }
 }

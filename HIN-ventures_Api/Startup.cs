@@ -81,6 +81,7 @@ namespace HIN_ventures_Api
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IFreelancerRepository, FreelancerRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<IBookingDetailsRepository, BookingDetailsRepository>();
             //services.AddScoped(IFreelancerImages, FreelancerImages)

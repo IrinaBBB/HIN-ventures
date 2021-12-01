@@ -18,7 +18,7 @@
                             <option value="Select" selected disabled="disabled">(Select field of expertise)</option>
                             @foreach (var freelancer in FreelancerDtos)
                             {
-                                <option value="@freelancer.Specialty">@freelancer.Specialty</option>
+                                <option value="@freelancer.Speciality">@freelancer.Speciality</option>
                             }
                         </select>
                     </div>
@@ -52,9 +52,9 @@
                 <div class="col-12 col-lg-9 col-md-8">
                     <div class="row pt-3">
                         <div class="col-12 col-lg-8">
-                            <p class="card-title text-warning" style="font-size:xx-large">@freelancer.Name</p>
+                            <p class="card-title text-warning" style="font-size:xx-large">@freelancer.FirstName @freelancer.LastName </p>
                             <p class="card-text">
-                                @((MarkupString)freelancer.Specialty)
+                                @((MarkupString)freelancer.Speciality)
                             </p>
                         </div>
                         <div class="col-12 col-lg-4">

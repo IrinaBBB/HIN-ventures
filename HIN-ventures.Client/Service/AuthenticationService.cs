@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace HIN_ventures.Client.Service
 {
-     public class AuthenticationService : IAuthenticationService
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly HttpClient _client;
         private readonly ILocalStorageService _localStorage;
@@ -65,7 +65,7 @@ namespace HIN_ventures.Client.Service
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("api/account/signup", bodyContent);
             var contentTemp = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<RegistrationResponseDto>(contentTemp);
+            var result = new RegistrationResponseDto();
 
             if (response.IsSuccessStatusCode)
             {
@@ -78,17 +78,17 @@ namespace HIN_ventures.Client.Service
             }
         }
 
-    //    public void NotifyUserLoggedIn(string token)
-    //    {
-    //        var authenticatedUser =
-    //            new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "JwtAuthType"));
-    //        var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
-    //    }
+        //    public void NotifyUserLoggedIn(string token)
+        //    {
+        //        var authenticatedUser =
+        //            new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "JwtAuthType"));
+        //        var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
+        //    }
 
-    //    public void NotifyUserLoggedOut()
-    //    {
-    //        var authState = Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
-    //        NotifyA(authState);
-    //    }
+        //    public void NotifyUserLoggedOut()
+        //    {
+        //        var authState = Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
+        //        NotifyA(authState);
+        //    }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using HIN_ventures.Business.Repositories.IRepositories;
 //using HIN_ventures.DataAccess.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -26,14 +27,20 @@ namespace HIN_ventures_Api.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IFreelancerRepository _freelancerRepository;
+        private readonly ICustomerRepository _customerRepository;
         private readonly APISettings _aPISettings;
 
         public AccountController(SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager, 
-            IOptions<APISettings> options)
+            IOptions<APISettings> options, 
+            IFreelancerRepository freelancerRepository,
+                ICustomerRepository customerRepository)
         {
             _roleManager = roleManager;
+            _freelancerRepository = freelancerRepository;
+            _customerRepository = customerRepository;
             _userManager = userManager;
             _signInManager = signInManager;
             _aPISettings = options.Value;
@@ -52,7 +59,8 @@ namespace HIN_ventures_Api.Controllers
             {
                 UserName = userRequestDTO.Email,
                 Email = userRequestDTO.Email,
-                LastName = userRequestDTO.Name,
+                FirstName = userRequestDTO.FirstName,
+                LastName = userRequestDTO.LastName,
                 PhoneNumber = userRequestDTO.PhoneNo,
                 EmailConfirmed = true
             };
@@ -66,30 +74,49 @@ namespace HIN_ventures_Api.Controllers
                     { Errors = errors, IsRegisterationSuccessful = false });
             }
 
-            if (userRequestDTO.IsFreelanser)
+            if (userRequestDTO.IsFreelancer)
             {
                 var freelancerRoleResult = await _userManager.AddToRoleAsync(user, SD.Role_Freelancer);
+
                 if (!freelancerRoleResult.Succeeded)
                 {
                     var errors = result.Errors.Select(e => e.Description);
                     return BadRequest(new RegistrationResponseDto
                         { Errors = errors, IsRegisterationSuccessful = false });
                 }
+                else
+                { 
+                    await _freelancerRepository.CreateFreelancer(new FreelancerDto
+                    { 
+                        IdentityId = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email
+                    });
+                }
             }
 
             if (userRequestDTO.IsCustomer)
             {
                 var roleResult = await _userManager.AddToRoleAsync(user, SD.Role_Customer);
+
                 if (!roleResult.Succeeded)
                 {
                     var errors = result.Errors.Select(e => e.Description);
                     return BadRequest(new RegistrationResponseDto
                         { Errors = errors, IsRegisterationSuccessful = false });
                 }
+                else
+                {
+                    await _customerRepository.CreateCustomer(new CustomerDto
+                    {
+                        IdentityId = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email
+                    });
+                }
             }
-            //muligens her vi må inn med egen logikk knyttet til prosjektoppgave 2. Skal velge Customer eller Freelancer rolle basert på valg i UI.
-            // if customer valgt i UI på klienten, sett role.customer. 
-            //else if freelancer valgt i klienten  
             
             return StatusCode(201);
         }

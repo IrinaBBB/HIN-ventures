@@ -9,7 +9,7 @@ namespace HIN_ventures.DataAccess.Migrations
             migrationBuilder.RenameColumn(
                 name: "Speciality",
                 table: "Freelancers",
-                newName: "Specialty");
+                newName: "Speciality");
 
             migrationBuilder.AddColumn<string>(
                 name: "Name",
@@ -26,7 +26,7 @@ namespace HIN_ventures.DataAccess.Migrations
                 table: "Freelancers");
 
             migrationBuilder.RenameColumn(
-                name: "Specialty",
+                name: "Speciality",
                 table: "Freelancers",
                 newName: "Speciality");
         }

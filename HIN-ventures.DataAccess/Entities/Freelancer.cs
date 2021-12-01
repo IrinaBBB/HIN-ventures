@@ -9,20 +9,24 @@ namespace HIN_ventures.DataAccess.Entities
         [Key]
         public int FreelancerId { get; set; }
 
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
-        public string Specialty { get; set; }
+        public string LastName { get; set; }
 
-        public int TotalLinesOfCode{ get; set; } //kalkulasjon, hører hjemme i DTO 
+        public string Speciality { get; set; }
+        public string Email { get; set; }
+
+        public int TotalLinesOfCode{ get; set; } 
 
         public string CryptoAddress { get; set; }
-
-        public int LinesOfCodeMonth{ get; set; } //kalkulasjon, hører hjemme i DTO
 
         public bool IsActive { get; set; }
 
         public virtual ICollection<Assignment> Assignments { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }
+
+        [Required]
+        public string IdentityId { get; set; }
     }
 }

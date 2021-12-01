@@ -2,76 +2,88 @@
 using System.Collections.Generic;
 using System.Linq;
 using HIN_ventures.DataAccess.Entities;
-using Microsoft.AspNetCore.Identity;
-using System.Diagnostics;
 
 namespace HIN_ventures.DataAccess.Data
 {
     public static class SeedData
     {
-
         public static void Initialize(ApplicationDbContext db)
         {
-            if (!db.Customers.Any())
+            if (!db.ApplicationUser.Any() && !db.Customers.Any() && !db.Freelancers.Any() && !db.Assignments.Any())
             {
-                Customer customer1 = new()
-                {
-                    Name = "Quick Applications",
-                    VAT_number = "ORG956121000",
-                    CryptoAddress = "TEST123123123123",
-                    SubscriptionType = 1,
-                    TotalLinesOfCode = 500,
-                    TotalCost = 24000,
-                };
-
-                Customer customer2 = new()
-                {
-                    Name = "Brødrene Dahl",
-                    VAT_number = "ORG956121000",
-                    CryptoAddress = "TEST123123123123",
-                    SubscriptionType = 1,
-                    TotalLinesOfCode = 500,
-                    TotalCost = 52240,
-                };
-
-                var customers = new Customer[] { customer1, customer2 };
-                db.Customers.AddRange(customers);
-                db.SaveChanges();
-            }
-
-            if (!db.Freelancers.Any() && !db.Assignments.Any())
-            {
-                Freelancer freelancer1 = new()
-                {
-                    Specialty = "Hacking",
-                    TotalLinesOfCode = 7722,
-                    LinesOfCodeMonth = 2000,
-                    CryptoAddress = "TEST123123123123"
-                };
-
-                Freelancer freelancer2 = new()
-                {
-                    Specialty = "Machine Learning",
-                    TotalLinesOfCode = 11111,
-                    LinesOfCodeMonth = 7777,
-                    CryptoAddress = "TEST123123123123"
-                };
-
                 ApplicationUser user1 = new()
                 {
                     FirstName = "Rasputin",
-                    Email = "Rasputin@mail.com",
-                    Freelancer = freelancer1,
-
+                    Email = "rasputin@mail.com"
                 };
 
                 ApplicationUser user2 = new()
                 {
                     FirstName = "Megatron",
-                    Email = "Megatron@mail.com",
-                    Freelancer = freelancer2
+                    Email = "megatron@mail.com"
                 };
 
+                ApplicationUser user3 = new()
+                {
+                    FirstName = "SuperBrain",
+                    Email = "superbrain@mail.com"
+                };
+
+                ApplicationUser user4 = new()
+                {
+                    FirstName = "DeadPool",
+                    Email = "deadpool@mail.com"
+                };
+
+                Customer customer1 = new()
+                {
+                    Name = "Quick Applications",
+                    FirstName = "Erik",
+                    LastName = "Hansen",
+                    Email = user1.Email,
+                    VAT_number = "ORG956121000",
+                    CryptoAddress = "TEST123123123123",
+                    SubscriptionType = 1,
+                    TotalLinesOfCode = 500,
+                    TotalCost = 24000,
+                    IdentityId = user1.Id
+                };
+
+                Customer customer2 = new()
+                {
+                    Name = "Brødrene Dahl",
+                    FirstName = "Lars",
+                    LastName = "Larsen",
+                    Email = user2.Email,
+                    VAT_number = "ORG956121000",
+                    CryptoAddress = "TEST123123123123",
+                    SubscriptionType = 1,
+                    TotalLinesOfCode = 500,
+                    TotalCost = 52240,
+                    IdentityId = user2.Id
+                };
+
+                Freelancer freelancer1 = new()
+                {
+                    FirstName = "Anna",
+                    LastName = "SuperBrain",
+                    Speciality = "Hacking",
+                    TotalLinesOfCode = 7722,
+                    CryptoAddress = "TEST123123123123",
+                    IdentityId = user3.Id,
+                    Email = user3.Email
+                };
+
+                Freelancer freelancer2 = new()
+                {
+                    FirstName = "Anders",
+                    LastName = "DeadPool",
+                    Speciality = "Machine Learning",
+                    TotalLinesOfCode = 11111,
+                    CryptoAddress = "TEST123123123123",
+                    IdentityId = user4.Id,
+                    Email = user4.Email
+                };
 
                 List<Assignment> assignmentsList = new List<Assignment>();
 
@@ -112,12 +124,10 @@ namespace HIN_ventures.DataAccess.Data
                         Category = "Kotlin/Android",
                         Deadline = DateTime.Now.AddMonths(+4),
                         Freelancer = freelancer2
-
                     }
                 };
 
                 db.Assignments.AddRange(assignments);
-                db.SaveChanges();
 
                 foreach (var assignment in assignments)
                 {
@@ -127,8 +137,13 @@ namespace HIN_ventures.DataAccess.Data
                 freelancer1.Assignments = new List<Assignment> { assignmentsList[0], assignmentsList[1] };
                 freelancer2.Assignments = new List<Assignment> { assignmentsList[2], assignmentsList[3] };
 
-                var freelancers = new Freelancer[] { freelancer1, freelancer2 };
+                var freelancers = new[] { freelancer1, freelancer2 };
                 db.Freelancers.AddRange(freelancers);
+
+
+                var customers = new[] { customer1, customer2 };
+                db.Customers.AddRange(customers);
+
                 db.SaveChanges();
             }
         }

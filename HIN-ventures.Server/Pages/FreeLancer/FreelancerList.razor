@@ -20,16 +20,16 @@
                 <MudTh><MudTableSortLabel InitialDirection="SortDirection.Descending" SortBy="new Func<FreelancerDto, object>(x=>x.LinesOfCodeMonth)">Lines Of Code This Month</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.TotalLinesOfCode)">Total Lines Of Code</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.FreelancerId)">Freelancer Id</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.Name)">Name</MudTableSortLabel></MudTh>
-                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.Specialty)">Specialty</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.LastName)">Name</MudTableSortLabel></MudTh>
+                <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.Speciality)">Speciality</MudTableSortLabel></MudTh>
                 <MudTh><MudTableSortLabel SortBy="new Func<FreelancerDto, object>(x => x.CryptoAddress)">CryptoAddress</MudTableSortLabel></MudTh>
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Name">@context.LinesOfCodeMonth</MudTd>
                 <MudTd DataLabel="Position">@context.TotalLinesOfCode</MudTd>
                 <MudTd DataLabel="FreelancerId">@context.FreelancerId</MudTd>
-                <MudTd DataLabel="Sign">@context.Name</MudTd>
-                <MudTd DataLabel="Molar mass">@context.Specialty</MudTd>
+                <MudTd DataLabel="Sign">@context.LastName</MudTd>
+                <MudTd DataLabel="Molar mass">@context.Speciality</MudTd>
                 <MudTd DataLabel="Molar mass">@context.CryptoAddress</MudTd>
             </RowTemplate>
             <PagerContent>
@@ -52,7 +52,7 @@
                         <MudCard>
                             <MudCardHeader>
                                 <CardHeaderContent>
-                                    <MudText Typo="Typo.h5">@freelancer.Name</MudText>
+                                    <MudText Typo="Typo.h5">@freelancer.LastName</MudText>
                                     @if (@freelancer.Ratings.Any())
                                     {
                                         <MudRating SelectedValue="@GetAverage(@freelancer.Ratings)" Size="Size.Medium"/>
@@ -65,8 +65,8 @@
                                 </CardHeaderContent>
                             </MudCardHeader>
                             <MudCardContent>
-                                <MudText Typo="Typo.subtitle2">Specialty: </MudText>
-                                <MudText>@freelancer.Specialty</MudText>
+                                <MudText Typo="Typo.subtitle2">Speciality: </MudText>
+                                <MudText>@freelancer.Speciality</MudText>
                                 <MudDivider DividerType="DividerType.Middle" Class="my-1" />
                                
                                 <MudText Typo="Typo.subtitle2">Lines of code this month: </MudText>
@@ -157,11 +157,11 @@
             var result = await _freelancerRepository.DeleteFreelancer(id);
             if (result == 1)
             {
-                await _jsRuntime.ToastrSuccess($"{freelancerToDelete.Name} Deleted Successfully.");
+                await _jsRuntime.ToastrSuccess($"{freelancerToDelete.LastName} Deleted Successfully.");
             }
             else
             {
-                await _jsRuntime.ToastrError($"Failed To Delete {freelancerToDelete.Name}.");
+                await _jsRuntime.ToastrError($"Failed To Delete {freelancerToDelete.LastName}.");
             }
             _navigationManager.NavigateTo("freelancers", forceLoad:true);
         } else

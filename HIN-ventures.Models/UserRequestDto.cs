@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+
 
 namespace HIN_ventures.Models
 {
     public class UserRequestDto
     {
-        [Required(ErrorMessage = "Name is required")]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "FirstName is required")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "LastName is required")]
+        public string LastName { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
         [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
@@ -26,7 +25,7 @@ namespace HIN_ventures.Models
         [Compare("Password", ErrorMessage = "Password and confirm password is not matched")]
         public string ConfirmPassword { get; set; }
 
-        public bool IsFreelanser { get; set; } 
+        public bool IsFreelancer { get; set; } 
 
         public bool IsCustomer { get; set; }
 

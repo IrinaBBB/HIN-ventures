@@ -102,7 +102,7 @@
                         <option value="none">blank</option>
                         @foreach (var freelancer in FreelancerDtos)
                         {
-                            <option value="@freelancer.Name">@freelancer.Name</option>
+                            <option value="@freelancer.LastName">@freelancer.LastName</option>
                         }
                     </select>
                 </div>
@@ -150,7 +150,7 @@
                         (SD.Local_InitialBooking);
 
                     AssignmentBooking.OrderDetails.FreelancerDto = await freelancerService.GetFreelancer(FreelancerId.Value);
-                    FreelancerName = AssignmentBooking.OrderDetails.FreelancerDto.Name;
+                    FreelancerName = AssignmentBooking.OrderDetails.FreelancerDto.LastName;
                     FreelancerDtos = await freelancerService.GetFreelancers();
                 }
                 else

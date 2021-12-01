@@ -20,7 +20,7 @@ namespace HIN_ventures.DataAccess.Migrations
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -149,7 +149,7 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.ToTable("Assignments");
                 });
 
-            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.AssignmentOrderDetails", b =>
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.BookingDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -186,7 +186,7 @@ namespace HIN_ventures.DataAccess.Migrations
 
                     b.HasIndex("FreelancerId1");
 
-                    b.ToTable("AssignmentOrderDetails");
+                    b.ToTable("BookingDetails");
                 });
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.CodeFile", b =>
@@ -217,8 +217,20 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<string>("CryptoAddress")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("IdentityId")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
                         .HasColumnType("longtext");
 
                     b.Property<int>("SubscriptionType")
@@ -231,7 +243,6 @@ namespace HIN_ventures.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("VAT_number")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.HasKey("CustomerId");
@@ -248,16 +259,23 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<string>("CryptoAddress")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Email")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<int>("LinesOfCodeMonth")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("LastName")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Specialty")
+                    b.Property<string>("Speciality")
                         .HasColumnType("longtext");
 
                     b.Property<int>("TotalLinesOfCode")
@@ -295,7 +313,7 @@ namespace HIN_ventures.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -332,7 +350,7 @@ namespace HIN_ventures.DataAccess.Migrations
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -355,7 +373,7 @@ namespace HIN_ventures.DataAccess.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -367,17 +385,17 @@ namespace HIN_ventures.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -389,10 +407,10 @@ namespace HIN_ventures.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -404,13 +422,13 @@ namespace HIN_ventures.DataAccess.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(95)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")
                         .HasColumnType("longtext");
@@ -448,7 +466,7 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Navigation("Freelancer");
                 });
 
-            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.AssignmentOrderDetails", b =>
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.BookingDetails", b =>
                 {
                     b.HasOne("HIN_ventures.DataAccess.Entities.Assignment", "Assignment")
                         .WithMany()

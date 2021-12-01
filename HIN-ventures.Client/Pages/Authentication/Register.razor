@@ -11,21 +11,24 @@
                             <strong>Sign Up</strong>
                         </h3>
 
-                        @if (ShowRegistrationErrors)
-                        {
-                            <div>
-                                @foreach (var error in Errors)
-                                {
-                                    <p class="text-danger text-center">@error</p>
-                                }
-                            </div>
-                        }
+                        @*@if (ShowRegistrationErrors)
+        {
+            <div>
+                @foreach (var error in Errors)
+                {
+                    <p class="text-danger text-center">@error</p>
+                }
+            </div>
+        }*@
 
                         <hr style="background-color:aliceblue" />
                         <div class="py-2">
-                            <InputText @bind-Value="UserForRegisteration.Name" class="form-control" placeholder="Name..." />
-                            <ValidationMessage For="(()=>UserForRegisteration.Name)" />
-
+                            <InputText @bind-Value="UserForRegisteration.FirstName" class="form-control" placeholder="FirstName..." />
+                            <ValidationMessage For="(()=>UserForRegisteration.FirstName)" />
+                        </div>
+                        <div class="py-2">
+                            <InputText @bind-Value="UserForRegisteration.LastName" class="form-control" placeholder="LastName..." />
+                            <ValidationMessage For="(()=>UserForRegisteration.LastName)" />
                         </div>
                         <div class="py-2">
                             <InputText @bind-Value="UserForRegisteration.Email" class="form-control" placeholder="Email..." />
@@ -51,7 +54,7 @@
                             </div>
                             <div class="col">
                                 <label>Is Freelancer</label>
-                                <InputCheckbox @bind-Value="UserForRegisteration.IsFreelanser" />
+                                <InputCheckbox @bind-Value="UserForRegisteration.IsFreelancer" />
                             </div>
                             <div class="col">
                                 <label>Is Customer</label>

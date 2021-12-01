@@ -18,15 +18,15 @@
     <MudCardContent>
         <MudForm>
             <MudTextField Label="Name"
-                          @bind-Value="@FreelancerModel.Name"
+                          @bind-Value="@FreelancerModel.LastName"
                           HelperText="Name is required!"
                           Required="true"
                           RequiredError="Name is required!" />
-            <MudTextField Label="Specialty"
-                          @bind-Value="@FreelancerModel.Specialty"
+            <MudTextField Label="Speciality"
+                          @bind-Value="@FreelancerModel.Speciality"
                           HelperText="Your specialty, e.g. FrontEnd, BackEnd, Java, Mobilprogramming etc."
                           Required="true"
-                          RequiredError="Specialty is required!" />
+                          RequiredError="Speciality is required!" />
             <MudTextField Label="Crypto Address"
                           @bind-Value="@FreelancerModel.CryptoAddress"
                           HelperText="CryptoAddress for you to get payments."
@@ -148,8 +148,8 @@
 @*<ValidationSummary/>*@
 <!--<div class="form-group">
                         <label>Name</label>
-                        <InputText @bind-Value="FreelancerModel.Name" class="form-control"></InputText>
-                        <ValidationMessage For="()=>FreelancerModel.Name"></ValidationMessage>
+                        <InputText @bind-Value="FreelancerModel.LastName" class="form-control"></InputText>
+                        <ValidationMessage For="()=>FreelancerModel.LastName"></ValidationMessage>
                     </div>
                     <div class="form-group">
                         <label>Field of expertise</label>

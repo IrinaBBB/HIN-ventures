@@ -259,7 +259,7 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Specialty")
+                    b.Property<string>("Speciality")
                         .HasColumnType("longtext");
 
                     b.Property<int>("TotalLinesOfCode")

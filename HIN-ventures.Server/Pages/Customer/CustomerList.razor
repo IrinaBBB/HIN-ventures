@@ -136,7 +136,7 @@
                         <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.TotalLinesOfCode)">Total Lines Of Code</MudTableSortLabel></MudTh>
                         <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.customerId)">customer Id</MudTableSortLabel></MudTh>
                         <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.Name)">Name</MudTableSortLabel></MudTh>
-                        <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.Specialty)">Specialty</MudTableSortLabel></MudTh>
+                        <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.Speciality)">Speciality</MudTableSortLabel></MudTh>
                         <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.CryptoAddress)">CryptoAddress</MudTableSortLabel></MudTh>
                     </HeaderContent>
                     <RowTemplate>
@@ -144,7 +144,7 @@
                         <MudTd DataLabel="Position">@context.TotalLinesOfCode</MudTd>
                         <MudTd DataLabel="customerId">@context.customerId</MudTd>
                         <MudTd DataLabel="Sign">@context.Name</MudTd>
-                        <MudTd DataLabel="Molar mass">@context.Specialty</MudTd>
+                        <MudTd DataLabel="Molar mass">@context.Speciality</MudTd>
                         <MudTd DataLabel="Molar mass">@context.CryptoAddress</MudTd>
                     </RowTemplate>
                     <PagerContent>

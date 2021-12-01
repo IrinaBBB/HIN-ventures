@@ -12,12 +12,11 @@ namespace HIN_ventures.Models
     public class FreelancerDto
     {
         public int FreelancerId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
         
-        [Required(ErrorMessage = "Please enter your name")]
-        public string Name { get; set; }
-        
-        [Required]
-        public string Specialty { get; set; }
+        public string Speciality { get; set; }
 
         public int AverageRating{ get ; set ; }
 
@@ -37,5 +36,9 @@ namespace HIN_ventures.Models
         {
             throw new NotImplementedException();
         }
+
+        [Required]
+        public string IdentityId { get; set; }
+
     }
 }

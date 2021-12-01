@@ -4,7 +4,6 @@ using HIN_ventures.Business.Repositories;
 using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
 using HIN_ventures.DataAccess.Entities;
-using HIN_ventures.Server.Data;
 using HIN_ventures.Server.Service;
 using HIN_ventures.Server.Service.IService;
 using Microsoft.AspNetCore.Authorization;
@@ -32,7 +31,6 @@ namespace HIN_ventures.Server
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
 
             services.AddSingleton<HttpClient>(); //needed to consume external API in razor pages
 
