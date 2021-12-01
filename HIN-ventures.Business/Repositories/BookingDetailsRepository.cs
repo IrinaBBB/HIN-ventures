@@ -27,8 +27,10 @@ namespace HIN_ventures.Business.Repositories
         {
             try
             {
-                details.FreelancerId = details.FreelancerDto.FreelancerId;
-                details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerId);
+                //details.FreelancerId = details.FreelancerDto.FreelancerId;
+                //details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerId);
+               // details.FreelancerDto = _mapper.Map<FreelancerDto, Freelancer>(details.UserId);
+
                 var freelancerOrder = _mapper.Map<BookingDetailsDto, BookingDetails>(details);
                 freelancerOrder.OrderStatus = SD.Status_Pending;
                 

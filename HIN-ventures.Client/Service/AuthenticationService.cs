@@ -77,18 +77,5 @@ namespace HIN_ventures.Client.Service
                 return result;
             }
         }
-
-    //    public void NotifyUserLoggedIn(string token)
-    //    {
-    //        var authenticatedUser =
-    //            new ClaimsPrincipal(new ClaimsIdentity(JwtParser.ParseClaimsFromJwt(token), "JwtAuthType"));
-    //        var authState = Task.FromResult(new AuthenticationState(authenticatedUser));
-    //    }
-
-    //    public void NotifyUserLoggedOut()
-    //    {
-    //        var authState = Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
-    //        NotifyA(authState);
-    //    }
     }
 }

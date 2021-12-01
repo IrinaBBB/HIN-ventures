@@ -33,9 +33,9 @@ namespace HIN_ventures.Models
       
         public virtual ICollection<Rating> Ratings { get; set; }
 
-        public static implicit operator FreelancerDto(Freelancer v)
-        {
-            throw new NotImplementedException();
-        }
+        //public static implicit operator FreelancerDto(Freelancer v)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

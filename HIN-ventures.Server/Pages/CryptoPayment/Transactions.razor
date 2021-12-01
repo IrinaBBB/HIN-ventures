@@ -20,7 +20,8 @@
     <br />
 </div>
 
-<button class="btn btn-primary" @onclick="@SomeTask">Send 1 DogeCoin to test account</button>
+@*<button class="btn btn-primary" @onclick="@SomeTask">Send 1 DogeCoin to test account</button>*@
+<button class="btn btn-primary" @onclick="@SendOneCoin">Send 1 DogeCoin to test account</button>
 
 
 @code {
@@ -81,6 +82,14 @@
         amounts = "1"
     };
 
+    public class TransferDto
+    {
+        public string api_key { get; set; }
+        public string from_labels { get; set; }
+        public string to_labels { get; set; }
+        public string amounts { get; set; }
+    }
+
     public async Task SomeTask()
     {
         await CreateTransaction(_transaction);
@@ -93,7 +102,7 @@
         var content = JsonConvert.SerializeObject(details);
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
         var response = await _client.PostAsync("https://block.io/api/v2/prepare_transaction/", bodyContent);
-        //string res = response.Content.ReadAsStringAsync().Result;
+        string res = response.Content.ReadAsStringAsync().Result;
         if (response.IsSuccessStatusCode)
         {
             var contentTemp = await response.Content.ReadAsStringAsync();
@@ -110,25 +119,19 @@
 
     private async Task SendOneCoin()
     {
-        List<TransferByAdress> transfer = new List<TransferByAdress>
+        List<TransferByLabel> transfer = new List<TransferByLabel>
         {
 
-            new() { From = "HIN-Ventures", To = "FreelancerTest", Amount = 1 }
+            new() { FromLabel = "HIN-Ventures", ToLabel = "FreelancerTest", Amount = 1.0 }
         };
 
         IEnumerable<Tuple<string, string, double>> enumerableTuples = transfer
-            .Select(o => Tuple.Create(o.From, o.To, o.Amount));
+            .Select(o => Tuple.Create(o.FromLabel, o.ToLabel, o.Amount));
 
 
         await _blockIo.WithdrawFromLabelAsync(enumerableTuples, "H5sbN8Ra34KjgaTFEBcN");
     }
 
 
-    public class TransferDto
-    {
-        public string api_key { get; set; }
-        public string from_labels { get; set; }
-        public string to_labels { get; set; }
-        public string amounts { get; set; }
-    }
+
 }

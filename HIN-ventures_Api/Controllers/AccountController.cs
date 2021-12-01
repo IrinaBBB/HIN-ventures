@@ -96,13 +96,13 @@ namespace HIN_ventures_Api.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> SignIn([FromBody] AuthenticationDto authenticationDTO)
+        public async Task<IActionResult> SignIn([FromBody] AuthenticationDto authenticationDto)
         {
-            var result = await _signInManager.PasswordSignInAsync(authenticationDTO.UserName,
-                authenticationDTO.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(authenticationDto.UserName,
+                authenticationDto.Password, false, false);
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(authenticationDTO.UserName);
+                var user = await _userManager.FindByNameAsync(authenticationDto.UserName);
                 if (user == null)
                 {
                     return Unauthorized(new AuthenticationResponseDto()
@@ -125,7 +125,9 @@ namespace HIN_ventures_Api.Controllers
                     signingCredentials: signinCredentials);
 
                 var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-
+                
+                //var roles = await _userManager.GetRolesAsync(await _userManager.FindByEmailAsync(user.Email)); //kopiert fra linje 170
+                
                 return Ok(new AuthenticationResponseDto
                 {
                     IsAuthSuccessful = true,
@@ -135,7 +137,8 @@ namespace HIN_ventures_Api.Controllers
                         Name = user.LastName,
                         Id = user.Id,
                         Email = user.Email,
-                        PhoneNo = user.PhoneNumber
+                        PhoneNo = user.PhoneNumber,
+                        //Role = roles.FirstOrDefault()
                     }
                 });
             }
