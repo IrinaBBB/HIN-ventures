@@ -162,7 +162,8 @@ namespace HIN_ventures_Api.Controllers
                     Token = token,
                     userDto = new UserDto
                     {
-                        Name = user.LastName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
                         Id = user.Id,
                         Email = user.Email,
                         PhoneNo = user.PhoneNumber,

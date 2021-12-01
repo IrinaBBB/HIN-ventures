@@ -12,7 +12,8 @@ namespace HIN_ventures.Models
         public string Id { get; set; }
 
         [Required(ErrorMessage = "Please enter your name")]
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public  string LastName { get; set; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
         public string Role { get; set; }

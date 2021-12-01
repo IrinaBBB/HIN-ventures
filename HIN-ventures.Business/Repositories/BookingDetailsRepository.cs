@@ -32,11 +32,10 @@ namespace HIN_ventures.Business.Repositories
 
                 if(details.FreelancerDto.FreelancerId != 0)
                 {
-                    details.FreelancerId = details.FreelancerDto.FreelancerId;
-                    details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerId);
-
+                    details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerDto.FreelancerId); //her skjærer det seg :/
                 }
 
+                details.AssignmentDto.Description = "Just some placeholder text";
                 
                 var result = await _db.BookingDetails.AddAsync(newOrder);
                 await _db.SaveChangesAsync();
