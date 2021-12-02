@@ -17,13 +17,12 @@
         }
         else
         {*@
-    <div class="mt-4 mx-4 px-0 px-md-5 mx-md-5">
-
+<div class="mt-4 mx-4 px-0 px-md-5 mx-md-5">
+    <EditForm Model="OrderDetails" class="container" OnValidSubmit="HandleCheckout">
         <div class="row p-2 my-3" style="border-radius:20px; ">
             <div class="col-12 col-lg-7 p-4" style="border: 1px solid #fff">
                 <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size:x-large;margin:0px;">Describe Your Assignment</p></div></div>
                 <div class="form-group" style="height: 300px; padding-top: 30px;">
-
                     <BlazoredTextEditor @ref="@QuillHtml" Placeholder="Please describe your request">
                         <ToolbarContent>
                             <select class="ql-header">
@@ -54,57 +53,55 @@
                         </ToolbarContent>
                     </BlazoredTextEditor>
                 </div>
-
             </div>
 
             <div class="col-12 col-lg-5 p-4 2 mt-4 mt-md-0" style="border: 1px solid #fff;">
-                <EditForm Model="OrderDetails" class="container" OnValidSubmit="HandleCheckout">
-                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                <DataAnnotationsValidator></DataAnnotationsValidator>
+                <div class="row px-2 text-success border-bottom">
+                    <div class="col-7 py-1">
+                        <p style="font-size: x-large; margin: 0px;">Enter Details</p>
+                    </div>
+                </div>
 
-                    <div class="row px-2 text-success border-bottom">
-                        <div class="col-7 py-1">
-                            <p style="font-size: x-large; margin: 0px;">Enter Details</p>
-                        </div>
-                    </div>
+                <div class="form-group pt-2">
+                    <label class="text-warning">Name</label>
+                    <input type="text" class="form-control" />
+                    @*<InputText @bind-value="AssignmentBooking.OrderDetails.Name" type="text" class="form-control" />*@
+                </div>
+                <div class="form-group pt-2">
+                    <label class="text-warning">Phone</label>
+                    <input type="text" class="form-control" />
+                    @*<InputText @bind-value="AssignmentBooking.OrderDetails.Phone" type="text" class="form-control" />*@
+                </div>
+                <div class="form-group">
+                    <label class="text-warning">Email</label>
+                    <input type="text" class="form-control" />
+                    @*<InputText @bind-value="AssignmentBooking.OrderDetails.Email" type="text" class="form-control" />*@
+                </div>
+                <div class="form-group">
+                    <label class="text-warning">Freelancers</label>
+                    @*<select class="form-control" value="@FreelancerName" @onchange="HandleFreelancerChange">*@
+                    <select class="form-control" @bind="@FreelancerFirstName">
+                        <option value="Select" selected disabled="disabled">(Select freelancer or leave blank)</option>
+                        <option value="none">blank</option>
+                        @foreach (var freelancer in FreelancerDtos)
+                        {
+                            <option value="@freelancer.FirstName">@freelancer.FirstName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <br /> <div><a href="customer/requestfreelancer" class="btn btn-success form-control">Select Freelancer</a></div><br />
+                </div>
+                <div class="form-group">
 
-                    <div class="form-group pt-2">
-                        <label class="text-warning">Name</label>
-                        <input type="text" class="form-control" />
-                        @*<InputText @bind-value="AssignmentBooking.OrderDetails.Name" type="text" class="form-control" />*@
-                    </div>
-                    <div class="form-group pt-2">
-                        <label class="text-warning">Phone</label>
-                        <input type="text" class="form-control" />
-                        @*<InputText @bind-value="AssignmentBooking.OrderDetails.Phone" type="text" class="form-control" />*@
-                    </div>
-                    <div class="form-group">
-                        <label class="text-warning">Email</label>
-                        <input type="text" class="form-control" />
-                        @*<InputText @bind-value="AssignmentBooking.OrderDetails.Email" type="text" class="form-control" />*@
-                    </div>
-                    <div class="form-group">
-                        <label class="text-warning">Freelancers</label>
-                        @*<select class="form-control" value="@FreelancerName" @onchange="HandleFreelancerChange">*@
-                        <select class="form-control" @bind="@FreelancerFirstName">
-                            <option value="Select" selected disabled="disabled">(Select freelancer or leave blank)</option>
-                            <option value="none">blank</option>
-                            @foreach (var freelancer in FreelancerDtos)
-                            {
-                                <option value="@freelancer.FirstName">@freelancer.FirstName</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <br /> <div><a href="customer/requestfreelancer" class="btn btn-success form-control">Select Freelancer</a></div><br />
-                    </div>
-                    <div class="form-group">
+                    <button type="submit" class="btn btn-success form-control">Create Assignment</button>
+                </div>
 
-                        <button type="submit" class="btn btn-success form-control">Create Assignment</button>
-                    </div>
-                </EditForm>
             </div>
         </div>
-    </div>
+    </EditForm>
+</div>
 
 
     @code {
