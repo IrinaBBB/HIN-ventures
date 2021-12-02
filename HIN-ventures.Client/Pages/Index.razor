@@ -1,12 +1,11 @@
 ﻿@page "/"
-@using HIN_ventures.Client.Helper
-@using HIN_ventures.Client.Model.ViewModel
 @using HIN_ventures.Client.Service.IService
-@inject ILocalStorageService localStorage
+@inject ILocalStorageService _localStorage
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
 @inject IAssignmentService _iAssignmentService 
-@inject IFreelancerService _iFreelancerService 
+@inject IFreelancerService _iFreelancerService
+@using HIN_ventures.Client.Pages.NavButtonComponent
 
 <!--For Testing AuthorizeView with claimsbased authroization-->
 @*<AuthorizeView>
@@ -21,20 +20,33 @@
 
 <div class="container-fluid">
     <div class="d-flex">
+
+        <!-- Prøvde å lag en felles komponent av disse knappene: NavButton-->
         <div class="row p-0 mx-0 mt-0">
             <div class="col-4 col-md-2 p-0 pr-2">
-                    <div class="form-group">
-                        <label>&nbsp;</label>
-                        <input type="submit" value="View Customer page" @onclick="@(async () => await GoToCustomerOrder())"class="btn btn-success btn-block" />
-                    </div>
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <input type="submit" value="View Customer page" @onclick="@(async () => await GoToCustomerOrder())" class="btn btn-success btn-block" />
                 </div>
+            </div>
         </div>
 
         <div class="row p-0 mx-0 mt-0">
             <div class="col-4 col-md-2 p-0 pr-2">
                 <div class="form-group">
                     <label>&nbsp;</label>
-                    <input type="submit" value="View Freelancer page" @onclick="@(async () => await GoToFreelancerProfile())"class="btn btn-success btn-block" />
+                    <input type="submit" value="View Freelancer page" @onclick="@(async () => await GoToFreelancerProfile())" class="btn btn-success btn-block" />
+                </div>
+            </div>
+        </div>
+
+        <!--Chat tutorial: https://www.youtube.com/watch?v=5VSUX6w5P8g&t=13s-->
+        <!--GitHub Repo: https://github.com/CuriousDrive/BlazingChat/tree/main/Source%20Code%20By%20Episodes/Episode_24/BlazingChat-->
+        <div class="row p-0 mx-0 mt-0">
+            <div class="col-4 col-md-2 p-0 pr-2">
+                <div class="form-group">
+                    <label>&nbsp;</label>
+                    <input type="submit" value="Go To Chat" @onclick="@(async () => await GoToChat())" class="btn btn-success btn-block" />
                 </div>
             </div>
         </div>
@@ -95,8 +107,12 @@
     public IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
     public IEnumerable<FreelancerDto> Freelancers { get; set; } = new List<FreelancerDto>();
 
+    public UserDto LoggedInUser { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
+
         await LoadAssignments();
 
         IsProcessing = true;
@@ -108,7 +124,7 @@
     {
         try
         {
-            navigationManager.NavigateTo($"customer/createassignment/0", true); //no freelancer selected at first
+            navigationManager.NavigateTo($"customer/createassignment", true); //no freelancer selected at first
         }
         catch (Exception e)
         {
@@ -124,7 +140,29 @@
 
     private async Task GoToFreelancerProfile()
     {
-        navigationManager.NavigateTo($"freelancer/createprofile", true);
+        try
+        {
+            navigationManager.NavigateTo($"freelancer/createprofile", true);
+        }
+        catch (Exception e)
+        {
+            await jsRuntime.ToastrError(e.Message);
+        }
     }
 
+    private async Task GoToChat()
+    {
+
+        try
+        {
+            //navigationManager.NavigateTo($"chat/{LoggedInUser.Id}", true);
+            //navigationManager.NavigateTo($"chat/{LoggedInUser}", true);
+            navigationManager.NavigateTo("chat", true);
+        }
+        catch (Exception e)
+        {
+            await jsRuntime.ToastrError(e.Message);
+        }
+
+    }
 }

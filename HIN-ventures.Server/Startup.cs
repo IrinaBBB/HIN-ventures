@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mime;
 using HIN_ventures.Business.Repositories;
 using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
@@ -10,6 +11,7 @@ using HIN_ventures.Server.Service;
 using HIN_ventures.Server.Service.IService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -32,12 +34,13 @@ namespace HIN_ventures.Server
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddResponseCompression(opts =>
-            //{
-            //    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-            //        new[] { "application/octet-stream" });
-            //});
+            
+            services.AddResponseCompression(
+                options => options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+                    new[] { MediaTypeNames.Application.Octet }));
+
             services.AddRazorPages();
+            services.AddSignalR();
             services.AddServerSideBlazor();
 
             services.AddSingleton<HttpClient>(); //needed to consume external API in razor pages
@@ -72,7 +75,8 @@ namespace HIN_ventures.Server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
 
-            //app.UseResponseCompression();
+            app.UseResponseCompression();
+         
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -97,9 +101,9 @@ namespace HIN_ventures.Server
                 //    name: "default",
                 //    pattern: "{controller=Home}/{ action = Index2}/{ id ?}");
                 endpoints.MapRazorPages();
-                endpoints.MapBlazorHub();
+                endpoints.MapHub<ChatHub>("/chathub");
                 endpoints.MapFallbackToPage("/_Host");
-                endpoints.MapHub<BlazorChatSampleHub>(BlazorChatSampleHub.HubUrl);
+                //endpoints.MapHub<BlazorChatSampleHub>(BlazorChatSampleHub.HubUrl);
             });
         }
     }

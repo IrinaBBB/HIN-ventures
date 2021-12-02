@@ -19,10 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HIN-ventures.Common\HIN-ventures.Common.csproj" />
     <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Hubs\" />
+    <ProjectReference Include="..\HIN-ventures.Shared\HIN-ventures.Shared.csproj" />
   </ItemGroup>
 
 </Project>

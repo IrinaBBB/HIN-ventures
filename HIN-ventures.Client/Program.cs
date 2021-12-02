@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using HIN_ventures.Client.Service;
 using HIN_ventures.Client.Service.IService;
+using HIN_ventures.Client.ViewModels;
 using HIN_ventures_Client.Service;
 using HIN_ventures_Client.Service.IService;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -20,6 +21,9 @@ namespace HIN_ventures.Client
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
+
+            builder.Services.AddOptions();
+            builder.Services.AddAuthorizationCore();
 
             //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) })
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = 

@@ -1,4 +1,5 @@
-﻿@page "/customer/createassignment/{FreelancerId:int}"
+﻿@page  "/customer/createassignment/"
+@page "/customer/createassignment/{FreelancerId:int}"
 @using HIN_ventures.Client.Model.ViewModel
 @using HIN_ventures.Client.Service.IService
 @inject ILocalStorageService _localStorage
@@ -7,23 +8,17 @@
 @inject IBookingDetailsService _bookingDetailsService
 @using Microsoft.AspNetCore.Authorization
 @using System.Dynamic
+@using HIN_ventures.DataAccess.Entities
 @attribute [Authorize(Roles = SD.Role_Customer)]
+@* Inspirasjonen til koden er hentet fra https://github.com/bhrugen/HiddenVillaBlazor/blob/master/HiddenVilla_Server/Pages/HotelRoom/HotelRoomUpsert.razor *@
+    @*Inspirasjonen til koden er hentet fra https://github.com/bhrugen/HiddenVillaBlazor/blob/master/HiddenVilla_Client/Pages/HotelRooms/RoomDetails.razor*@
 
-@*Inspirasjonen til koden er hentet fra https://github.com/bhrugen/HiddenVillaBlazor/blob/master/HiddenVilla_Client/Pages/HotelRooms/RoomDetails.razor*@
-
-@*if (AssignmentBooking?.OrderDetails?.AssignmentDto ?.HotelRoomImages == null)
-        {
-            <div class="spinner"></div>
-        }
-        else
-        {*@
-    <div class="mt-4 mx-4 px-0 px-md-5 mx-md-5">
-
-        <div class="row p-2 my-3" style="border-radius:20px; ">
+<div class="row mt-4 mx-4 px-0 px-md-5 mx-md-5">
+    <EditForm Model="OrderDetails" class="container" OnValidSubmit="HandleCheckout">
+        <div class="row p-2 my-3" style="border-radius: 20px;">
             <div class="col-12 col-lg-7 p-4" style="border: 1px solid #fff">
-                <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size:x-large;margin:0px;">Describe Your Assignment</p></div></div>
+                <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size: x-large; margin: 0px;">Describe Your Assignment</p></div></div>
                 <div class="form-group" style="height: 300px; padding-top: 30px;">
-
                     <BlazoredTextEditor @ref="@QuillHtml" Placeholder="Please describe your request">
                         <ToolbarContent>
                             <select class="ql-header">
@@ -54,203 +49,214 @@
                         </ToolbarContent>
                     </BlazoredTextEditor>
                 </div>
-
             </div>
 
-            <div class="col-12 col-lg-5 p-4 2 mt-4 mt-md-0" style="border: 1px solid #fff;">
-                <EditForm Model="OrderDetails" class="container" OnValidSubmit="HandleCheckout">
-                    <DataAnnotationsValidator></DataAnnotationsValidator>
 
-                    <div class="row px-2 text-success border-bottom">
-                        <div class="col-7 py-1">
-                            <p style="font-size: x-large; margin: 0px;">Enter Details</p>
-                        </div>
+            <div class="col-sm-4 col-lg-5 p-4 2 mt-4 mt-md-0" style="border: 1px solid #fff;">
+                @*<DataAnnotationsValidator></DataAnnotationsValidator>*@
+                <div class="row px-2 text-success border-bottom">
+                    <div class="col-7 py-1">
+                        <p style="font-size: x-large; margin: 0px;">Enter Details</p>
                     </div>
+                </div>
 
-                    <div class="form-group pt-2">
-                        <label class="text-warning">Name</label>
-                        <input type="text" class="form-control" />
-                        @*<InputText @bind-value="AssignmentBooking.OrderDetails.Name" type="text" class="form-control" />*@
-                    </div>
-                    <div class="form-group pt-2">
-                        <label class="text-warning">Phone</label>
-                        <input type="text" class="form-control" />
-                        @*<InputText @bind-value="AssignmentBooking.OrderDetails.Phone" type="text" class="form-control" />*@
-                    </div>
-                    <div class="form-group">
-                        <label class="text-warning">Email</label>
-                        <input type="text" class="form-control" />
-                        @*<InputText @bind-value="AssignmentBooking.OrderDetails.Email" type="text" class="form-control" />*@
-                    </div>
-                    <div class="form-group">
-                        <label class="text-warning">Freelancers</label>
-                        @*<select class="form-control" value="@FreelancerName" @onchange="HandleFreelancerChange">*@
-                        <select class="form-control" @bind="@FreelancerFirstName">
-                            <option value="Select" selected disabled="disabled">(Select freelancer or leave blank)</option>
-                            <option value="none">blank</option>
-                            @foreach (var freelancer in FreelancerDtos)
-                            {
-                                <option value="@freelancer.FirstName">@freelancer.FirstName</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <br /> <div><a href="customer/requestfreelancer" class="btn btn-success form-control">Select Freelancer</a></div><br />
-                    </div>
-                    <div class="form-group">
+                <div class="form-group pt-2">
+                    <label class="text-warning">Name</label>
+                    <input type="text" class="form-control" />
+                    @*<label>Name</label>
+                        <InputText @bind-value="OrderDetails.Name" type="text" class="form-control" />*@
+                    @* <ValidationMessage For="()=>OrderDetails.Name"></ValidationMessage>*@
+                </div>
+                <div class="form-group pt-2">
+                    <label class="text-warning">Phone</label>
+                    <input type="text" class="form-control" />
+                    @*<InputText @bind-value="OrderDetails.Phone" type="text" class="form-control" />
+                        <ValidationMessage For="()=>OrderDetails.Name"></ValidationMessage>*@
+                </div>
+                <div class="form-group">
+                    <label class="text-warning">Email</label>
+                    <input type="text" class="form-control" />
+                    @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />
+                        <ValidationMessage For="()=>OrderDetails.Name"></ValidationMessage>*@
+                </div>
+                <div class="form-group">
+                    <label class="text-warning">Freelancers</label>
+                    @*<select class="form-control" value="@FreelancerName" @onchange="HandleFreelancerChange">*@
 
-                        <button type="submit" class="btn btn-success form-control">Create Assignment</button>
-                    </div>
-                </EditForm>
+                    <select class="form-control" @bind="@FreelancerFirstName">
+                        <option value="Select" selected disabled="disabled">(Select freelancer or none)</option>
+                        @foreach (var freelancer in FreelancerDtos)
+                        {
+                            <option value="@freelancer.FirstName">@freelancer.FirstName @freelancer.LastName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <br />
+                    <div><a href="customer/requestfreelancer" class="btn btn-success form-control">Select Freelancer</a></div><br />
+                </div>
+                <div class="form-group">
+
+                    <button type="submit" class="btn btn-success form-control">Create Assignment</button>
+                </div>
             </div>
         </div>
-    </div>
+    </EditForm>
+</div>
 
 
-    @code {
-
-        [Parameter]
-        public int? FreelancerId { get; set; } //Id is passed when the page is entered
-        public string FreelancerFirstName { get; set; }
-        public string FreelancerLastName { get; set; }
-        public string UserName { get; set; }
-        public UserDto LoggedInUser { get; set; }
 
 
-        public BookingDetailsDto OrderDetails { get; set; }
-        public IEnumerable<FreelancerDto> FreelancerDtos { get; set; } = new List<FreelancerDto>();
-        public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
 
-        [Inject]
-        public IBookingDetailsService BookingService { get; set; } //for finalizing the order
+@code {
 
 
-        protected override async Task OnInitializedAsync()
+    public string FreelancerFirstName { get; set; }
+    public string FreelancerLastName { get; set; }
+    public UserDto LoggedInUser { get; set; }
+
+    public IEnumerable<FreelancerDto> FreelancerDtos { get; set; } = new List<FreelancerDto>();
+    public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
+
+    [Parameter]
+    public BookingDetailsDto OrderDetails { get; set; } = new BookingDetailsDto();
+
+    [Parameter]
+    public int? FreelancerId { get; set; } //Id is passed when the page is entered
+
+
+    //[Inject]
+    //public IBookingDetailsService BookingService { get; set; } //for finalizing the order
+
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        try
         {
-            OrderDetails = new BookingDetailsDto();
-            try
+            await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
+
+            //Create a new Assignment
+            //OrderDetails = new BookingDetailsDto
+            //{
+            //    AssignmentDto = new AssignmentDto(),
+            //};
+
+
+            FreelancerDtos = await _freelancerService.GetFreelancers(); //used in selectionlist
+
+            if (FreelancerId != null)
             {
-                await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
-
-
-                FreelancerDtos = await _freelancerService.GetFreelancers(); //used in selectionlist
-
-                if (FreelancerId != null)
-                {
-                    OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
-                    FreelancerFirstName = OrderDetails.FreelancerDto.FirstName;
-                    FreelancerLastName = OrderDetails.FreelancerDto.LastName;
-                }
-
-
-                //Info about logged in user (customer)
-
-                if (await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails) != null)
-                {
-                    LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
-
-                    OrderDetails.UserId = LoggedInUser.Id;
-                    OrderDetails.Name = LoggedInUser.FirstName + " " + LoggedInUser.LastName;
-                    OrderDetails.Email = LoggedInUser.Email;
-                    OrderDetails.Phone = LoggedInUser.PhoneNo;
-                }
+                OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
+                FreelancerFirstName = OrderDetails.FreelancerDto.FirstName;
+                FreelancerLastName = OrderDetails.FreelancerDto.LastName;
             }
-            catch (Exception e)
+            else
             {
-                await jsRuntime.ToastrError(e.Message);
+                OrderDetails.FreelancerDto = new FreelancerDto();
+                OrderDetails.AssignmentDto = new AssignmentDto();
+            }
+
+
+
+            //Info about logged in user (customer)
+
+            if (await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails) != null)
+            {
+                LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
+
+                OrderDetails.UserId = LoggedInUser.Id;
+                OrderDetails.Name = LoggedInUser.FirstName + " " + LoggedInUser.LastName;
+                OrderDetails.Email = LoggedInUser.Email;
+                OrderDetails.Phone = LoggedInUser.PhoneNo;
             }
         }
-
-        protected override async Task OnAfterRenderAsync(bool firstRender) //Denne sjekker hele tiden...pinger og pinger...
+        catch (Exception e)
         {
-            if (!firstRender)
-                return;
-
-            var loading = true;
-            while (loading)
-            {
-                try
-                {
-                    if (!string.IsNullOrEmpty(OrderDetails.AssignmentDto.Description))
-                    {
-                        await QuillHtml.LoadHTMLContent(OrderDetails.AssignmentDto.Description);
-                    }
-                    loading = false;
-                }
-                catch
-                {
-                    await Task.Delay(10);
-                    loading = true;
-                }
-            }
-        }
-
-
-        private async Task HandleFreelancerChange(ChangeEventArgs e)
-        {
-            if (FreelancerId != null) OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
-            FreelancerFirstName = e.Value?.ToString();
-        }
-
-
-        private async Task HandleCheckout()
-        {
-            if (!await HandleValidation())
-            {
-                return;
-            }
-
-            try
-            {
-                if (FreelancerFirstName == "none") //workaround. Don't know how to have a null value in a selection list
-                {
-                    FreelancerFirstName = null;
-                }
-                else
-                {
-                    OrderDetails.FreelancerId = OrderDetails.FreelancerDto.FreelancerId;
-                }
-
-                //OrderDetails.AssignmentDto.Description = await QuillHtml.GetHTML();
-
-
-
-                var orderDetailsSaved = await _bookingDetailsService.SaveBookingDetails(OrderDetails);
-
-                var result = await BookingService.SaveBookingDetails(orderDetailsSaved);
-
-                //If I want to save to local storage instead of DB
-                //await localStorage.SetItemAsync(SD.Local_OrderDetails, orderDetailsSaved);
-
-
-            }
-            catch (Exception e)
-            {
-                await jsRuntime.ToastrError(e.Message);
-            }
-
-        }
-
-        private async Task<bool>
-        HandleValidation()
-        {
-            if (string.IsNullOrEmpty(OrderDetails.Name))
-            {
-                await jsRuntime.ToastrError("Name cannot be empty");
-                return false;
-            }
-            if (string.IsNullOrEmpty(OrderDetails.Phone))
-            {
-                await jsRuntime.ToastrError("Phone cannot be empty");
-                return false;
-            }
-
-            if (string.IsNullOrEmpty(OrderDetails.Email))
-            {
-                await jsRuntime.ToastrError("Email cannot be empty");
-                return false;
-            }
-            return true;
-
+            await jsRuntime.ToastrError(e.Message);
         }
     }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender) //Denne sjekker hele tiden...pinger og pinger...
+    {
+        if (!firstRender)
+            return;
+
+        var loading = true;
+        while (loading)
+        {
+            try
+            {
+
+                if (!string.IsNullOrEmpty(OrderDetails.AssignmentDto.Description))
+                {
+                    await QuillHtml.LoadHTMLContent(OrderDetails.AssignmentDto.Description);
+                }
+                loading = false;
+            }
+            catch
+            {
+                await Task.Delay(10);
+                loading = true;
+            }
+        }
+    }
+
+
+    //private async Task HandleFreelancerChange(ChangeEventArgs e)
+    //{
+    //    if (FreelancerId != null) OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
+    //    FreelancerFirstName = e.Value?.ToString();
+    //}
+
+
+    private async Task HandleCheckout()
+    {
+        if (!await HandleValidation())
+        {
+            return;
+        }
+
+        try
+        {
+            if(OrderDetails.Id != 0)
+            {
+                OrderDetails.FreelancerId = OrderDetails.FreelancerDto.FreelancerId;
+                OrderDetails.AssignmentDto.Description = await QuillHtml.GetHTML();
+                var orderDetailsSaved = await _bookingDetailsService.SaveBookingDetails(OrderDetails);
+                var result = await _bookingDetailsService.SaveBookingDetails(orderDetailsSaved);
+                //If I want to save to local storage....
+                //await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDetailsSaved);
+            }
+
+        }
+        catch (Exception e)
+        {
+            await jsRuntime.ToastrError(e.Message);
+        }
+
+    }
+
+    private async Task<bool>
+    HandleValidation()
+    {
+        if (string.IsNullOrEmpty(OrderDetails.Name))
+        {
+            await jsRuntime.ToastrError("Name cannot be empty");
+            return false;
+        }
+        if (string.IsNullOrEmpty(OrderDetails.Phone))
+        {
+            await jsRuntime.ToastrError("Phone cannot be empty");
+            return false;
+        }
+
+        if (string.IsNullOrEmpty(OrderDetails.Email))
+        {
+            await jsRuntime.ToastrError("Email cannot be empty");
+            return false;
+        }
+        return true;
+
+    }
+}

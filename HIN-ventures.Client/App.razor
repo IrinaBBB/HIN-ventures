@@ -1,20 +1,42 @@
-<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
-    <Found Context="routeData">
-        <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-            <Authorizing>
-                <p>Please wait, we are authorizing the user.</p>
-            </Authorizing>
-            <NotAuthorized>
-                <p>Not Authorized</p>
-                @*<HIN_ventures.Client.Pages.Authentication.RedirectToLogin></HIN_ventures.Client.Pages.Authentication.RedirectToLogin>*@
-            </NotAuthorized>
-        </AuthorizeRouteView>
-    </Found>
-    <NotFound>
-        <CascadingAuthenticationState>
-            <LayoutView Layout="@typeof(MainLayout)">
-                <p>Sorry, there's nothing at this address.</p>
-            </LayoutView>
-        </CascadingAuthenticationState>
-    </NotFound>
-</Router>
+@inject Microsoft.AspNetCore.Components.WebAssembly.Services.LazyAssemblyLoader AssemblyLoader
+
+    <CascadingAuthenticationState>
+        <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true"
+                AdditionalAssemblies="lazyLoadedAssemblies"
+                OnNavigateAsync="OnNavigation">
+            <Found Context="routeData">
+                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                    <Authorizing>
+                        <p>Please wait, we are authorizing the user.</p>
+                    </Authorizing>
+                    <NotAuthorized>
+                        <p>Not Authorized</p>
+                        @*<HIN_ventures.Client.Pages.Authentication.RedirectToLogin></HIN_ventures.Client.Pages.Authentication.RedirectToLogin>*@
+                    </NotAuthorized>
+                </AuthorizeRouteView>
+            </Found>
+
+            <NotFound>
+                <CascadingAuthenticationState>
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <p>Sorry, there's nothing at this address.</p>
+                    </LayoutView>
+                </CascadingAuthenticationState>
+            </NotFound>
+        </Router>
+    </CascadingAuthenticationState>
+    @code {
+
+        private List<System.Reflection.Assembly> lazyLoadedAssemblies = new List<System.Reflection.Assembly>();
+
+        private async Task OnNavigation(NavigationContext context)
+        {
+            if (context.Path == "settings") // Url of the page that needs the lazy loaded assembly
+            {
+                var assemblies = await AssemblyLoader.LoadAssembliesAsync(new[] { "Radzen.Blazor.dll" });
+                lazyLoadedAssemblies.AddRange(assemblies);
+            }
+
+        }
+
+    }
