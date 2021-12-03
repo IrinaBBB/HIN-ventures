@@ -83,11 +83,42 @@ else
                         @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
 
                     </div>
+                    
+                    <div class="form-group">
+                        <label class="text-warning">Title</label>
+                        <input type="text" @bind-value="@Title" class="form-control" />
+                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="text-warning">Category</label>
+                        <input type="text" @bind-value="@Category" class="form-control" />
+                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label class="text-warning">Reward</label>
+                        <input type="text" @bind-value="@Price" class="form-control" />
+                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="text-warning">DeadLine</label>
+                        <input type="text" @bind-value="@DeadLine" class="form-control" />
+                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+
+                    </div>
+                    
+
                     <div class="form-group">
                         <label class="text-warning">Freelancers</label>
                         @*<select class="form-control" @onchange="HandleFreelancerChange">*@
 
-                        <select class="form-control" value="@FreelancerFirstName" @onchange="HandleFreelancerChange">
+                        <select class="form-control" value="@FreelancerId" @onchange="HandleFreelancerChange">
                             <option value="Select" selected disabled="disabled">(Select freelancer or none)</option>
                             @foreach (var freelancer in FreelancerDtos)
                             {
@@ -123,27 +154,37 @@ else
     public BookingDetailsDto OrderDetails { get; set; } = new BookingDetailsDto();
 
     [Parameter]
-    public int? FreelancerId { get; set; } //Id is passed when the page is entered
+    public int? FreelancerId { get; set; } //chosen from dropdown or from list
 
+    [Parameter]
+    public int Price { get; set; } = 1; //How much is it worth?
 
-    //[Inject]
-    //public IBookingDetailsService BookingService { get; set; } //for finalizing the order
+    [Parameter]
+    public string Title { get; set; } = "Standard Tittel"; //Title of assignment?
 
+    [Parameter]
+    public string Category { get; set; } = "Standard Kategori"; //What category does the assignment belong to?
+
+    [Parameter]
+    public DateTime? DeadLine { get; set; } = null; //What category does the assignment belong to?
 
     protected override async Task OnInitializedAsync()
     {
-
         try
         {
+
+            var freeid = FreelancerId;
             //await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
 
             //Create a new order
-            OrderDetails = new BookingDetailsDto();
-            OrderDetails.AssignmentDto = new AssignmentDto();
+            OrderDetails = new BookingDetailsDto
+            {
+                AssignmentDto = new AssignmentDto()
+            };
 
             FreelancerDtos = await _freelancerService.GetFreelancers(); //used in selectionlist
 
-            if (FreelancerId != null) // A freelancer has been chosen
+            if (FreelancerId != null) // A freelancer has been chosen from the list
             {
                 OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
 
@@ -153,7 +194,6 @@ else
             else //A freelancer has not been chosen....make an empty object of Freelancer
             {
                 OrderDetails.FreelancerDto = new FreelancerDto();
-
             }
 
             //Info about logged in user (customer)
@@ -201,10 +241,14 @@ else
 
     private async Task HandleFreelancerChange(ChangeEventArgs e)
     {
+        //var id = FreelancerId; //for testing purposes
+        
         if (e.Value != null)
         {
             OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(Convert.ToInt32(e.Value.ToString()));
         }
+
+
     }
 
 
@@ -218,6 +262,11 @@ else
         try
         {
             OrderDetails.AssignmentDto.Description = await QuillHtml.GetHTML();
+            OrderDetails.AssignmentDto.Title = Title;
+            OrderDetails.AssignmentDto.Price = Price;
+            OrderDetails.AssignmentDto.Category = Category;
+            OrderDetails.AssignmentDto.Deadline = DeadLine;
+
             var orderDetailsSaved = await _bookingDetailsService.SaveBookingDetails(OrderDetails);
             //If I want to save to local storage....
             //await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDetailsSaved);

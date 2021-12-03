@@ -33,7 +33,7 @@ namespace HIN_ventures_Api.Controllers
             {
                 return BadRequest(new ErrorModel()
                 {
-                    ErrorMessage = "Error while creating Room Details/ Booking"
+                    ErrorMessage = "Error while creating new Assignment/ Booking"
                 });
             }
         }
