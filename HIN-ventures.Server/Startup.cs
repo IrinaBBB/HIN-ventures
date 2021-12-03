@@ -50,6 +50,10 @@ namespace HIN_ventures.Server
             {
                 options.UseMySql(dbConnectionString, ServerVersion.AutoDetect(dbConnectionString));
             });
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //{
+            //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            //});
             
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()

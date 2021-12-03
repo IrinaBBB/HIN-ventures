@@ -28,17 +28,14 @@ namespace HIN_ventures.Business.Repositories
             try
             {
                 var newOrder = _mapper.Map<BookingDetailsDto, BookingDetails>(details);
-                
-                //newOrder.OrderStatus = SD.Status_Pending; //status will change once the assignment is picked up by the freelancer
+                newOrder.OrderStatus = SD.Status_Pending; //status will change once the assignment is picked up by the freelancer
 
-                //if(details.FreelancerDto.FreelancerId != 0)
-                //{
-                //    details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerDto.FreelancerId); //her skjærer det seg :/
-                //    newOrder.OrderStatus = SD.Status_Booked;
-                //}
+                if(details.FreelancerDto != null)
+                {
+                    //    details.FreelancerDto = await _db.Freelancers.FindAsync(details.FreelancerDto.FreelancerId); //her skjærer det seg :/
+                    newOrder.OrderStatus = SD.Status_Booked;
+                }
 
-                //details.AssignmentDto.Description = "Just some placeholder text";
-                
                 var result = await _db.BookingDetails.AddAsync(newOrder);
                 await _db.SaveChangesAsync();
                 return _mapper.Map<BookingDetails, BookingDetailsDto>(result.Entity);
@@ -49,7 +46,7 @@ namespace HIN_ventures.Business.Repositories
             }
         }
 
-        public async Task<IEnumerable<BookingDetailsDto>> GetBookingDetails()
+        public async Task<IEnumerable<BookingDetailsDto>> GetAllBookingDetails()
         {
             try
             {
@@ -65,17 +62,15 @@ namespace HIN_ventures.Business.Repositories
             }
         }
 
-        public async Task<BookingDetailsDto> GetFreelancerOrderDetail(int freelancerOrderId)
+        public async Task<BookingDetailsDto> GetBookingDetail(int orderId)
         {
             try
             {
-                BookingDetails freelancerOrder = await _db.BookingDetails
-                    .Include(f => f.Freelancer) //.ThenInclude(x => x.HotelRoomImages) //må legge inn bilder av frilanser her
-                    .FirstOrDefaultAsync(u => u.Id == freelancerOrderId);
+                BookingDetails bookingOrder = await _db.BookingDetails
+                    .Include(f => f.Freelancer) //.ThenInclude(x => x.HotelRoomImages) //må legge inn bilder av frilanser....se video 158
+                    .FirstOrDefaultAsync(u => u.Id == orderId);
 
-                BookingDetailsDto bookingDetailsDto = _mapper.Map<BookingDetails, BookingDetailsDto>(freelancerOrder);
-                //roomOrderDetailsDTO.HotelRoomDTO.TotalDays = roomOrderDetailsDTO.CheckOutDate
-                //    .Subtract(roomOrderDetailsDTO.CheckInDate).Days;
+                BookingDetailsDto bookingDetailsDto = _mapper.Map<BookingDetails, BookingDetailsDto>(bookingOrder);
 
                 return bookingDetailsDto;
             }
