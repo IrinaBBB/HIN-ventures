@@ -26,16 +26,8 @@
 
 @code {
 
-    readonly HttpClient _client = new();
+    HttpClient _client = new();
     double _hinVenturesBalance;
-
-    public class TransferByLabel
-    {
-        public string FromLabel { get; set; }
-        public string ToLabel { get; set; }
-        public double Amount { get; set; }
-    }
-
 
     public class TransferByAdress
     {
@@ -44,7 +36,7 @@
         public double Amount { get; set; }
     }
 
-    readonly IBlockIO _blockIo = new BlockIO("9da8-f106-e0c7-e733");
+    IBlockIO _blockIo = new BlockIO("9da8-f106-e0c7-e733");
 
     protected override async Task OnInitializedAsync()
     {
@@ -117,10 +109,17 @@
         }
     }
 
+    public class TransferByLabel
+    {
+        public string FromLabel { get; set; }
+        public string ToLabel { get; set; }
+        public double Amount { get; set; }
+    }
+
     private async Task SendOneCoin()
     {
         List<TransferByLabel> transfer = new List<TransferByLabel>
-        {
+    {
 
             new() { FromLabel = "HIN-Ventures", ToLabel = "FreelancerTest", Amount = 1.0 }
         };

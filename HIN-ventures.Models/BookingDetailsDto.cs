@@ -19,7 +19,7 @@ namespace HIN_ventures.Models
 
         public FreelancerDto FreelancerDto { get; set; } //kan bare booke en frilanser om gangen
 
-        public Assignment AssignmentDto { get; set; } //assignment som frilanseren skal bookes til
+        public AssignmentDto AssignmentDto { get; set; } //assignment som frilanseren skal bookes til
 
         //additional info on the customer who is booking
         public string Name { get; set; }
