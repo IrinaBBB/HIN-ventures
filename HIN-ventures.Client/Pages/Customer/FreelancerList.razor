@@ -39,8 +39,10 @@
             </div>
         </div>
     </EditForm>
+
+
     <div class="mt-4 mx-4 px-0 px-md-5 mx-md-5">
-        <p>Freelancer with Id @ratedFreelancer received a rating of @newRating</p>
+        <p>Freelancer with Id @_ratedFreelancerId received a rating of @_newRating</p>
 
         @foreach (var freelancer in FreelancerDtos)
         {
@@ -55,7 +57,10 @@
                         <div class="col-12 col-lg-8">
                             <p class="card-title text-warning" style="font-size:xx-large">@freelancer.FirstName @freelancer.LastName </p>
                             <p class="card-text">
-                                @((MarkupString)freelancer.Speciality)
+                                Speciality: @((MarkupString)freelancer.Speciality)
+                            </p>
+                            <p class="card-text">
+                                Average Rating: @freelancer.AverageRating
                             </p>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -64,6 +69,7 @@
                                     <a href="@($"customer/createassignment/{freelancer.FreelancerId}")" class="btn btn-success btn-block">Book</a>
                                 </div>
                             </div>
+                            
                             <div class="row ">
                                 @*<MudCard>
                                     <MudCardContent>
@@ -76,10 +82,8 @@
                                     <span class="float-right">
                                         @*<span class="float-right">Current rating : @freelancer.AverageRating </span><br />*@
                                         <span class="float-right pt-1">Lines of Code pr. month : @freelancer.LinesOfCodeMonth</span><br/>
-                                        @*<input type=number @bind="@newRating" />*@
-                                        @*<button @onclick="@(e => SetRating(freelancer.FreelancerId))">Rate</button>*@
-                                        @*<span class="float-right">Something</span>*@
-                                        <IndividualFreelancer Message="message" OnClickCallback="@ShowMessage" Freelancers="@freelancer"></IndividualFreelancer>
+
+                                        <IndividualFreelancer Message="message" OnClickCallback="@UpdateRating" Freelancer="@freelancer"></IndividualFreelancer>
                                     </span>
                                 </div>
                             </div>
@@ -88,7 +92,7 @@
                 </div>
             </div>
         }
-        <p>Freelancer with Id @ratedFreelancer received a rating of @newRating</p>
+        <p>Freelancer with Id @_ratedFreelancerId received a rating of @_newRating</p>
     </div>
 }
 else
@@ -98,16 +102,11 @@ else
     </div>
 }
 @code {
-    string selectedSpeciality;
     private FreelancerVM FreelancerModel { get; set; } = new();
     public IEnumerable<FreelancerDto> FreelancerDtos { get; set; } = new List<FreelancerDto>();
     private bool IsProcessing { get; set; } = false;
-    private int newRating;
-    public string SelectedFreelancer { get; set; } = "";
-    private int ratedFreelancer;
-
-    [Parameter]
-    public int? id { get; set; }
+    private int _newRating;
+    private int _ratedFreelancerId;
 
     protected override async Task OnInitializedAsync()
     {
@@ -116,10 +115,6 @@ else
             if (await localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails) != null)
             {
                 FreelancerModel = await localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails);
-            }
-            else
-            {
-                FreelancerModel.Speciality = "Blazor";
             }
 
             await LoadFreelancers();
@@ -157,14 +152,9 @@ else
         IsProcessing = false;
     }
 
-    protected void FreelancerSelectionChanged(string freelancer)
+    private void UpdateRating(string message)
     {
-        SelectedFreelancer = freelancer;
-    }
-
-    private void ShowMessage(string message)
-    {
-        newRating = int.Parse(message[..^1]);
-        ratedFreelancer = int.Parse(message[^1..]);
+        _newRating = int.Parse(message[..^1]);
+        _ratedFreelancerId = int.Parse(message[^1..]);
     }
 }

@@ -4,28 +4,22 @@
 
 
 @code {
- 
+
     private string _message;
 
     [Parameter]
     public string Message {get; set;}
-       
+
     [Parameter]
     public EventCallback<string> OnClickCallback {get; set;}
 
     [Parameter]
-    public FreelancerDto Freelancers { get; set; }
+    public FreelancerDto Freelancer { get; set; }
 
-    [Parameter]
-    public EventCallback<string> OnFreelancerSelection { get; set; }
 
-    [Parameter]
-    public EventCallback<MouseEventArgs> OnClickBtnMethod { get; set; }
-
-    
     private async Task ChangeMessage()
     {
 
-        await OnClickCallback.InvokeAsync(_message + $"{Freelancers.FreelancerId}");
+        await OnClickCallback.InvokeAsync(_message + $"{Freelancer.FreelancerId}");
     }
 }

@@ -21,8 +21,8 @@ namespace HIN_ventures.Common
         public const string Local_OrderDetails = "AssignmentOrderDetails";
         public const string Local_Token = "JWT Token";
         public const string LocalUserDetails = "User Details"; //logged in user
-        public const string FreelancerDetails = "User Details"; //logged in user
-        public const string CustomerDetails = "User Details"; //logged in user
+        public const string FreelancerDetails = "Freelancer Details"; //logged in user
+        public const string CustomerDetails = "Customer Details"; //logged in user
 
 
         public const string Status_Pending = "Pending";

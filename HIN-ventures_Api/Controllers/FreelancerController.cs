@@ -16,9 +16,9 @@ namespace HIN_ventures_Api.Controllers
     {
         private readonly IFreelancerRepository _freelancerRepository;
 
-        public FreelancerController(IFreelancerRepository hotelRoomRepository)
+        public FreelancerController(IFreelancerRepository freelancerRepository)
         {
-            _freelancerRepository = hotelRoomRepository;
+            _freelancerRepository = freelancerRepository;
         }
 
         [HttpGet]
