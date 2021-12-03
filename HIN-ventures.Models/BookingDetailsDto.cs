@@ -15,7 +15,7 @@ namespace HIN_ventures.Models
         
         public string UserId { get; set; } //the customer
 
-        public int FreelancerId; //the freelancer customer is hiring
+        //public int FreelancerId; //the freelancer customer is hiring
 
         public FreelancerDto FreelancerDto { get; set; } //kan bare booke en frilanser om gangen
 

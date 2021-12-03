@@ -1,31 +1,30 @@
-@inject Microsoft.AspNetCore.Components.WebAssembly.Services.LazyAssemblyLoader AssemblyLoader
+@*@inject Microsoft.AspNetCore.Components.WebAssembly.Services.LazyAssemblyLoader AssemblyLoader*@
 
-    <CascadingAuthenticationState>
-        <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true"
-                AdditionalAssemblies="lazyLoadedAssemblies"
-                OnNavigateAsync="OnNavigation">
-            <Found Context="routeData">
-                <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
-                    <Authorizing>
-                        <p>Please wait, we are authorizing the user.</p>
-                    </Authorizing>
-                    <NotAuthorized>
-                        <p>Not Authorized</p>
-                        @*<HIN_ventures.Client.Pages.Authentication.RedirectToLogin></HIN_ventures.Client.Pages.Authentication.RedirectToLogin>*@
-                    </NotAuthorized>
-                </AuthorizeRouteView>
-            </Found>
+@*<CascadingAuthenticationState>*@
+    <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <p>Please wait, we are authorizing the user.</p>
+                </Authorizing>
+                <NotAuthorized>
+                    <p>Not Authorized</p>
+                    @*<HIN_ventures.Client.Pages.Authentication.RedirectToLogin></HIN_ventures.Client.Pages.Authentication.RedirectToLogin>*@
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
 
-            <NotFound>
-                <CascadingAuthenticationState>
-                    <LayoutView Layout="@typeof(MainLayout)">
-                        <p>Sorry, there's nothing at this address.</p>
-                    </LayoutView>
-                </CascadingAuthenticationState>
-            </NotFound>
-        </Router>
-    </CascadingAuthenticationState>
-    @code {
+        <NotFound>
+            <CascadingAuthenticationState>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <p>Sorry, there's nothing at this address.</p>
+                </LayoutView>
+            </CascadingAuthenticationState>
+        </NotFound>
+    </Router>
+
+
+@*@code { RELATED TO CHAT: https://github.com/CuriousDrive/BlazingChat/blob/main/Source%20Code%20By%20Episodes/Episode_24/BlazingChat/Client/App.razor
 
         private List<System.Reflection.Assembly> lazyLoadedAssemblies = new List<System.Reflection.Assembly>();
 
@@ -39,4 +38,4 @@
 
         }
 
-    }
+    }*@

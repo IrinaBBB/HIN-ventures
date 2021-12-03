@@ -5,7 +5,7 @@
 @inject IFreelancerRepository _freelancerRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
-@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
+@attribute [Authorize(Roles = Common.SD.Role_Freelancer)]
 
 
 <MudCard>
@@ -136,32 +136,3 @@
         await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
     }
 }
-
-
-<!--<div class="row mt-2 mb-5">
-    <h3 class="card-title text-info mb-3 ml-3">@Title Freelancer</h3>
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-body">
-                <EditForm Model="FreelancerModel" OnValidSubmit="HandelFreelancerUpsert">
-                    <DataAnnotationsValidator />-->
-@*<ValidationSummary/>*@
-<!--<div class="form-group">
-                        <label>Name</label>
-                        <InputText @bind-Value="FreelancerModel.LastName" class="form-control"></InputText>
-                        <ValidationMessage For="()=>FreelancerModel.LastName"></ValidationMessage>
-                    </div>
-                    <div class="form-group">
-                        <label>Field of expertise</label>
-                        <InputText @bind-Value="FreelancerModel.Specialty" class="form-control"></InputText>
-                        <ValidationMessage For="()=>FreelancerModel.Specialty"></ValidationMessage>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-primary">@Title Freelancer</button>
-                        <NavLink href="freelancer" class="btn btn-secondary">Back to Index</NavLink>
-                    </div>
-                </EditForm>
-            </div>
-        </div>
-    </div>
-</div>-->

@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures_Api", "HIN-ven
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Client", "HIN-ventures.Client\HIN-ventures.Client.csproj", "{4E16A089-4849-40A7-91EA-B79F21A64A9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HIN-ventures.Shared", "HIN-ventures.Shared\HIN-ventures.Shared.csproj", "{7EFFC7B8-AF57-425C-8E68-88CB56DFD804}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Shared", "HIN-ventures.Shared\HIN-ventures.Shared.csproj", "{7EFFC7B8-AF57-425C-8E68-88CB56DFD804}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

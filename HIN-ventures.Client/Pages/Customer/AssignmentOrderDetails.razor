@@ -1,4 +1,4 @@
-﻿@page  "/customer/createassignment/"
+﻿@page "/customer/createassignment/"
 @page "/customer/createassignment/{FreelancerId:int}"
 @using HIN_ventures.Client.Model.ViewModel
 @using HIN_ventures.Client.Service.IService
@@ -221,7 +221,7 @@
         {
             if(OrderDetails.Id != 0)
             {
-                OrderDetails.FreelancerId = OrderDetails.FreelancerDto.FreelancerId;
+                //OrderDetails.FreelancerId = OrderDetails.FreelancerDto.FreelancerId;
                 OrderDetails.AssignmentDto.Description = await QuillHtml.GetHTML();
                 var orderDetailsSaved = await _bookingDetailsService.SaveBookingDetails(OrderDetails);
                 var result = await _bookingDetailsService.SaveBookingDetails(orderDetailsSaved);
