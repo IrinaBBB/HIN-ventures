@@ -12,9 +12,6 @@ namespace HIN_ventures.DataAccess.Entities
     {
         public int Id { get; set; }
         
-        [Required] public string UserId { get; set; } //the customer
-
-        
         //public int FreelancerId; //the freelancer customer is hiring
 
         //nav properties
@@ -25,6 +22,7 @@ namespace HIN_ventures.DataAccess.Entities
         public Assignment Assignment { get; set; } //må opprette en ny assignment
 
         //additional info on the customer who is booking
+        [Required] public string UserId { get; set; } //the customer
         [Required] public string Name { get; set; }
         [Required] public string Email { get; set; }
         [Required] public string Phone { get; set; }

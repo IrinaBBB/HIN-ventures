@@ -12,8 +12,6 @@ namespace HIN_ventures.Models
     public class BookingDetailsDto
     {
         public int Id { get; set; } //Order id
-        
-        public string UserId { get; set; } //the customer
 
         //public int FreelancerId; //the freelancer customer is hiring
 
@@ -22,6 +20,7 @@ namespace HIN_ventures.Models
         public AssignmentDto AssignmentDto { get; set; } //assignment som frilanseren skal bookes til
 
         //additional info on the customer who is booking
+        public string UserId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }

@@ -1,112 +1,113 @@
 ﻿@page "/customer/createassignment/"
 @page "/customer/createassignment/{FreelancerId:int}"
-@using HIN_ventures.Client.Model.ViewModel
 @using HIN_ventures.Client.Service.IService
 @inject ILocalStorageService _localStorage
 @inject IJSRuntime jsRuntime
 @inject IFreelancerService _freelancerService
+@inject IAssignmentService _assignmentService
 @inject IBookingDetailsService _bookingDetailsService
 @using Microsoft.AspNetCore.Authorization
-@using System.Dynamic
-@using HIN_ventures.DataAccess.Entities
 @attribute [Authorize(Roles = SD.Role_Customer)]
 @* Inspirasjonen til koden er hentet fra https://github.com/bhrugen/HiddenVillaBlazor/blob/master/HiddenVilla_Server/Pages/HotelRoom/HotelRoomUpsert.razor *@
-    @*Inspirasjonen til koden er hentet fra https://github.com/bhrugen/HiddenVillaBlazor/blob/master/HiddenVilla_Client/Pages/HotelRooms/RoomDetails.razor*@
+@*Inspirasjonen til koden er hentet fra https://github.com/bhrugen/HiddenVillaBlazor/blob/master/HiddenVilla_Client/Pages/HotelRooms/RoomDetails.razor*@
 
-<div class="row mt-4 mx-4 px-0 px-md-5 mx-md-5">
-    <EditForm Model="OrderDetails" class="container" OnValidSubmit="HandleCheckout">
-        <div class="row p-2 my-3" style="border-radius: 20px;">
-            <div class="col-12 col-lg-7 p-4" style="border: 1px solid #fff">
-                <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size: x-large; margin: 0px;">Describe Your Assignment</p></div></div>
-                <div class="form-group" style="height: 300px; padding-top: 30px;">
-                    <BlazoredTextEditor @ref="@QuillHtml" Placeholder="Please describe your request">
-                        <ToolbarContent>
-                            <select class="ql-header">
-                                <option selected=""></option>
-                                <option value="1"></option>
-                                <option value="2"></option>
-                                <option value="3"></option>
-                                <option value="4"></option>
-                                <option value="5"></option>
-                            </select>
-                            <span class="ql-formats">
-                                <button class="ql-bold"></button>
-                                <button class="ql-italic"></button>
-                                <button class="ql-underline"></button>
-                                <button class="ql-strike"></button>
-                            </span>
-                            <span class="ql-formats">
-                                <select class="ql-color"></select>
-                                <select class="ql-background"></select>
-                            </span>
-                            <span class="ql-formats">
-                                <button class="ql-list" value="ordered"></button>
-                                <button class="ql-list" value="bullet"></button>
-                            </span>
-                            <span class="ql-formats">
-                                <button class="ql-link"></button>
-                            </span>
-                        </ToolbarContent>
-                    </BlazoredTextEditor>
-                </div>
-            </div>
+@if (OrderDetails?.Name == "") //make sure the fields are populated before we display the page.
+{
+    <div class="spinner"></div>
+}
+else
+{
 
 
-            <div class="col-sm-4 col-lg-5 p-4 2 mt-4 mt-md-0" style="border: 1px solid #fff;">
-                @*<DataAnnotationsValidator></DataAnnotationsValidator>*@
-                <div class="row px-2 text-success border-bottom">
-                    <div class="col-7 py-1">
-                        <p style="font-size: x-large; margin: 0px;">Enter Details</p>
+
+    <div class="row mt-4 mx-4 px-0 px-md-5 mx-md-5">
+        <EditForm Model="OrderDetails" class="container" OnValidSubmit="HandleCheckout">
+            <div class="row p-2 my-3" style="border-radius: 20px;">
+                <div class="col-12 col-lg-7 p-4" style="border: 1px solid #fff">
+                    <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size: x-large; margin: 0px;">Describe Your Assignment</p></div></div>
+                    <div class="form-group" style="height: 300px; padding-top: 30px;">
+                        <BlazoredTextEditor @ref="@QuillHtml" Placeholder="Please describe your request">
+                            <ToolbarContent>
+                                <select class="ql-header">
+                                    <option selected=""></option>
+                                    <option value="1"></option>
+                                    <option value="2"></option>
+                                    <option value="3"></option>
+                                    <option value="4"></option>
+                                    <option value="5"></option>
+                                </select>
+                                <span class="ql-formats">
+                                    <button class="ql-bold"></button>
+                                    <button class="ql-italic"></button>
+                                    <button class="ql-underline"></button>
+                                    <button class="ql-strike"></button>
+                                </span>
+                                <span class="ql-formats">
+                                    <select class="ql-color"></select>
+                                    <select class="ql-background"></select>
+                                </span>
+                                <span class="ql-formats">
+                                    <button class="ql-list" value="ordered"></button>
+                                    <button class="ql-list" value="bullet"></button>
+                                </span>
+                                <span class="ql-formats">
+                                    <button class="ql-link"></button>
+                                </span>
+                            </ToolbarContent>
+                        </BlazoredTextEditor>
                     </div>
                 </div>
 
-                <div class="form-group pt-2">
-                    <label class="text-warning">Name</label>
-                    <input type="text" class="form-control" />
-                    @*<label>Name</label>
-                        <InputText @bind-value="OrderDetails.Name" type="text" class="form-control" />*@
-                    @* <ValidationMessage For="()=>OrderDetails.Name"></ValidationMessage>*@
-                </div>
-                <div class="form-group pt-2">
-                    <label class="text-warning">Phone</label>
-                    <input type="text" class="form-control" />
-                    @*<InputText @bind-value="OrderDetails.Phone" type="text" class="form-control" />
-                        <ValidationMessage For="()=>OrderDetails.Name"></ValidationMessage>*@
-                </div>
-                <div class="form-group">
-                    <label class="text-warning">Email</label>
-                    <input type="text" class="form-control" />
-                    @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />
-                        <ValidationMessage For="()=>OrderDetails.Name"></ValidationMessage>*@
-                </div>
-                <div class="form-group">
-                    <label class="text-warning">Freelancers</label>
-                    @*<select class="form-control" value="@FreelancerName" @onchange="HandleFreelancerChange">*@
 
-                    <select class="form-control" @bind="@FreelancerFirstName">
-                        <option value="Select" selected disabled="disabled">(Select freelancer or none)</option>
-                        @foreach (var freelancer in FreelancerDtos)
-                        {
-                            <option value="@freelancer.FirstName">@freelancer.FirstName @freelancer.LastName</option>
-                        }
-                    </select>
-                </div>
-                <div class="form-group">
-                    <br />
-                    <div><a href="customer/requestfreelancer" class="btn btn-success form-control">Select Freelancer</a></div><br />
-                </div>
-                <div class="form-group">
+                <div class="col-sm-4 col-lg-5 p-4 2 mt-4 mt-md-0" style="border: 1px solid #fff;">
+                    <div class="row px-2 text-success border-bottom">
+                        <div class="col-7 py-1">
+                            <p style="font-size: x-large; margin: 0px;">Enter Details</p>
+                        </div>
+                    </div>
 
-                    <button type="submit" class="btn btn-success form-control">Create Assignment</button>
+                    <div class="form-group pt-2">
+                        <label class="text-warning">Name</label>
+                        <input type="text" value="@OrderDetails.Name" class="form-control">
+                        @*<label>Name</label>
+                            <InputText @bind-value="OrderDetails.Name" type="text" class="form-control" />*@
+                    </div>
+                    <div class="form-group pt-2">
+                        <label class="text-warning">Phone</label>
+                        <input type="text" value="@OrderDetails.Phone" class="form-control" />
+                        @*<InputText @bind-value="OrderDetails.Phone" type="text" class="form-control" />*@
+                    </div>
+                    <div class="form-group">
+                        <label class="text-warning">E-mail</label>
+                        <input type="text" value="@OrderDetails.Email" class="form-control" />
+                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+
+                    </div>
+                    <div class="form-group">
+                        <label class="text-warning">Freelancers</label>
+                        @*<select class="form-control" @onchange="HandleFreelancerChange">*@
+
+                        <select class="form-control" value="@FreelancerFirstName" @onchange="HandleFreelancerChange">
+                            <option value="Select" selected disabled="disabled">(Select freelancer or none)</option>
+                            @foreach (var freelancer in FreelancerDtos)
+                            {
+                                <option value="@freelancer.FreelancerId">@freelancer.FirstName @freelancer.LastName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <br />
+                        <div><a href="customer/requestfreelancer" class="btn btn-success form-control">View All Freelancers</a></div><br />
+                    </div>
+                    <div class="form-group">
+
+                        <button type="submit" class="btn btn-success form-control">Create Assignment</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </EditForm>
-</div>
-
-
-
-
+        </EditForm>
+    </div>
+}
 
 @code {
 
@@ -134,30 +135,26 @@
 
         try
         {
-            await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
+            //await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
 
-            //Create a new Assignment
-            //OrderDetails = new BookingDetailsDto
-            //{
-            //    AssignmentDto = new AssignmentDto(),
-            //};
-
+            //Create a new order
+            OrderDetails = new BookingDetailsDto();
+            OrderDetails.AssignmentDto = new AssignmentDto();
 
             FreelancerDtos = await _freelancerService.GetFreelancers(); //used in selectionlist
 
-            if (FreelancerId != null)
+            if (FreelancerId != null) // A freelancer has been chosen
             {
                 OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
+
                 FreelancerFirstName = OrderDetails.FreelancerDto.FirstName;
                 FreelancerLastName = OrderDetails.FreelancerDto.LastName;
             }
-            else
+            else //A freelancer has not been chosen....make an empty object of Freelancer
             {
                 OrderDetails.FreelancerDto = new FreelancerDto();
-                OrderDetails.AssignmentDto = new AssignmentDto();
+
             }
-
-
 
             //Info about logged in user (customer)
 
@@ -187,7 +184,6 @@
         {
             try
             {
-
                 if (!string.IsNullOrEmpty(OrderDetails.AssignmentDto.Description))
                 {
                     await QuillHtml.LoadHTMLContent(OrderDetails.AssignmentDto.Description);
@@ -203,11 +199,13 @@
     }
 
 
-    //private async Task HandleFreelancerChange(ChangeEventArgs e)
-    //{
-    //    if (FreelancerId != null) OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
-    //    FreelancerFirstName = e.Value?.ToString();
-    //}
+    private async Task HandleFreelancerChange(ChangeEventArgs e)
+    {
+        if (e.Value != null)
+        {
+            OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(Convert.ToInt32(e.Value.ToString()));
+        }
+    }
 
 
     private async Task HandleCheckout()
@@ -219,22 +217,15 @@
 
         try
         {
-            if(OrderDetails.Id != 0)
-            {
-                //OrderDetails.FreelancerId = OrderDetails.FreelancerDto.FreelancerId;
-                OrderDetails.AssignmentDto.Description = await QuillHtml.GetHTML();
-                var orderDetailsSaved = await _bookingDetailsService.SaveBookingDetails(OrderDetails);
-                var result = await _bookingDetailsService.SaveBookingDetails(orderDetailsSaved);
-                //If I want to save to local storage....
-                //await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDetailsSaved);
-            }
-
+            OrderDetails.AssignmentDto.Description = await QuillHtml.GetHTML();
+            var orderDetailsSaved = await _bookingDetailsService.SaveBookingDetails(OrderDetails);
+            //If I want to save to local storage....
+            //await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDetailsSaved);
         }
         catch (Exception e)
         {
             await jsRuntime.ToastrError(e.Message);
         }
-
     }
 
     private async Task<bool>

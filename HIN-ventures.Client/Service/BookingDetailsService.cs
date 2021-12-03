@@ -43,7 +43,7 @@ namespace HIN_ventures.Client.Service
             var content = JsonConvert.SerializeObject(details);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
             var response = await _client.PostAsync("api/assignmentorder/create", bodyContent);
-            //string res = response.Content.ReadAsStringAsync().Result;
+            string res = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
                 var contentTemp = await response.Content.ReadAsStringAsync();
