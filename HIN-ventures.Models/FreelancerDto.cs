@@ -28,14 +28,11 @@ namespace HIN_ventures.Models
 
         public bool IsActive { get; set; } = false;
 
+        public bool IsAvailable { get; set; } = true; //<--- ny IsActive should be replaced by name IsAvailable for clarity. Freelancer may choose.
+
         public virtual ICollection<Assignment> Assignments { get; set; }
       
         public virtual ICollection<Rating> Ratings { get; set; }
-
-        public static implicit operator FreelancerDto(Freelancer v)
-        {
-            throw new NotImplementedException();
-        }
 
         [Required]
         public string IdentityId { get; set; }

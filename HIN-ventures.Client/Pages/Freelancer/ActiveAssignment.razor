@@ -1,0 +1,33 @@
+﻿@using HIN_ventures.Models
+
+<div class="bg-light border p-2 col-5 offset-1">
+    <h4 class="text-secondary">Assignment - @Assignment.Id</h4>
+
+    <input type="checkbox" @onchange="RoomCheckBoxSelectionChanged" />
+    @Assignment.Title<br />
+    @Assignment.Price.ToString("c")<br />
+    <input type="checkbox" @bind-value="Assignment.IsActive" checked="@(Assignment.IsActive?"checked":null)" /> &nbsp; Is Active<br />
+    <span>This room is @(Assignment.IsActive?"Active": "InActive")</span>
+
+    @*@if(Assignment.IsActive)
+    {
+        foreach (var freelancer in Assignment.Freelancer)
+        {
+            <p>@freelancer.Title - @freelancer.Price</p>
+        }
+    }*@
+    </div>
+
+@code {
+
+    [Parameter]
+    public AssignmentDto Assignment { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> OnAssignmentCheckBoxSelection { get; set; }
+
+    protected async Task RoomCheckBoxSelectionChanged(ChangeEventArgs e)
+    {
+        await OnAssignmentCheckBoxSelection.InvokeAsync((bool)e.Value);
+    }
+}

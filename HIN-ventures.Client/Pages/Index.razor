@@ -140,9 +140,10 @@
 
     private async Task GoToFreelancerProfile()
     {
+        var test = LoggedInUser.Id;
         try
         {
-            navigationManager.NavigateTo($"freelancer/profile", true);
+            navigationManager.NavigateTo($"freelancer/profile/", true);
         }
         catch (Exception e)
         {

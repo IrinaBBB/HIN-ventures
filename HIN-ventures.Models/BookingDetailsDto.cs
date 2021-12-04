@@ -13,7 +13,7 @@ namespace HIN_ventures.Models
     {
         public int Id { get; set; } //Order id
 
-        //public int FreelancerId; //the freelancer customer is hiring
+        //public int FreelancerId; //the freelancer the customer is hiring <------ utgår
 
         public FreelancerDto FreelancerDto { get; set; } //kan bare booke en frilanser om gangen
 

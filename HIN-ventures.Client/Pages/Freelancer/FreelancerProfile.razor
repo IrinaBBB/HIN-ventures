@@ -1,8 +1,339 @@
 ﻿@page "/freelancer/profile"
+@*@page "/freelancer/profile/{IdentityId:string}" unsupported routing string*@
+@using HIN_ventures.Client.Service.IService
+@inject ILocalStorageService _localStorage
+@inject IJSRuntime JsRuntime
+@inject IFreelancerService _freelancerService
+@inject IAssignmentService _assignmentService
+@inject IBookingDetailsService _bookingDetailsService
+@inject NavigationManager NavigationManager
+@inject IAssignmentService _iAssignmentService
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = SD.Role_Freelancer)]
 
-<h3>Freelancer test</h3>
+<div class="row mt-2 mb-5">
+    <h3 class="card-title text-info mb-3 ml-3">Freelancer Profile</h3>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <EditForm Model="@FreelancerModel" OnValidSubmit="HandleProfileUpdate">
+                    <DataAnnotationsValidator />
+                    @*<ValidationSummary />*@
+                    <div class="form-group">
+                        <label>Firstname</label>
+                        <InputText @bind-Value="FreelancerModel.FirstName" class="form-control"></InputText>
+                        <ValidationMessage For="()=>FreelancerModel.FirstName"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label>Lastname</label>
+                        <InputText @bind-Value="FreelancerModel.LastName" class="form-control"></InputText>
+                        <ValidationMessage For="()=>FreelancerModel.LastName"></ValidationMessage>
+                    </div>
 
+                    <div class="form-group">
+                        <label>Speciality</label>
+                        <InputText @bind-Value="FreelancerModel.Speciality" class="form-control"></InputText>
+                        <ValidationMessage For="()=>FreelancerModel.Speciality"></ValidationMessage>
+                    </div>
+                    <div class="form-group">
+                        <label>E-Mail</label>
+                        <InputText @bind-Value="FreelancerModel.Email" class="form-control"></InputText>
+                        <ValidationMessage For="()=>FreelancerModel.Email"></ValidationMessage>
+                    </div>
+                    <div class="col">
+                        <label>Are you available for assignments?</label>
+                        <InputCheckbox @bind-Value="FreelancerModel.IsActive"></InputCheckbox>
+                    </div>
+                    <div class="form-group" style="height:250px;">
+
+                        <button class="btn btn-primary">@Title Profile</button>
+                        <NavLink href="/" class="btn btn-secondary">Back to Index</NavLink>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>We will display Assignments and Assignments belonging to the freelancer here!</h3>
+<div class="border p-2 mt-2" style="background-color:azure">
+
+
+    <div class="col-12 mt-4">
+        <h4 class="text-info">Your Current Assignments</h4>
+    </div>
+
+    @foreach (var assignment in AssignmentList)
+    {
+        if (assignment.FreelancerId == FreelancerId) //if this is the freelancer logged in
+        {
+
+            <div class="bg-light border p-2 col-5 offset-1">
+                <h4 class="text-secondary">AssignmentId - @assignment.Id</h4>
+                @if (!assignment.IsActive) 
+                {
+                    @assignment.Title<br />
+                    @assignment.Price.ToString("c")<br />
+                }
+
+
+                <input type="checkbox" @bind-value="assignment.IsActive" checked="@(assignment.IsActive?" checked":null)" /> &nbsp; Sign up for this assignment!<br />
+                <span>This Assignment is @(assignment.IsActive?"Assigned": "Not Assigned")</span>
+
+            </div>
+            <input type="button" class="btn btn-danger" value="Delete" />
+            <input type="button" class="btn btn-success" value="Edit" />
+        }
+        else
+        {
+            //Todo: print you have no assignments if no assignments is found on the freelancer
+        }
+
+
+        
+
+        @*<IndividualFreelancer OnAmenitySelection="AmenitySelectionChanged" Amenities="@amenity">
+                <FirstFragment>#1</FirstFragment>
+                <SecondFragment>#2</SecondFragment>
+            </IndividualFreelancer>*@
+    }
+
+    @*<span>Assignments Selected - @SelectedAssignments</span>*@
+</div>
+<h2 class="text-info">Available Assignments [USING COMPONENT]</h2>
+<div class="row container">
+    <div class="col-12">
+        <h4 class="text-info">Assignments</h4>
+        @foreach (var assignment in AssignmentList)
+        {
+            @*<IndividualAssignment OnAssignmentCheckBoxSelection="AssignmentSelectionCounterChanged" AssignmentDtos="@assignment"></IndividualAssignment>*@
+            <div class="bg-light border p-2 col-5 offset-1">
+                <h4 class="text-secondary">AssignmentId - @assignment.Id</h4>
+                @if (!assignment.IsActive)
+                {
+                    @assignment.Title<br />
+                    @assignment.Price.ToString("c")<br />
+                }
+
+
+                <input type="checkbox" @bind-value="assignment.IsActive" checked="@(assignment.IsActive?" checked":null)" /> &nbsp; Sign up for this assignment!<br />
+                <span>This Assignment is @(assignment.IsActive?"Assigned": "Not Assigned")</span>
+
+            </div>
+        }
+    </div>
+    @*<div class="col-12">
+            <p class="text-secondary"> Selected Amenity : @SelectedAmenity </p>
+        </div>*@
+</div>
 
 @code {
 
+    public IEnumerable<AssignmentDto> AssignmentList { get; set; } = new List<AssignmentDto>();
+    public IEnumerable<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
+
+    public UserDto LoggedInUser { get; set; }
+
+    [Parameter]
+    public string IdentityId { get; set; }
+    public int FreelancerId { get; set; }
+
+    private FreelancerDto FreelancerModel { get; set; } = new FreelancerDto();
+    private string Title { get; set; } = "Create";
+    //private FreelancerImageDto FreelancerImage { get; set; } = new FreelancerImageDto();
+    //private List<string> DeletedImageNames { get; set; } = new List<string>();
+    //private bool IsImageUploadProcessStarted { get; set; } = false;
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(5000); //must be here to stop to use debugger
+        LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
+        IdentityId = LoggedInUser.Id;
+        await LoadAssignmentsAndFreelancers();
+
+        //Is already authenticated...so perhaps unneccesary
+        //var authenticationState = await AuthenticationState;
+        //if (!authenticationState.User.IsInRole(SD.Role_Freelancer))
+        //{
+        //    var uri = new Uri(NavigationManager.Uri);
+        //    NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        //}
+        if (IdentityId != null)
+        {
+            FreelancerModel = (from freelancer in FreelancerList where freelancer.IdentityId.Equals(IdentityId) select freelancer).FirstOrDefault();
+
+            FreelancerId = FreelancerModel.FreelancerId;
+            //updating
+
+            Title = "Update";
+            FreelancerModel = await _freelancerService.GetFreelancer(FreelancerId);
+            //if (FreelancerModel?.FreelancerImages != null)
+            //{
+            //    FreelancerModel.ImageUrls = FreelancerModel.FreelancerImages.Select(u => u.FreelancerImageUrl).ToList();
+            //}
+
+        }
+        else
+        {
+            //create
+            FreelancerModel = new FreelancerDto();
+        }
+
+    }
+
+    private async Task LoadAssignmentsAndFreelancers()
+    {
+        AssignmentList = await _iAssignmentService.GetAssignments();
+        FreelancerList = await _freelancerService.GetFreelancers(); //mulig det ikke er nødv. å gå igjennom alle for se hvilke assignments som tilhører denne frilanseren
+    }
+
+    private async Task HandleProfileUpdate()
+    {
+
+        //FreelancerModel.Speciality = "Blazor!";
+        try
+        {
+            if (FreelancerId != 0) FreelancerModel = await _freelancerService.GetFreelancer(FreelancerId);
+
+            if (FreelancerModel.FreelancerId != 0 && Title == "Update")
+            {
+
+                //update
+                var updateFreelancerResult = await _freelancerService.UpdateFreelancer(FreelancerModel.FreelancerId, FreelancerModel);
+                //if ((FreelancerModel.ImageUrls != null && FreelancerModel.ImageUrls.Any()) || (DeletedImageNames != null && DeletedImageNames.Any()))
+                //{
+                //    if (DeletedImageNames != null && DeletedImageNames.Any())
+                //    {
+                //                foreach (var deletedImageName in DeletedImageNames)
+                //                {
+                //                    var imageName = deletedImageName.Replace($"{NavigationManager.BaseUri}FreelancerImages/", "");
+
+                //                    var result = FileUpload.DeleteFile(imageName);
+                //                    await FreelancerImagesRepository.DeleteFreelancerImageByImageUrl(deletedImageName);
+                //                }
+                //            }
+
+
+
+                //            await AddFreelancerImage(updateFreelancerResult);
+                //        }
+                await JsRuntime.ToastrSuccess("Freelancer updated successfully.");
+            }
+            else
+            {
+                //create
+                var createdResult = FreelancerModel = await _freelancerService.CreateFreelancer(FreelancerModel);
+
+                //        await AddFreelancerImage(createdResult);
+                await JsRuntime.ToastrSuccess("Freelancer created successfully.");
+            }
+        }
+        catch (Exception ex)
+        {
+            //log exceptions
+        }
+
+
+
+        //NavigationManager.NavigateTo("/");
+    }
+
+    //private async Task HandleImageUpload(InputFileChangeEventArgs e)
+    //{
+    //    IsImageUploadProcessStarted = true;
+    //    try
+    //    {
+    //        var images = new List<string>();
+    //        if (e.GetMultipleFiles().Count > 0)
+    //        {
+    //            foreach (var file in e.GetMultipleFiles())
+    //            {
+    //                System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
+    //                if (fileInfo.Extension.ToLower() == ".jpg" ||
+    //                    fileInfo.Extension.ToLower() == ".png" ||
+    //                    fileInfo.Extension.ToLower() == ".jpeg")
+    //                {
+    //                    var uploadedImagePath = await FileUpload.UploadFile(file);
+    //                    images.Add(uploadedImagePath);
+    //                }
+    //                else
+    //                {
+    //                    await JsRuntime.ToastrError("Please select .jpg/.jpeg/.png file only");
+    //                    return;
+    //                }
+    //            }
+
+    //            if (images.Any())
+    //            {
+    //                if (FreelancerModel.ImageUrls != null && HotelRoomModel.ImageUrls.Any())
+    //                {
+    //                    FreelancerModel.ImageUrls.AddRange(images);
+    //                }
+    //                else
+    //                {
+    //                    FreelancerModel.ImageUrls = new List<string>();
+    //                    FreelancerModel.ImageUrls.AddRange(images);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                await JsRuntime.ToastrError("Image uploading failed");
+    //                return;
+    //            }
+    //        }
+    //        IsImageUploadProcessStarted = false;
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        await JsRuntime.ToastrError(ex.Message);
+    //    }
+
+
+
+    //}
+
+    //private async Task AddFreelancerImage(FreelancerDto freelancerDetails)
+    //{
+    //    foreach (var imageUrl in FreelancerModel.ImageUrls)
+    //    {
+    //        if (FreelancerModel.FreelancerImages == null || FreelancerModel.FreelancerImages.Where(x => x.RoomImageUrl == imageUrl).Count() == 0)
+    //        {
+
+    //            FreelancerImage = new FreelancerImageDTO()
+    //            {
+    //                FreelancerId = freelancerDetails.Id,
+    //                FreelancerImageUrl = imageUrl
+    //            };
+    //            await HotelImagesRepository.CreateHotelRoomImage(RoomImage);
+    //        }
+    //    }
+    //}
+
+    //internal async Task DeletePhoto(string imageUrl)
+    //{
+    //    try
+    //    {
+    //        var imageIndex = HotelRoomModel.ImageUrls.FindIndex(x => x == imageUrl);
+    //        var imageName = imageUrl.Replace($"{NavigationManager.BaseUri}RoomImages/", "");
+    //        if (HotelRoomModel.Id == 0 && Title == "Create")
+    //        {
+    //            var result = FileUpload.DeleteFile(imageName);
+    //        }
+    //        else
+    //        {
+    //            //update
+    //            DeletedImageNames ??= new List<string>();
+    //            DeletedImageNames.Add(imageUrl);
+    //        }
+    //        HotelRoomModel.ImageUrls.RemoveAt(imageIndex);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        await JsRuntime.ToastrError(ex.Message);
+    //    }
+
+    //}
 }

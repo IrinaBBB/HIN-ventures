@@ -1,0 +1,29 @@
+﻿@using HIN_ventures.Models;
+
+<div class="bg-light border p-2 col-5 offset-1" @onclick="(args)=> AssignmentSelectionChanged(args,AssignmentDtos.Title)">
+    <h4 class="text-secondary">Amenities - @AssignmentDtos.Id</h4>
+
+    @AssignmentDtos.Title<br />
+    @AssignmentDtos.Description<br />
+    RF from Parent - @FirstFragment @SecondFragment
+</div>
+
+@code {
+
+    [Parameter]
+    public AssignmentDto AssignmentDtos { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnAssignmentSelection { get; set; }
+
+
+    [Parameter]
+    public RenderFragment FirstFragment { get; set; }
+    [Parameter]
+    public RenderFragment SecondFragment { get; set; }
+
+    protected async Task AssignmentSelectionChanged(MouseEventArgs e, string name)
+    {
+        await OnAssignmentSelection.InvokeAsync(name);
+    }
+}

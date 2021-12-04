@@ -17,6 +17,6 @@ namespace HIN_ventures.Business.Repositories.IRepositories
         public Task<FreelancerDto> CreateFreelancer(FreelancerDto freelancerDto);
         public Task<int> DeleteFreelancer(int freelancerId);
         public Task<IEnumerable<FreelancerDto>> GetAllFreelancers();
-     
+
     }
 }

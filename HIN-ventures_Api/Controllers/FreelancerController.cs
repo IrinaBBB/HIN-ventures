@@ -55,5 +55,40 @@ namespace HIN_ventures_Api.Controllers
             return Ok(frelancerDetails);
 
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] FreelancerDto freelancer)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _freelancerRepository.CreateFreelancer(freelancer);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    ErrorMessage = "Error while creating new Assignment/ Booking"
+                });
+            }
+        }
+
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] FreelancerDto freelancer)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _freelancerRepository.UpdateFreelancer(id, freelancer);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    ErrorMessage = "Error while Updating new Assignment/ Booking"
+                });
+            }
+        }
     }
 }

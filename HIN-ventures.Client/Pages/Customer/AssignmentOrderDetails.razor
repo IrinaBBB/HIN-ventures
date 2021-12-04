@@ -17,9 +17,6 @@
 }
 else
 {
-
-
-
     <div class="row mt-4 mx-4 px-0 px-md-5 mx-md-5">
         <EditForm Model="OrderDetails" class="container" OnValidSubmit="HandleCheckout">
             <div class="row p-2 my-3" style="border-radius: 20px;">
@@ -75,7 +72,7 @@ else
                     <div class="form-group pt-2">
                         <label class="text-warning">Phone</label>
                         <input type="text" value="@OrderDetails.Phone" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Phone" type="text" class="form-control" />*@
+                        @*<InputNumber @bind-value="OrderDetails.Phone" type="text" class="form-control" />*@
                     </div>
                     <div class="form-group">
                         <label class="text-warning">E-mail</label>
@@ -87,14 +84,14 @@ else
                     <div class="form-group">
                         <label class="text-warning">Title</label>
                         <input type="text" @bind-value="@Title" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+                        @*<InputText @bind-value="OrderDetails.Title" type="text" class="form-control" />*@
 
                     </div>
                     
                     <div class="form-group">
                         <label class="text-warning">Category</label>
                         <input type="text" @bind-value="@Category" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+                        @*<InputText @bind-value="OrderDetails.Category" type="text" class="form-control" />*@
 
                     </div>
 
@@ -102,22 +99,20 @@ else
                     <div class="form-group">
                         <label class="text-warning">Reward</label>
                         <input type="text" @bind-value="@Price" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+                        @*<InputText @bind-value="OrderDetails.Price" type="text" class="form-control" />*@
 
                     </div>
                     
                     <div class="form-group">
                         <label class="text-warning">DeadLine</label>
                         <input type="text" @bind-value="@DeadLine" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
+                        @*<InputText @bind-value="OrderDetails.Deadline" type="text" class="form-control" />*@
 
                     </div>
                     
 
                     <div class="form-group">
                         <label class="text-warning">Freelancers</label>
-                        @*<select class="form-control" @onchange="HandleFreelancerChange">*@
-
                         <select class="form-control" value="@FreelancerId" @onchange="HandleFreelancerChange">
                             <option value="Select" selected disabled="disabled">(Select freelancer or none)</option>
                             @foreach (var freelancer in FreelancerDtos)
@@ -173,7 +168,7 @@ else
         try
         {
 
-            var freeid = FreelancerId;
+            //var freeid = FreelancerId; //test
             //await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
 
             //Create a new order
