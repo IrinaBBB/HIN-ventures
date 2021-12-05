@@ -32,9 +32,9 @@
 
         <MudText Typo="Typo.subtitle2">Who working on it:</MudText>
         @*@if (CountFreelancer != 0)*@
-        @if (AssignmentModel.Freelancer != null)
+        @if (AssignmentModel.FreelancerDto != null)
         {
-            <MudText>@AssignmentModel.Freelancer.LastName</MudText>
+            <MudText>@AssignmentModel.FreelancerDto.LastName</MudText>
         }
         else
         {
@@ -79,7 +79,7 @@
             {
                 CountCodeFiles = AssignmentModel.CodeFiles.Count;
             }
-            if (AssignmentModel.Freelancer != null)
+            if (AssignmentModel.FreelancerDto != null)
             {
                 CountFreelancer = 1;
             }

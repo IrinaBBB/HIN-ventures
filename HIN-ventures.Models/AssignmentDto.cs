@@ -30,10 +30,10 @@ namespace HIN_ventures.Models
 
         public int? FreelancerId { get; set; }
 
-        public Freelancer Freelancer { get; set; }
+        public FreelancerDto FreelancerDto { get; set; }
 
         public int? CustomerId { get; set; }
-        public Customer Customer { get; set; }
+        public CustomerDto CustomerDto { get; set; }
 
         public virtual ICollection<CodeFile> CodeFiles { get; set; }
     }

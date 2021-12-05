@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using HIN_ventures.Client.Service.IService;
 using HIN_ventures.Models;
@@ -39,6 +40,26 @@ namespace HIN_ventures.Client.Service
             {
                 var content = await response.Content.ReadAsStringAsync();
                 var errorModel = JsonConvert.DeserializeObject<ErrorModel>(content);
+                throw new Exception(errorModel.ErrorMessage);
+            }
+        }
+
+        public async Task<AssignmentDto> CreateAssignment(AssignmentDto assignment)
+        {
+            var content = JsonConvert.SerializeObject(assignment);
+            var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("api/assignment/create", bodyContent);
+            string res = response.Content.ReadAsStringAsync().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var contentTemp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<AssignmentDto>(contentTemp);
+                return result;
+            }
+            else
+            {
+                var contentTemp = await response.Content.ReadAsStringAsync();
+                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(contentTemp);
                 throw new Exception(errorModel.ErrorMessage);
             }
         }

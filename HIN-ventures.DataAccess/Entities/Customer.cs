@@ -24,7 +24,10 @@ namespace HIN_ventures.DataAccess.Entities
         [Required(ErrorMessage = "Email is required")]
         [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
+
+        public string Phone { get; set; }
         
+        //Hvis privat person ingen ORG nr
         public string VAT_number { get; set; }
 
         public string CryptoAddress { get; set; }

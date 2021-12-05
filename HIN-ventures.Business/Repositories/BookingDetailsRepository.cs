@@ -30,8 +30,7 @@ namespace HIN_ventures.Business.Repositories
                 //var newOrder = _mapper.Map<BookingDetailsDto, BookingDetails>(details);
 
                 var newAssignment = _mapper.Map<AssignmentDto, Assignment>(details.AssignmentDto);
-            
-                //var newCustomer = _mapper.Map<CustomerDto, Customer>(details.CustomerDto);
+                var newCustomer = _mapper.Map<CustomerDto, Customer>(details.CustomerDto);
                 var newFreelancer = _mapper.Map<FreelancerDto, Freelancer>(details.FreelancerDto);
 
 
@@ -44,7 +43,7 @@ namespace HIN_ventures.Business.Repositories
                     Phone = details.Phone,
                     Assignment = newAssignment,
                     Freelancer = newFreelancer,
-                    //Customer = newCustomer
+                    Customer = newCustomer
                 };
 
 

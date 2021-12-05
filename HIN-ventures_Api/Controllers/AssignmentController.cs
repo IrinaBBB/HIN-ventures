@@ -1,4 +1,6 @@
-﻿using HIN_ventures.Business.Repositories.IRepositories;
+﻿using System.Threading.Tasks;
+using HIN_ventures.Business.Repositories.IRepositories;
+using HIN_ventures.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HIN_ventures_Api.Controllers
@@ -25,6 +27,24 @@ namespace HIN_ventures_Api.Controllers
         {
             var assignment = _assignmentRepository.GetAssignment(assignmentId);
             return Ok(assignment);
+        }
+
+        
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] AssignmentDto assignment)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _assignmentRepository.CreateAssignment(assignment);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    ErrorMessage = "Error while creating new Assignment"
+                });
+            }
         }
     }
 }

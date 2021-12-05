@@ -78,6 +78,7 @@ namespace HIN_ventures_Client.Service
 
         }
 
+
         public async Task<IEnumerable<CustomerDto>> GetCustomers()
         {
             var response = await _client.GetAsync($"api/customer");

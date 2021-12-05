@@ -8,5 +8,7 @@ namespace HIN_ventures.Client.Service.IService
     {
         public Task<IEnumerable<AssignmentDto>> GetAssignments();
         public Task<AssignmentDto> GetAssignment(int assignmentId);
+
+        public Task<AssignmentDto> CreateAssignment(AssignmentDto assignment);
     }
 }

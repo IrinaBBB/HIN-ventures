@@ -1,6 +1,7 @@
 ﻿@page "/customer/createassignment/"
 @page "/customer/createassignment/{FreelancerId:int}"
 @using HIN_ventures.Client.Service.IService
+@using HIN_ventures.Shared.Models
 @inject ILocalStorageService _localStorage
 @inject IJSRuntime jsRuntime
 @inject IFreelancerService _freelancerService
@@ -12,14 +13,8 @@
 @* Inspirasjonen til koden er hentet fra https://github.com/bhrugen/HiddenVillaBlazor/blob/master/HiddenVilla_Server/Pages/HotelRoom/HotelRoomUpsert.razor *@
 @* Inspirasjonen til koden er hentet fra https://github.com/bhrugen/HiddenVillaBlazor/blob/master/HiddenVilla_Client/Pages/HotelRooms/RoomDetails.razor*@
 
-@if (OrderDetails?.Name == "") //make sure the fields are populated before we display the page.
-{
-    <div class="spinner"></div>
-}
-else
-{
     <div class="row mt-4 mx-4 px-0 px-md-5 mx-md-5">
-        <EditForm Model="OrderDetails" class="container" OnValidSubmit="AddAssignment">
+        <EditForm Model="AssignmentModel" class="container" OnValidSubmit="AddAssignment">
             <div class="row p-2 my-3" style="border-radius: 20px;">
                 <div class="col-12 col-lg-7 p-4" style="border: 1px solid #fff">
                     <div class="row px-2 text-success border-bottom"><div class="col-7 py-1"><p style="font-size: x-large; margin: 0px;">Describe Your Assignment</p></div></div>
@@ -63,53 +58,44 @@ else
                         </div>
                     </div>
 
+
                     <div class="form-group pt-2">
                         <label class="text-warning">Name</label>
-                        <input type="text" value="@OrderDetails.Name" class="form-control">
-                        @*<label>Name</label><InputText @bind-value="OrderDetails.Name" type="text" class="form-control" />*@
+                        <input type="text" value="@LoggedInUser.FirstName" class="form-control">
                     </div>
+
+                    <div class="form-group pt-2">
+                        <label class="text-warning">Name</label>
+                          <input type="text" value="@LoggedInUser.LastName" class="form-control">
+                    </div>
+
+                    <div class="form-group pt-2">
+                        <label class="text-warning">Name</label>
+                        <input type="text" value="@LoggedInUser.PhoneNo" class="form-control">
+                    </div>
+
                     <div class="form-group pt-2">
                         <label class="text-warning">Phone</label>
-                        <input type="text" value="@OrderDetails.Phone" class="form-control" />
-                        @*<InputNumber @bind-value="OrderDetails.Phone" type="text" class="form-control" />*@
-                    </div>
-                    <div class="form-group">
-                        <label class="text-warning">E-mail</label>
-                        <input type="text" value="@OrderDetails.Email" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Email" type="text" class="form-control" />*@
-
+                        <input type="text" value="@LoggedInUser.Email" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label class="text-warning">Title</label>
-                        <input type="text" @bind-value="@Title" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Title" type="text" class="form-control" />*@
-
+                        <input type="text" @bind-value="@AssignmentModel.Title" class="form-control" />
                     </div>
-
+            
                     <div class="form-group">
                         <label class="text-warning">Category</label>
-                        <input type="text" @bind-value="@Category" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Category" type="text" class="form-control" />*@
-
+                        <input type="text" @bind-value="@AssignmentModel.Category" class="form-control" />
                     </div>
-
-
                     <div class="form-group">
                         <label class="text-warning">Reward</label>
-                        <input type="text" @bind-value="@Price" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Price" type="text" class="form-control" />*@
-
+                        <input type="text" @bind-value="@AssignmentModel.Price" class="form-control" />
                     </div>
-
                     <div class="form-group">
                         <label class="text-warning">DeadLine</label>
-                        <input type="text" @bind-value="@DeadLine" class="form-control" />
-                        @*<InputText @bind-value="OrderDetails.Deadline" type="text" class="form-control" />*@
-
+                        <input type="text" @bind-value="@AssignmentModel.Deadline" class="form-control" />
                     </div>
-
-
                     <div class="form-group">
                         <label class="text-warning">Freelancers</label>
                         <select class="form-control" value="@FreelancerId" @onchange="HandleFreelancerChange">
@@ -132,82 +118,63 @@ else
             </div>
         </EditForm>
     </div>
-}
 
 @code {
-
-
-    public string FreelancerFirstName { get; set; }
     public string FreelancerLastName { get; set; }
-    public UserDto LoggedInUser { get; set; }
+
     public string IdentityId { get; set; }
+    public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
 
     public IEnumerable<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
     public IEnumerable<CustomerDto> CustomerList { get; set; } = new List<CustomerDto>();
-    public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
+
+    public CustomerDto CustomerDto { get; set; } = new CustomerDto();
+    public FreelancerDto FreelancerDto { get; set; } = new FreelancerDto();
 
     [Parameter]
-    public BookingDetailsDto OrderDetails { get; set; } = new BookingDetailsDto();
+    public UserDto LoggedInUser { get; set; } = new UserDto();
+
+    [Parameter]
+    public AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
 
     [Parameter]
     public int? FreelancerId { get; set; } //chosen from dropdown or from list
-
-    [Parameter]
-    public int Price { get; set; } = 1; //How much is it worth?
-
-    [Parameter]
-    public string Title { get; set; } = "Standard Tittel"; //Title of assignment?
-
-    [Parameter]
-    public string Category { get; set; } = "Standard Kategori"; //What category does the assignment belong to?
-
-    [Parameter]
-    public DateTime? DeadLine { get; set; } = null; //What category does the assignment belong to?
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-
-            //var freeid = FreelancerId; //test
             await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
-            await LoadCustomersAndFreelancers();
 
 
-            //Create a new order
-            OrderDetails = new BookingDetailsDto
-            {
-                AssignmentDto = new AssignmentDto()
-            };
-
-            FreelancerList = await _freelancerService.GetFreelancers(); //used in selectionlist
+            //Create a new assignment
+            AssignmentModel = new AssignmentDto();
 
             if (FreelancerId != null) // A freelancer has been chosen from the list
             {
-                OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
-
-                FreelancerFirstName = OrderDetails.FreelancerDto.FirstName;
-                FreelancerLastName = OrderDetails.FreelancerDto.LastName;
+                FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
             }
             else //A freelancer has not been chosen....make an empty object of Freelancer
             {
-                OrderDetails.FreelancerDto = new FreelancerDto();
+                FreelancerDto = null;
             }
 
             //Info about logged in user (customer)
 
             if (await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails) != null)
             {
+                //input type text fields
                 LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
-
-                OrderDetails.UserId = LoggedInUser.Id;
-                OrderDetails.Name = LoggedInUser.FirstName + " " + LoggedInUser.LastName;
-                OrderDetails.Email = LoggedInUser.Email;
-                OrderDetails.Phone = LoggedInUser.PhoneNo;
-                OrderDetails.CustomerDto = (from customer in CustomerList where customer.IdentityId.Equals(LoggedInUser.Id) select customer).FirstOrDefault();
-
+                AssignmentModel.CustomerDto = new CustomerDto();
+                AssignmentModel.CustomerDto.IdentityId = LoggedInUser.Id;
+                AssignmentModel.CustomerDto.FirstName = LoggedInUser.FirstName;
+                AssignmentModel.CustomerDto.LastName = LoggedInUser.LastName;
+                AssignmentModel.CustomerDto.Email = LoggedInUser.Email;
+                AssignmentModel.CustomerDto.Phone = LoggedInUser.PhoneNo;
             }
+            await LoadCustomersAndFreelancers();
         }
+
         catch (Exception e)
         {
             await jsRuntime.ToastrError(e.Message);
@@ -217,6 +184,7 @@ else
     private async Task LoadCustomersAndFreelancers()
     {
         CustomerList = await _customerService.GetCustomers();
+        CustomerDto = (from customer in CustomerList where customer.IdentityId.Equals(LoggedInUser.Id) select customer).FirstOrDefault();
         FreelancerList = await _freelancerService.GetFreelancers(); //mulig det ikke er nødv. å gå igjennom alle for se hvilke assignments som tilhører denne frilanseren
     }
 
@@ -230,9 +198,9 @@ else
         {
             try
             {
-                if (!string.IsNullOrEmpty(OrderDetails.AssignmentDto.Description))
+                if (!string.IsNullOrEmpty(AssignmentModel.Description))
                 {
-                    await QuillHtml.LoadHTMLContent(OrderDetails.AssignmentDto.Description);
+                    await QuillHtml.LoadHTMLContent(AssignmentModel.Description);
                 }
                 loading = false;
             }
@@ -248,13 +216,10 @@ else
     private async Task HandleFreelancerChange(ChangeEventArgs e)
     {
         //var id = FreelancerId; //for testing purposes
-
         if (e.Value != null)
         {
-            OrderDetails.FreelancerDto = await _freelancerService.GetFreelancer(Convert.ToInt32(e.Value.ToString()));
+            FreelancerDto = await _freelancerService.GetFreelancer(Convert.ToInt32(e.Value.ToString()));
         }
-
-
     }
 
 
@@ -267,13 +232,16 @@ else
 
         try
         {
-            OrderDetails.AssignmentDto.Description = await QuillHtml.GetHTML();
-            OrderDetails.AssignmentDto.Title = Title;
-            OrderDetails.AssignmentDto.Price = Price;
-            OrderDetails.AssignmentDto.Category = Category;
-            OrderDetails.AssignmentDto.Deadline = DeadLine;
+            AssignmentModel.Description = await QuillHtml.GetHTML();
+            AssignmentModel.CustomerDto = CustomerDto;
+            AssignmentModel.CustomerId = CustomerDto.CustomerId;
+            AssignmentModel.FreelancerDto = FreelancerDto;
+            if (AssignmentModel.FreelancerDto != null)
+            {
+                AssignmentModel.FreelancerId = FreelancerDto.FreelancerId;
+            }
 
-            var orderDetailsSaved = await _bookingDetailsService.SaveBookingDetails(OrderDetails);
+            var assignmentToSave = await _assignmentService.CreateAssignment(AssignmentModel);
             //If I want to save to local storage....
             //await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDetailsSaved);
         }
@@ -286,18 +254,18 @@ else
     private async Task<bool>
     HandleValidation()
     {
-        if (string.IsNullOrEmpty(OrderDetails.Name))
-        {
-            await jsRuntime.ToastrError("Name cannot be empty");
-            return false;
-        }
-        if (string.IsNullOrEmpty(OrderDetails.Phone))
+        //if (string.IsNullOrEmpty(AssignmentModel.CustomerDto.Name))
+        //{
+        //    await jsRuntime.ToastrError("Name cannot be empty");
+        //    return false;
+        //}
+        if (string.IsNullOrEmpty(AssignmentModel.CustomerDto.Phone.ToString()))
         {
             await jsRuntime.ToastrError("Phone cannot be empty");
             return false;
         }
 
-        if (string.IsNullOrEmpty(OrderDetails.Email))
+        if (string.IsNullOrEmpty(AssignmentModel.CustomerDto.Email))
         {
             await jsRuntime.ToastrError("Email cannot be empty");
             return false;

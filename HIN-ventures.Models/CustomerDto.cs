@@ -15,13 +15,15 @@ namespace HIN_ventures.Models
 
         [Required(ErrorMessage = "LastName is required")]
         public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "VAT (ORG NR) is required")]
+        
+        //Hvis privat person ingen ORG nr
         public string VAT_number { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
         [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
+
+        public string Phone { get; set; }
         
         public string CryptoAddress { get; set; }
 
