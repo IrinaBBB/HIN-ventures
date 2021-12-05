@@ -6,6 +6,7 @@ using HIN_ventures.Models;
 
 namespace HIN_ventures_Client.Service.IService
 {
+    //Talks to Customer API
     public interface ICustomerService
     {
         public Task<IEnumerable<CustomerDto>> GetCustomers();
