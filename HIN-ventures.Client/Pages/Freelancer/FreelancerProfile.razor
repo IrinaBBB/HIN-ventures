@@ -81,12 +81,13 @@
                 <span>This Assignment is @(assignment.IsActive?"Assigned": "Not Assigned")</span>
 
             </div>
-            <input type="button" class="btn btn-danger" value="Delete" />
-            <input type="button" class="btn btn-success" value="Edit" />
+            @*<input type="button" class="btn btn-danger" value="Delete" />
+            <input type="button" class="btn btn-success" value="Edit" />*@
         }
         else
         {
             //Todo: print you have no assignments if no assignments is found on the freelancer
+            <h2>You currently have no assignments</h2>
         }
 
 
