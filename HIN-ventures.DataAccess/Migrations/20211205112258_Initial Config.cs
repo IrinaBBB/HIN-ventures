@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace HIN_ventures.DataAccess.Migrations
 {
-    public partial class NewDb : Migration
+    public partial class InitialConfig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,9 +17,9 @@ namespace HIN_ventures.DataAccess.Migrations
                 {
                     Id = table.Column<string>(type: "varchar(95)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                    Name = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedName = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: true)
+                    NormalizedName = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ConcurrencyStamp = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -36,7 +36,22 @@ namespace HIN_ventures.DataAccess.Migrations
                 {
                     CustomerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    VAT_number = table.Column<string>(type: "longtext", nullable: false)
+                    Name = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    FirstName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    VAT_number = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CryptoAddress = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    SubscriptionType = table.Column<int>(type: "int", nullable: false),
+                    TotalLinesOfCode = table.Column<int>(type: "int", nullable: false),
+                    TotalCost = table.Column<int>(type: "int", nullable: false),
+                    IdentityId = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
@@ -51,10 +66,20 @@ namespace HIN_ventures.DataAccess.Migrations
                 {
                     FreelancerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Speciality = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     TotalLinesOfCode = table.Column<int>(type: "int", nullable: false),
-                    LinesOfCodeMonth = table.Column<int>(type: "int", nullable: false)
+                    CryptoAddress = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsAvailable = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IdentityId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -99,13 +124,13 @@ namespace HIN_ventures.DataAccess.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     FreelancerId = table.Column<int>(type: "int", nullable: true),
                     CustomerId = table.Column<int>(type: "int", nullable: true),
-                    UserName = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true)
+                    UserName = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     NormalizedUserName = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true)
+                    Email = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NormalizedEmail = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: true)
+                    NormalizedEmail = table.Column<string>(type: "varchar(150)", maxLength: 150, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     EmailConfirmed = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     PasswordHash = table.Column<string>(type: "longtext", nullable: true)
@@ -148,6 +173,8 @@ namespace HIN_ventures.DataAccess.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Title = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    IsActive = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     Price = table.Column<double>(type: "double", nullable: false),
                     Description = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -312,6 +339,43 @@ namespace HIN_ventures.DataAccess.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "BookingDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    FreelancerId = table.Column<int>(type: "int", nullable: true),
+                    AssignmentId = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Name = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Phone = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    OrderStatus = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookingDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookingDetails_Assignments_AssignmentId",
+                        column: x => x.AssignmentId,
+                        principalTable: "Assignments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BookingDetails_Freelancers_FreelancerId",
+                        column: x => x.FreelancerId,
+                        principalTable: "Freelancers",
+                        principalColumn: "FreelancerId",
+                        onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "CodeFiles",
                 columns: table => new
                 {
@@ -391,6 +455,16 @@ namespace HIN_ventures.DataAccess.Migrations
                 column: "FreelancerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BookingDetails_AssignmentId",
+                table: "BookingDetails",
+                column: "AssignmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookingDetails_FreelancerId",
+                table: "BookingDetails",
+                column: "FreelancerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CodeFiles_AssignmentId",
                 table: "CodeFiles",
                 column: "AssignmentId");
@@ -422,6 +496,9 @@ namespace HIN_ventures.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "BookingDetails");
 
             migrationBuilder.DropTable(
                 name: "CodeFiles");

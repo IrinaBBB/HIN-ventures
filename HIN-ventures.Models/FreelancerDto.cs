@@ -12,8 +12,15 @@ namespace HIN_ventures.Models
     public class FreelancerDto
     {
         public int FreelancerId { get; set; }
+
+        [Required(ErrorMessage = "FirstName is required")]
         public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "LastName is required")]
         public string LastName { get; set; }
+
+        [Required(ErrorMessage = "Email is required")]
+        [RegularExpression("^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$", ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
         
         public string Speciality { get; set; }
@@ -26,9 +33,7 @@ namespace HIN_ventures.Models
 
         public int LinesOfCodeMonth { get; set; }
 
-        public bool IsActive { get; set; } = false;
-
-        public bool IsAvailable { get; set; } = true; //<--- ny IsActive should be replaced by name IsAvailable for clarity. Freelancer may choose.
+        public bool IsAvailable { get; set; } = true; 
 
         public virtual ICollection<Assignment> Assignments { get; set; }
       

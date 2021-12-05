@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HIN_ventures.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211124145724_AddCryptoAddresses")]
-    partial class AddCryptoAddresses
+    [Migration("20211205135103_Edit on assignemt, added customer id")]
+    partial class Editonassignemtaddedcustomerid
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -129,6 +129,12 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<int?>("FreelancerId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<double>("Price")
                         .HasColumnType("double");
 
@@ -149,6 +155,46 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.HasIndex("FreelancerId");
 
                     b.ToTable("Assignments");
+                });
+
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.BookingDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AssignmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("FreelancerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("OrderStatus")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignmentId");
+
+                    b.HasIndex("FreelancerId");
+
+                    b.ToTable("BookingDetails");
                 });
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.CodeFile", b =>
@@ -179,8 +225,35 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<string>("CryptoAddress")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("VAT_number")
+                    b.Property<string>("Email")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("SubscriptionType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalCost")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalLinesOfCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VAT_number")
                         .HasColumnType("longtext");
 
                     b.HasKey("CustomerId");
@@ -197,8 +270,24 @@ namespace HIN_ventures.DataAccess.Migrations
                     b.Property<string>("CryptoAddress")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("LinesOfCodeMonth")
-                        .HasColumnType("int");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("IdentityId")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Speciality")
                         .HasColumnType("longtext");
@@ -380,13 +469,30 @@ namespace HIN_ventures.DataAccess.Migrations
 
             modelBuilder.Entity("HIN_ventures.DataAccess.Entities.Assignment", b =>
                 {
-                    b.HasOne("HIN_ventures.DataAccess.Entities.Customer", null)
+                    b.HasOne("HIN_ventures.DataAccess.Entities.Customer", "Customer")
                         .WithMany("Assignments")
                         .HasForeignKey("CustomerId");
 
                     b.HasOne("HIN_ventures.DataAccess.Entities.Freelancer", "Freelancer")
                         .WithMany("Assignments")
                         .HasForeignKey("FreelancerId");
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Freelancer");
+                });
+
+            modelBuilder.Entity("HIN_ventures.DataAccess.Entities.BookingDetails", b =>
+                {
+                    b.HasOne("HIN_ventures.DataAccess.Entities.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentId");
+
+                    b.HasOne("HIN_ventures.DataAccess.Entities.Freelancer", "Freelancer")
+                        .WithMany()
+                        .HasForeignKey("FreelancerId");
+
+                    b.Navigation("Assignment");
 
                     b.Navigation("Freelancer");
                 });

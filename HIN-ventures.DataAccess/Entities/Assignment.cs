@@ -13,6 +13,10 @@ namespace HIN_ventures.DataAccess.Entities
         [Required]
         public string Title { get; set; }
 
+        public bool IsActive { get; set; }
+
+        public bool IsCompleted { get; set; } 
+
         public double Price { get; set; }
 
         [Required]
@@ -36,6 +40,11 @@ namespace HIN_ventures.DataAccess.Entities
         public int? FreelancerId { get; set; }
 
         public Freelancer Freelancer { get; set; }
+
+        [ForeignKey("CustomerId")]
+        public int? CustomerId { get; set; }
+
+        public Customer Customer { get; set; }
 
         public virtual ICollection<CodeFile> CodeFiles { get; set; }
 

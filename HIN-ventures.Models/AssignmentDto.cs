@@ -32,6 +32,9 @@ namespace HIN_ventures.Models
 
         public Freelancer Freelancer { get; set; }
 
+        public int? CustomerId { get; set; }
+        public Customer Customer { get; set; }
+
         public virtual ICollection<CodeFile> CodeFiles { get; set; }
     }
 }

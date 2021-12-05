@@ -30,9 +30,11 @@ namespace HIN_ventures.Business.Repositories
                 //var newOrder = _mapper.Map<BookingDetailsDto, BookingDetails>(details);
 
                 var newAssignment = _mapper.Map<AssignmentDto, Assignment>(details.AssignmentDto);
+            
+                //var newCustomer = _mapper.Map<CustomerDto, Customer>(details.CustomerDto);
                 var newFreelancer = _mapper.Map<FreelancerDto, Freelancer>(details.FreelancerDto);
-                
-                
+
+
                 BookingDetails newOrder = new()
                 {
                     OrderStatus = SD.Status_Pending, //status will change once the assignment is picked up by the freelancer
@@ -41,12 +43,13 @@ namespace HIN_ventures.Business.Repositories
                     Email = details.Email,
                     Phone = details.Phone,
                     Assignment = newAssignment,
-                    Freelancer = newFreelancer
+                    Freelancer = newFreelancer,
+                    //Customer = newCustomer
                 };
 
-                
 
-                if(details.FreelancerDto != null)
+
+                if (details.FreelancerDto != null)
                 {
                     newAssignment.Freelancer = newOrder.Freelancer;
                     newOrder.OrderStatus = SD.Status_Booked;

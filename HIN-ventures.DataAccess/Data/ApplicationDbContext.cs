@@ -28,7 +28,6 @@ namespace HIN_ventures.DataAccess.Data
         //    modelBuilder.Entity<IdentityUserToken<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(200));
         //    modelBuilder.Entity<IdentityUserClaim<string>>(entity => entity.Property(m => m.UserId).HasMaxLength(200));
         //    modelBuilder.Entity<IdentityRoleClaim<string>>(entity => entity.Property(m => m.RoleId).HasMaxLength(200));
-
         //}
 
         /*protected override void OnModelCreating(ModelBuilder modelBuilder)
