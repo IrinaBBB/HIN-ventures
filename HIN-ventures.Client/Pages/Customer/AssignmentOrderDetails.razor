@@ -249,6 +249,8 @@
         {
             await jsRuntime.ToastrError(e.Message);
         }
+
+        await InvokeAsync(StateHasChanged); //rerender the ui...also display a message that the request has been made (toaster)
     }
 
     private async Task<bool>

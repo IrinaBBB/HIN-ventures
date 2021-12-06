@@ -53,9 +53,9 @@
                             <MudCardHeader>
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">@freelancer.LastName</MudText>
-                                    @if (@freelancer.Ratings.Any())
+                                    @if (@freelancer.RatingsDtos.Any())
                                     {
-                                        <MudRating SelectedValue="@GetAverage(@freelancer.Ratings)" Size="Size.Medium"/>
+                                        <MudRating SelectedValue="@GetAverage(@freelancer.RatingsDtos)" Size="Size.Medium"/>
                                     
                                     }
                                     else
@@ -121,7 +121,7 @@
         StateHasChanged();
     }
 
-    private int GetAverage(IEnumerable<Rating> Ratings)
+    private int GetAverage(IEnumerable<RatingDto> Ratings)
     {
         if (Ratings.Any())
         {

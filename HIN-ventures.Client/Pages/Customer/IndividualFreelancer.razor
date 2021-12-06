@@ -1,11 +1,11 @@
-﻿<input type="text" @bind="@_message" />
+﻿<input type="text" @bind="@_rating" />
 
 <button @onclick="ChangeMessage">Give a rating!</button>
 
 
 @code {
 
-    private string _message;
+    private string _rating;
 
     [Parameter]
     public string Message {get; set;}
@@ -20,6 +20,6 @@
     private async Task ChangeMessage()
     {
 
-        await OnClickCallback.InvokeAsync(_message + $"{Freelancer.FreelancerId}");
+        await OnClickCallback.InvokeAsync(_rating + $"{Freelancer.FreelancerId}");
     }
 }

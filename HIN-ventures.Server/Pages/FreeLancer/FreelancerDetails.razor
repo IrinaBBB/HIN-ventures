@@ -14,9 +14,9 @@
     </MudCardHeader>
     
     <MudCardContent>
-        @if (@FreelancerModel.Ratings != null)
+        @if (@FreelancerModel.RatingsDtos != null)
         {
-            <MudRating SelectedValue="@GetAverage(@FreelancerModel.Ratings)" Size="Size.Large" />
+            <MudRating SelectedValue="@GetAverage(@FreelancerModel.RatingsDtos)" Size="Size.Large" />
         }
         else
         {
@@ -49,7 +49,7 @@
         <MudText Typo="Typo.subtitle2">Code Files:</MudText>
         @if (CountAssingments != 0)
         {
-            @foreach (var assignment in @FreelancerModel.Assignments)
+            @foreach (var assignment in @FreelancerModel.AssignmentsDtos)
             {
                 <MudText>@assignment.Title</MudText>
                 <MudText>@assignment.CreatedBy</MudText>
@@ -84,13 +84,13 @@
         if (Id != null)
         {
             FreelancerModel = await _freelancerRepository.GetFreelancer(Id.Value);
-            if (FreelancerModel.Ratings.Count != 0)
+            if (FreelancerModel.RatingsDtos.Count != 0)
             {
-                CountRating = FreelancerModel.Ratings.Count;
+                CountRating = FreelancerModel.RatingsDtos.Count;
             }
-            if (FreelancerModel.Assignments.Count != 0)
+            if (FreelancerModel.AssignmentsDtos.Count != 0)
             {
-                CountAssingments = FreelancerModel.Assignments.Count;
+                CountAssingments = FreelancerModel.AssignmentsDtos.Count;
             }
         }
         else
@@ -99,7 +99,7 @@
         }
     }
 
-    private int GetAverage(IEnumerable<Rating> Ratings)
+    private int GetAverage(IEnumerable<RatingDto> Ratings)
     {
         if (Ratings.Any())
         {

@@ -1,33 +1,32 @@
 ﻿@using HIN_ventures.Models
 
-<div class="bg-light border p-2 col-5 offset-1">
-    <h4 class="text-secondary">Assignment - @Assignment.Id</h4>
+    <div class="bg-light border p-2 col-5 offset-1">
+        <h4 class="text-secondary"> @AssignmentDto.Title</h4>
+        @*@if (!AssignmentDto.IsActive) //check if it is already taken by other freelancers
+            {*@
+        @AssignmentDto.Description<br />
+        Price @AssignmentDto.Price.ToString("c")<br />
+        @*}*@
 
-    <input type="checkbox" @onchange="RoomCheckBoxSelectionChanged" />
-    @Assignment.Title<br />
-    @Assignment.Price.ToString("c")<br />
-    <input type="checkbox" @bind-value="Assignment.IsActive" checked="@(Assignment.IsActive?"checked":null)" /> &nbsp; Is Active<br />
-    <span>This room is @(Assignment.IsActive?"Active": "InActive")</span>
 
-    @*@if(Assignment.IsActive)
-    {
-        foreach (var freelancer in Assignment.Freelancer)
-        {
-            <p>@freelancer.Title - @freelancer.Price</p>
-        }
-    }*@
+        @*<input type="checkbox" @bind-value="AssignmentDto.IsActive" checked="@(AssignmentDto.IsActive?" checked":null)" /> &nbsp; Sign off this assignment!<br />
+        <span>This Assignment is @(AssignmentDto.IsActive?"Assigned": "Not Assigned")</span>*@
+        
+        <input type="button" class="btn btn-danger" @onclick="AssignmentSelectionRemove"  value="Remove Assignmnent" />
+
     </div>
+
 
 @code {
 
     [Parameter]
-    public AssignmentDto Assignment { get; set; }
+    public AssignmentDto AssignmentDto { get; set; }
 
     [Parameter]
-    public EventCallback<bool> OnAssignmentCheckBoxSelection { get; set; }
+    public EventCallback<AssignmentDto> OnButtonClicked { get; set; }
 
-    protected async Task RoomCheckBoxSelectionChanged(ChangeEventArgs e)
+    protected async Task AssignmentSelectionRemove()
     {
-        await OnAssignmentCheckBoxSelection.InvokeAsync((bool)e.Value);
+        await OnButtonClicked.InvokeAsync(AssignmentDto);
     }
 }

@@ -135,7 +135,7 @@ else
 
         foreach (var freelancer in freelancerDtos)
         {
-            foreach (var rating in freelancer.Ratings)  //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
+            foreach (var rating in freelancer.RatingsDtos)  //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
             {
                 sumRating += rating.RatingValue;
             }

@@ -1,29 +1,47 @@
 ﻿@using HIN_ventures.Models;
 
-<div class="bg-light border p-2 col-5 offset-1" @onclick="(args)=> AssignmentSelectionChanged(args,AssignmentDtos.Title)">
-    <h4 class="text-secondary">Amenities - @AssignmentDtos.Id</h4>
+<div class="bg-light border p-2 col-5 offset-1" @onclick="AssignmentSelectionClicked" >
+    <h4 class="text-secondary">@Assignment.Title</h4>
 
-    @AssignmentDtos.Title<br />
-    @AssignmentDtos.Description<br />
-    RF from Parent - @FirstFragment @SecondFragment
+    @*<input type="checkbox" @onchange="AssignmentSelectionChanged" />*@
+    <br />
+    @Assignment.Description
+    <br />
+    @*RF from Parent - @FirstFragment @SecondFragment*@
+
+    @*<input type="checkbox" @bind-value="Assignment.IsActive" checked="@Assignment.IsActive" /> &nbsp; Sign up for this assignment!
+    <br />
+    <span>This Assignment is @(Assignment.IsActive?"Assigned": "Not Assigned")</span>*@
+
 </div>
 
 @code {
 
-    [Parameter]
-    public AssignmentDto AssignmentDtos { get; set; }
 
     [Parameter]
-    public EventCallback<string> OnAssignmentSelection { get; set; }
+    public AssignmentDto Assignment { get; set; }
 
+    //[Parameter]
+    //public EventCallback<AssignmentDto> OnAssignmentSelection { get; set; }
 
     [Parameter]
-    public RenderFragment FirstFragment { get; set; }
-    [Parameter]
-    public RenderFragment SecondFragment { get; set; }
+    public EventCallback<AssignmentDto> OnAssignmentClickCallback { get; set; }
 
-    protected async Task AssignmentSelectionChanged(MouseEventArgs e, string name)
+
+    //[Parameter]
+    //public RenderFragment FirstFragment { get; set; }
+    //[Parameter]
+    //public RenderFragment SecondFragment { get; set; }
+
+    //protected async Task AssignmentSelectionChanged(ChangeEventArgs e/*, string name*/)
+    //{
+    //    await OnAssignmentSelection.InvokeAsync(Assignment /*name*/);
+    //}
+
+    protected async Task AssignmentSelectionClicked(MouseEventArgs e /*,  AssignmentDto assignment*/)
     {
-        await OnAssignmentSelection.InvokeAsync(name);
+        await OnAssignmentClickCallback.InvokeAsync(Assignment);
     }
+
+
 }

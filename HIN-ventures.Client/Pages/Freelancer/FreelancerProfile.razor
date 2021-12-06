@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group" style="height:250px;">
 
-                        <button class="btn btn-primary">@Title Profile</button>
+                        <button class="btn btn-primary">Update Profile</button>
                         <NavLink href="/" class="btn btn-secondary">Back to Index</NavLink>
                     </div>
                 </EditForm>
@@ -55,82 +55,48 @@
     </div>
 </div>
 
-<h3>We will display Assignments and Assignments belonging to the freelancer here!</h3>
-<div class="border p-2 mt-2" style="background-color:azure">
+@*<h3>We will display available Assignments and Assignments belonging to the freelancer</h3>*@
+<div class="border p-2 mt-2" style="background-color:slategrey">
+    <div class="row container">
+        <div class="col-12">
+            <h3 class="text-white">Your Current Assignments:</h3>
 
+        </div>
 
-    <div class="col-12 mt-4">
-        <h4 class="text-info">Your Current Assignments</h4>
-    </div>
-
-    @foreach (var assignment in AssignmentList)
-    {
-        if (assignment.FreelancerId == FreelancerId) //if this is the freelancer logged in
-        {
-
-            <div class="bg-light border p-2 col-5 offset-1">
-                <h4 class="text-secondary">AssignmentId - @assignment.Id</h4>
-                @if (!assignment.IsActive) 
-                {
-                    @assignment.Title<br />
-                    @assignment.Price.ToString("c")<br />
-                }
-
-
-                <input type="checkbox" @bind-value="assignment.IsActive" checked="@(assignment.IsActive?" checked":null)" /> &nbsp; Sign up for this assignment!<br />
-                <span>This Assignment is @(assignment.IsActive?"Assigned": "Not Assigned")</span>
-
-            </div>
-            <input type="button" class="btn btn-danger" value="Delete" />
-            <input type="button" class="btn btn-success" value="Edit" />
-        }
-        else
-        {
-            //Todo: print you have no assignments if no assignments is found on the freelancer
-        }
-
-
-        
-
-        @*<IndividualFreelancer OnAmenitySelection="AmenitySelectionChanged" Amenities="@amenity">
-                <FirstFragment>#1</FirstFragment>
-                <SecondFragment>#2</SecondFragment>
-            </IndividualFreelancer>*@
-    }
-
-    @*<span>Assignments Selected - @SelectedAssignments</span>*@
-</div>
-<h2 class="text-info">Available Assignments [USING COMPONENT]</h2>
-<div class="row container">
-    <div class="col-12">
-        <h4 class="text-info">Assignments</h4>
         @foreach (var assignment in AssignmentList)
         {
-            @*<IndividualAssignment OnAssignmentCheckBoxSelection="AssignmentSelectionCounterChanged" AssignmentDtos="@assignment"></IndividualAssignment>*@
-            <div class="bg-light border p-2 col-5 offset-1">
-                <h4 class="text-secondary">AssignmentId - @assignment.Id</h4>
-                @if (!assignment.IsActive)
-                {
-                    @assignment.Title<br />
-                    @assignment.Price.ToString("c")<br />
-                }
+            if (assignment.FreelancerId == FreelancerId) //display only assignments on logged in freelancer
+            {
+                <ActiveAssignment OnButtonClicked="TakeFreelancerOffAssignment" AssignmentDto="@assignment"></ActiveAssignment>
+            }
 
+        }
+        
+        <div class="col-12">
+            <p class="text-secondary"> Selected Assignment: @SelectedCounter </p>
+        </div>
 
-                <input type="checkbox" @bind-value="assignment.IsActive" checked="@(assignment.IsActive?" checked":null)" /> &nbsp; Sign up for this assignment!<br />
-                <span>This Assignment is @(assignment.IsActive?"Assigned": "Not Assigned")</span>
+        <div class="col-12 mt-4">
+            <h3 class="text-white">Available Assignments(Click To Select)</h3>
 
-            </div>
+        </div>
+        @foreach (var assignment in AssignmentList)
+        {
+            if (!assignment.IsActive) //display only assignments not taken by other freelancers
+            {
+                <AvailableAssignment OnAssignmentClickCallback="SetFreelancerOnAssignment" Assignment="@assignment"></AvailableAssignment>
+            }
+
         }
     </div>
-    @*<div class="col-12">
-            <p class="text-secondary"> Selected Amenity : @SelectedAmenity </p>
-        </div>*@
+
 </div>
 
 @code {
 
-    public IEnumerable<AssignmentDto> AssignmentList { get; set; } = new List<AssignmentDto>();
-    public IEnumerable<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
+    public int SelectedCounter { get; set; } = 0;
+    public List<AssignmentDto> AssignmentList { get; set; } = new List<AssignmentDto>();
+    public List<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
 
     public UserDto LoggedInUser { get; set; }
 
@@ -138,7 +104,7 @@
     public string IdentityId { get; set; }
     public int FreelancerId { get; set; }
 
-    private FreelancerDto FreelancerModel { get; set; } = new FreelancerDto();
+    private FreelancerDto FreelancerModel { get; set; } = new();
     private string Title { get; set; } = "Create";
     //private FreelancerImageDto FreelancerImage { get; set; } = new FreelancerImageDto();
     //private List<string> DeletedImageNames { get; set; } = new List<string>();
@@ -165,29 +131,47 @@
         {
             FreelancerModel = (from freelancer in FreelancerList where freelancer.IdentityId.Equals(IdentityId) select freelancer).FirstOrDefault();
 
+            //FreelancerId = 1;
             FreelancerId = FreelancerModel.FreelancerId;
-            //updating
-
-            Title = "Update";
-            FreelancerModel = await _freelancerService.GetFreelancer(FreelancerId);
+            //FreelancerModel = await _freelancerService.GetFreelancer(FreelancerId);
             //if (FreelancerModel?.FreelancerImages != null)
             //{
             //    FreelancerModel.ImageUrls = FreelancerModel.FreelancerImages.Select(u => u.FreelancerImageUrl).ToList();
             //}
-
         }
-        else
-        {
-            //create
-            FreelancerModel = new FreelancerDto();
-        }
-
     }
+
+    protected async Task SetFreelancerOnAssignment(AssignmentDto assignmentDto)
+    {
+
+        var toDelete = (from a in AssignmentList where a.Id==assignmentDto.Id select a).First();
+        AssignmentList.Remove(toDelete);
+        assignmentDto.FreelancerDto = FreelancerModel;
+        assignmentDto.FreelancerId = FreelancerId;
+        assignmentDto.IsActive = true;
+        AssignmentList.Add(assignmentDto);
+
+
+        SelectedCounter++;
+        await InvokeAsync(StateHasChanged); //rerender the ui, so that the activated assigment disappears
+    }
+
+    protected async Task TakeFreelancerOffAssignment(AssignmentDto assignmentDto)
+    {
+        var toDelete = (from a in AssignmentList where a.Id == assignmentDto.Id select a).First();
+        AssignmentList.Remove(toDelete);
+        assignmentDto.FreelancerId = null;
+        assignmentDto.IsActive = false; //bare setter den sånn at den kan overskrives
+        AssignmentList.Add(assignmentDto);
+        await InvokeAsync(StateHasChanged); //rerender the ui, so that the activated assigment disappears
+        SelectedCounter--;
+    }
+
 
     private async Task LoadAssignmentsAndFreelancers()
     {
-        AssignmentList = await _iAssignmentService.GetAssignments();
-        FreelancerList = await _freelancerService.GetFreelancers(); //mulig det ikke er nødv. å gå igjennom alle for se hvilke assignments som tilhører denne frilanseren
+        AssignmentList = (await _iAssignmentService.GetAssignments()).ToList();
+        FreelancerList = (await _freelancerService.GetFreelancers()).ToList(); //mulig det ikke er nødv. å gå igjennom alle for se hvilke assignments som tilhører denne frilanseren
     }
 
     private async Task HandleProfileUpdate()
@@ -230,6 +214,10 @@
                 //        await AddFreelancerImage(createdResult);
                 await JsRuntime.ToastrSuccess("Freelancer created successfully.");
             }
+
+            //for(//each selected assigment by freelancer)
+            //add assigment onto the Assignment list inside freelancer
+
         }
         catch (Exception ex)
         {

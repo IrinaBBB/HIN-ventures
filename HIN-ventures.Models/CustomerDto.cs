@@ -33,9 +33,9 @@ namespace HIN_ventures.Models
 
         public int TotalCost { get; set; }
 
-        public virtual ICollection<Assignment> Assignments { get; set; }
+        public virtual ICollection<AssignmentDto> AssignmentsDtos { get; set; }
 
-        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<RatingDto> RatingDtos { get; set; }
 
         [Required]
         public string IdentityId { get; set; }

@@ -50,7 +50,7 @@
         <MudText Typo="Typo.subtitle2">Code Files:</MudText>
         @if (CountAssingments != 0)
         {
-            @foreach (var assignment in CustomerModel.Assignments)
+            @foreach (var assignment in CustomerModel.AssignmentsDtos)
             {
                 <MudText>@assignment.Title</MudText>
                 <MudText>@assignment.CreatedBy</MudText>
@@ -80,9 +80,9 @@
         if (Id != null)
         {
             CustomerModel = await _customerRepository.GetCustomer(Id.Value);
-            if (CustomerModel.Assignments.Count != 0)
+            if (CustomerModel.AssignmentsDtos.Count != 0)
             {
-                CountAssingments = CustomerModel.Assignments.Count;
+                CountAssingments = CustomerModel.AssignmentsDtos.Count;
             }
         }
         else

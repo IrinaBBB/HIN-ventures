@@ -34,7 +34,7 @@
                           @bind-Value="@CustomerModel.CryptoAddress"
                           HelperText="CryptoAddress for you to get payments and pay freelancers from." />
             <MudCardContent>
-                <MudTable Items="@CustomerModel.Assignments" Hover="true" Breakpoint="Breakpoint.None" Dense="@true">
+                <MudTable Items="@CustomerModel.AssignmentsDtos" Hover="true" Breakpoint="Breakpoint.None" Dense="@true">
                     <HeaderContent>
                         <MudTh>Title</MudTh>
                         <MudTh>Category</MudTh>

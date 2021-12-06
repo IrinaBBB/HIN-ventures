@@ -35,9 +35,9 @@ namespace HIN_ventures.Models
 
         public bool IsAvailable { get; set; } = true; 
 
-        public virtual ICollection<Assignment> Assignments { get; set; }
+        public virtual ICollection<AssignmentDto> AssignmentsDtos { get; set; }
       
-        public virtual ICollection<Rating> Ratings { get; set; }
+        public virtual ICollection<RatingDto> RatingsDtos { get; set; }
 
         [Required]
         public string IdentityId { get; set; }
