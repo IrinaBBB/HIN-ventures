@@ -97,31 +97,25 @@
 
     [Parameter]
     public FreelancerDto FreelancerModel { get; set; } = new();
-    
+
     [Parameter]
     public int SelectedCounter { get; set; } = 0;
-    
+
     [Parameter]
     public List<AssignmentDto> AssignmentList { get; set; } = new List<AssignmentDto>();
 
-    [Parameter]
-    public List<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
-
-   
+    public List<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>(); //was previously marked [Parameter]
 
     [Parameter]
     public int FreelancerId { get; set; }
 
     public UserDto LoggedInUser { get; set; }
     public string IdentityId { get; set; }
-  
+
 
     //private FreelancerImageDto FreelancerImage { get; set; } = new FreelancerImageDto();
     //private List<string> DeletedImageNames { get; set; } = new List<string>();
     //private bool IsImageUploadProcessStarted { get; set; } = false;
-
-    [CascadingParameter]
-    public Task<AuthenticationState> AuthenticationState { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -130,19 +124,11 @@
         IdentityId = LoggedInUser.Id;
         await LoadAssignmentsAndFreelancers();
 
-        //Is already authenticated...so perhaps unneccesary
-        //var authenticationState = await AuthenticationState;
-        //if (!authenticationState.User.IsInRole(SD.Role_Freelancer))
-        //{
-        //    var uri = new Uri(NavigationManager.Uri);
-        //    NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
-        //}
         if (IdentityId != null)
         {
             //Fetch freelancer based on IdentityId
             FreelancerModel = (from freelancer in FreelancerList where freelancer.IdentityId.Equals(IdentityId) select freelancer).FirstOrDefault();
 
-            //FreelancerId = 1; //for testing
             FreelancerId = FreelancerModel.FreelancerId;
             //FreelancerModel = await _freelancerService.GetFreelancer(FreelancerId);
             //if (FreelancerModel?.FreelancerImages != null)
@@ -152,29 +138,37 @@
         }
     }
 
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    var test = ADto;
+    //    await _assignmentService.UpdateAssignment(ADto.Id, ADto);
+    //    await base.OnParametersSetAsync();
+    //}
+
     protected async Task SetFreelancerOnAssignment(AssignmentDto assignmentDto)
     {
 
-        var toDelete = (from a in AssignmentList where a.Id == assignmentDto.Id select a).First();
-        AssignmentList.Remove(toDelete);
-        assignmentDto.FreelancerDto = FreelancerModel;
+        //var toDelete = (from a in AssignmentList where a.Id == assignmentDto.Id select a).First();
+        //AssignmentList.Remove(toDelete);
+        assignmentDto.FreelancerDto = FreelancerModel; //NB just for demo purposes. Mange assignments er satt til IsActive = 0 likevel om de har frilansere.
         assignmentDto.FreelancerId = FreelancerId;
         assignmentDto.IsActive = true;
-        AssignmentList.Add(assignmentDto);
+        //AssignmentList.Add(assignmentDto);
 
+        await _assignmentService.UpdateAssignment(assignmentDto.Id, assignmentDto);
 
         SelectedCounter++;
-        await InvokeAsync(StateHasChanged); //rerender the ui, so that the activated assigment disappears
     }
 
     protected async Task TakeFreelancerOffAssignment(AssignmentDto assignmentDto)
     {
-        var toDelete = (from a in AssignmentList where a.Id == assignmentDto.Id select a).First();
-        AssignmentList.Remove(toDelete);
+        //var toDelete = (from a in AssignmentList where a.Id == assignmentDto.Id select a).First();
+        //AssignmentList.Remove(toDelete);
+        assignmentDto.FreelancerDto = null;
         assignmentDto.FreelancerId = null;
-        assignmentDto.IsActive = false; //bare setter den sånn at den kan overskrives
-        AssignmentList.Add(assignmentDto);
-        await InvokeAsync(StateHasChanged); //rerender the ui, so that the activated assigment disappears
+        assignmentDto.IsActive = false; 
+        
+        await _assignmentService.UpdateAssignment(assignmentDto.Id, assignmentDto);
         SelectedCounter--;
     }
 

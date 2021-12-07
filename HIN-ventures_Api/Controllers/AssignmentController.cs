@@ -46,5 +46,23 @@ namespace HIN_ventures_Api.Controllers
                 });
             }
         }
+
+        [Route("Update/{id:int}")]
+        [HttpPut]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] AssignmentDto assignmentDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _assignmentRepository.UpdateAssignment(id, assignmentDto);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    ErrorMessage = "Error while Updating Assignment"
+                });
+            }
+        }
     }
 }

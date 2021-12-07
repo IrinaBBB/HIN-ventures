@@ -10,5 +10,7 @@ namespace HIN_ventures.Client.Service.IService
         public Task<AssignmentDto> GetAssignment(int assignmentId);
 
         public Task<AssignmentDto> CreateAssignment(AssignmentDto assignment);
+
+        public Task<AssignmentDto> UpdateAssignment(int assignmentId, AssignmentDto assignmentDto);
     }
 }

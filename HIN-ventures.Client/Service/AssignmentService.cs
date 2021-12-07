@@ -63,5 +63,25 @@ namespace HIN_ventures.Client.Service
                 throw new Exception(errorModel.ErrorMessage);
             }
         }
+
+        public async Task<AssignmentDto> UpdateAssignment(int assignmentId, AssignmentDto assignmentDto)
+        {
+            var content = JsonConvert.SerializeObject(assignmentDto);
+            var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"api/assignment/update/{assignmentId}", bodyContent);
+            string res = response.Content.ReadAsStringAsync().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                var contentTemp = await response.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<AssignmentDto>(contentTemp);
+                return result;
+            }
+            else
+            {
+                var contentTemp = await response.Content.ReadAsStringAsync();
+                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(contentTemp);
+                throw new Exception(errorModel.ErrorMessage);
+            }
+        }
     }
 }
