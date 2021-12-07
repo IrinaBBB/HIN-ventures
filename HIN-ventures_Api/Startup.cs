@@ -83,7 +83,7 @@ namespace HIN_ventures_Api
             services.AddScoped<IFreelancerRepository, FreelancerRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
-            services.AddScoped<IBookingDetailsRepository, BookingDetailsRepository>();
+            //services.AddScoped<IBookingDetailsRepository, BookingDetailsRepository>();
             //services.AddScoped(IFreelancerImages, FreelancerImages)
 
             services.AddCors(o => o.AddPolicy("HIN-ventures", builder =>

@@ -77,7 +77,7 @@ namespace HIN_ventures.Business.Repositories
             {
                 IEnumerable<FreelancerDto> freelancerDtos = _mapper.Map<IEnumerable<Freelancer>, IEnumerable<FreelancerDto>>
                         (_db.Freelancers
-                            .Include(x => x.Assignments)
+                            //.Include(x => x.Assignments)
                             .OrderBy(x => x.TotalLinesOfCode));
                 return await Task.FromResult(freelancerDtos);
             }

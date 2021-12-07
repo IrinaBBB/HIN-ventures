@@ -23,6 +23,8 @@ namespace HIN_ventures.DataAccess.Entities
 
         public bool IsAvailable { get; set; } = true;
 
+        public int AverageRating { get; set; }
+
         public virtual ICollection<Assignment> Assignments { get; set; }
 
         public virtual ICollection<Rating> Ratings { get; set; }

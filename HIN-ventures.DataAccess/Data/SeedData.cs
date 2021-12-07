@@ -85,7 +85,7 @@ namespace HIN_ventures.DataAccess.Data
                     Email = user4.Email
                 };
 
-                List<Assignment> assignmentsList = new List<Assignment>();
+                //List<Assignment> assignmentsList = new List<Assignment>();
 
                 ICollection<Assignment> assignments = new[]
                 {
@@ -129,20 +129,20 @@ namespace HIN_ventures.DataAccess.Data
 
                 db.Assignments.AddRange(assignments);
 
-                foreach (var assignment in assignments)
-                {
-                    assignmentsList.Add(assignment);
-                }
+                //foreach (var assignment in assignments)
+                //{
+                //    assignmentsList.Add(assignment);
+                //}
 
-                freelancer1.Assignments = new List<Assignment> { assignmentsList[0], assignmentsList[1] };
-                freelancer2.Assignments = new List<Assignment> { assignmentsList[2], assignmentsList[3] };
+                //freelancer1.Assignments = new List<Assignment> { assignmentsList[0], assignmentsList[1] };
+                //freelancer2.Assignments = new List<Assignment> { assignmentsList[2], assignmentsList[3] };
 
-                var freelancers = new[] { freelancer1, freelancer2 };
-                db.Freelancers.AddRange(freelancers);
+                //var freelancers = new[] { freelancer1, freelancer2 };
+                //db.Freelancers.AddRange(freelancers);
 
 
-                var customers = new[] { customer1, customer2 };
-                db.Customers.AddRange(customers);
+                //var customers = new[] { customer1, customer2 };
+                //db.Customers.AddRange(customers);
 
                 db.SaveChanges();
             }
