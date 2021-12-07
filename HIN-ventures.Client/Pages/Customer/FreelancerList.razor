@@ -133,14 +133,14 @@ else
 
         var freelancerDtos = FreelancerDtos.ToList();
 
-        foreach (var freelancer in freelancerDtos)
-        {
-            foreach (var rating in freelancer.RatingsDtos)  //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
-            {
-                sumRating += rating.RatingValue;
-            }
-            freelancer.AverageRating = sumRating/freelancerDtos.Count();
-        }
+        //foreach (var freelancer in freelancerDtos)
+        //{
+        //    foreach (var rating in freelancer.RatingsDtos)  //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
+        //    {
+        //        sumRating += rating.RatingValue;
+        //    }
+        //    freelancer.AverageRating = sumRating/freelancerDtos.Count();
+        //}
 
     }
 

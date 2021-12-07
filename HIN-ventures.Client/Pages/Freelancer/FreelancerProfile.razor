@@ -95,17 +95,27 @@
 
 @code {
 
+    [Parameter]
+    public FreelancerDto FreelancerModel { get; set; } = new();
+    
+    [Parameter]
     public int SelectedCounter { get; set; } = 0;
+    
+    [Parameter]
     public List<AssignmentDto> AssignmentList { get; set; } = new List<AssignmentDto>();
-    public List<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
-
-    public UserDto LoggedInUser { get; set; }
 
     [Parameter]
-    public string IdentityId { get; set; }
+    public List<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
+
+   
+
+    [Parameter]
     public int FreelancerId { get; set; }
 
-    private FreelancerDto FreelancerModel { get; set; } = new();
+    public UserDto LoggedInUser { get; set; }
+    public string IdentityId { get; set; }
+  
+
     //private FreelancerImageDto FreelancerImage { get; set; } = new FreelancerImageDto();
     //private List<string> DeletedImageNames { get; set; } = new List<string>();
     //private bool IsImageUploadProcessStarted { get; set; } = false;
@@ -188,7 +198,7 @@
 
                 //update
                 var updateFreelancerResult = await _freelancerService.UpdateFreelancer(FreelancerModel.FreelancerId, FreelancerModel);
-    //if ((FreelancerModel.ImageUrls != null && FreelancerModel.ImageUrls.Any()) || (DeletedImageNames != null && DeletedImageNames.Any()))
+                //if ((FreelancerModel.ImageUrls != null && FreelancerModel.ImageUrls.Any()) || (DeletedImageNames != null && DeletedImageNames.Any()))
                 //{
                 //    if (DeletedImageNames != null && DeletedImageNames.Any())
                 //    {

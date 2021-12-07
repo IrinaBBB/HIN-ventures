@@ -44,7 +44,7 @@ namespace HIN_ventures_Client.Service
         {
             var content = JsonConvert.SerializeObject(freelancer);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("api/freelancer/update", bodyContent);
+            var response = await _client.PutAsync($"api/freelancer/update/{freelancerId}", bodyContent);
             string res = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
@@ -62,7 +62,7 @@ namespace HIN_ventures_Client.Service
 
         public async Task<FreelancerDto> GetFreelancer(int freelancerId)
         {
-            var response = await _client.GetAsync($"api/freelancer/{freelancerId}");
+            var response = await _client.GetAsync($"api/freelancer/getfreelancer/{freelancerId}");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -80,7 +80,7 @@ namespace HIN_ventures_Client.Service
 
         public async Task<IEnumerable<FreelancerDto>> GetFreelancers()
         {
-            var response = await _client.GetAsync($"api/freelancer");
+            var response = await _client.GetAsync($"api/freelancer/getfreelancers");
             var content = await response.Content.ReadAsStringAsync();
             var freelancers = JsonConvert.DeserializeObject<IEnumerable<FreelancerDto>>(content);
             return freelancers;
