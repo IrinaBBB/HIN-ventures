@@ -8,6 +8,7 @@ using HIN_ventures.Common;
 using HIN_ventures.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HIN_ventures_Api.Controllers
 {
@@ -20,6 +21,24 @@ namespace HIN_ventures_Api.Controllers
         {
             _freelancerRepository = freelancerRepository;
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] FreelancerDto freelancer)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _freelancerRepository.CreateFreelancer(freelancer);
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    ErrorMessage = "Error while creating new Assignment/ Booking"
+                });
+            }
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetFreelancers() //bool IsActive?
@@ -56,22 +75,7 @@ namespace HIN_ventures_Api.Controllers
 
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] FreelancerDto freelancer)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _freelancerRepository.CreateFreelancer(freelancer);
-                return Ok(result);
-            }
-            else
-            {
-                return BadRequest(new ErrorModel()
-                {
-                    ErrorMessage = "Error while creating new Assignment/ Booking"
-                });
-            }
-        }
+ 
 
 
         [HttpPut("{id:int}")]

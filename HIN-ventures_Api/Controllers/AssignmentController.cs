@@ -29,7 +29,7 @@ namespace HIN_ventures_Api.Controllers
             return Ok(assignment);
         }
 
-        
+        [Route("Create")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] AssignmentDto assignment)
         {
