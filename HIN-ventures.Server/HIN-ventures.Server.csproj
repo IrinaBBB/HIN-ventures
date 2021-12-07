@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\CryptoPayment\BlockIO.razor" />
+    <Content Remove="Pages\CryptoPayment\ConfirmButton.razor" />
+    <Content Remove="Pages\CryptoPayment\Transactions.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Block.Io.Core" Version="1.0.1" />
@@ -33,6 +39,10 @@
     <ProjectReference Include="..\HIN-ventures.Models\HIN-ventures.Models.csproj" />
     <ProjectReference Include="..\HIN-ventures.Shared\HIN-ventures.Shared.csproj" />
     <ProjectReference Include="..\HIN-ventures_Api\HIN-ventures_Api.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\CryptoPayment\" />
   </ItemGroup>
 
 </Project>

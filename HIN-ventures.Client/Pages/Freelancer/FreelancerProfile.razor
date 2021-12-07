@@ -72,7 +72,7 @@
             }
 
         }
-        
+
         <div class="col-12">
             <p class="text-secondary"> Selected Assignment: @SelectedCounter </p>
         </div>
@@ -106,7 +106,6 @@
     public int FreelancerId { get; set; }
 
     private FreelancerDto FreelancerModel { get; set; } = new();
-    private string Title { get; set; } = "Create";
     //private FreelancerImageDto FreelancerImage { get; set; } = new FreelancerImageDto();
     //private List<string> DeletedImageNames { get; set; } = new List<string>();
     //private bool IsImageUploadProcessStarted { get; set; } = false;
@@ -116,7 +115,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(5000); //must be here to stop to use debugger
+        //await Task.Delay(5000); //must be commented in if I want to debug
         LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
         IdentityId = LoggedInUser.Id;
         await LoadAssignmentsAndFreelancers();
@@ -130,9 +129,10 @@
         //}
         if (IdentityId != null)
         {
+            //Fetch freelancer based on IdentityId
             FreelancerModel = (from freelancer in FreelancerList where freelancer.IdentityId.Equals(IdentityId) select freelancer).FirstOrDefault();
 
-            //FreelancerId = 1;
+            //FreelancerId = 1; //for testing
             FreelancerId = FreelancerModel.FreelancerId;
             //FreelancerModel = await _freelancerService.GetFreelancer(FreelancerId);
             //if (FreelancerModel?.FreelancerImages != null)
@@ -145,7 +145,7 @@
     protected async Task SetFreelancerOnAssignment(AssignmentDto assignmentDto)
     {
 
-        var toDelete = (from a in AssignmentList where a.Id==assignmentDto.Id select a).First();
+        var toDelete = (from a in AssignmentList where a.Id == assignmentDto.Id select a).First();
         AssignmentList.Remove(toDelete);
         assignmentDto.FreelancerDto = FreelancerModel;
         assignmentDto.FreelancerId = FreelancerId;
@@ -181,14 +181,14 @@
         //FreelancerModel.Speciality = "Blazor!";
         try
         {
-            if (FreelancerId != 0) FreelancerModel = await _freelancerService.GetFreelancer(FreelancerId);
+            //if (FreelancerId != 0) FreelancerModel = await _freelancerService.GetFreelancer(FreelancerId);
 
-            if (FreelancerModel.FreelancerId != 0 && Title == "Update")
+            if (FreelancerModel.FreelancerId != 0)
             {
 
                 //update
                 var updateFreelancerResult = await _freelancerService.UpdateFreelancer(FreelancerModel.FreelancerId, FreelancerModel);
-                //if ((FreelancerModel.ImageUrls != null && FreelancerModel.ImageUrls.Any()) || (DeletedImageNames != null && DeletedImageNames.Any()))
+    //if ((FreelancerModel.ImageUrls != null && FreelancerModel.ImageUrls.Any()) || (DeletedImageNames != null && DeletedImageNames.Any()))
                 //{
                 //    if (DeletedImageNames != null && DeletedImageNames.Any())
                 //    {
@@ -207,22 +207,12 @@
                 //        }
                 await JsRuntime.ToastrSuccess("Freelancer updated successfully.");
             }
-            else
-            {
-                //create
-                var createdResult = FreelancerModel = await _freelancerService.CreateFreelancer(FreelancerModel);
-
-                //        await AddFreelancerImage(createdResult);
-                await JsRuntime.ToastrSuccess("Freelancer created successfully.");
-            }
-
-            //for(//each selected assigment by freelancer)
-            //add assigment onto the Assignment list inside freelancer
 
         }
         catch (Exception ex)
         {
             //log exceptions
+            var msg = ex.Message;
         }
 
 

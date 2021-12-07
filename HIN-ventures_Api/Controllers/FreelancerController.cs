@@ -34,21 +34,21 @@ namespace HIN_ventures_Api.Controllers
             {
                 return BadRequest(new ErrorModel()
                 {
-                    ErrorMessage = "Error while creating new Assignment/ Booking"
+                    ErrorMessage = "Error while creating new Freelancer"
                 });
             }
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> GetFreelancers() //bool IsActive?
+        public async Task<IActionResult> GetFreelancers()
         {
             var freelancers = await _freelancerRepository.GetAllFreelancers();
             return Ok(freelancers);
         }
 
         [HttpGet("{freelancerId}")]
-        public async Task<IActionResult> GetFreelancer(int? freelancerId) //bool IsActive?
+        public async Task<IActionResult> GetFreelancer(int? freelancerId)
         {
             if (freelancerId == null)
             {
@@ -75,9 +75,7 @@ namespace HIN_ventures_Api.Controllers
 
         }
 
- 
-
-
+        //[Route("Update")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] FreelancerDto freelancer)
         {
@@ -90,7 +88,7 @@ namespace HIN_ventures_Api.Controllers
             {
                 return BadRequest(new ErrorModel()
                 {
-                    ErrorMessage = "Error while Updating new Assignment/ Booking"
+                    ErrorMessage = "Error while Updating Freelancer"
                 });
             }
         }

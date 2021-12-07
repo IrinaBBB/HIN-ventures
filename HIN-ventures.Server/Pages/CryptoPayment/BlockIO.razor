@@ -1,0 +1,77 @@
+﻿@page  "/payment"
+@using HIN_ventures.Common;
+@using BlockIoLib
+
+<h3>Transactions</h3>
+
+<div class="bg-light border p-2">
+    HIN-Ventures current funds: @HinVenturesBalance Dogecoin
+    <br />
+    TestFreelancer current funds: @FreelancerBalance Dogecoin
+</div>
+
+@*<button class="btn btn-primary" @onclick="@SomeTask">Send 1 DogeCoin to test account</button>*@
+<button class="btn btn-primary" @onclick="@SendOneCoin">Send 1 DogeCoin to test account</button>
+
+
+@code {
+
+    readonly BlockIo _blockIo = new("DOGECOIN", "H5sbN8Ra34KjgaTFEBcN");
+
+    [Parameter]
+    public double HinVenturesBalance { get; set; }
+
+    [Parameter]
+    public double FreelancerBalance { get; set; }
+
+    public class TransferByAdress
+    {
+        public string From { get; set; }
+        public string To { get; set; }
+        public double Amount { get; set; }
+    }
+
+    public class TransferByLabel
+    {
+        public string FromLabel { get; set; }
+        public string ToLabel { get; set; }
+        public double Amount { get; set; }
+    }
+
+
+    public class TransferDto
+    {
+        public string api_key { get; set; }
+        public string from_labels { get; set; }
+        public string to_labels { get; set; }
+        public string amounts { get; set; }
+    }
+
+    readonly TransferDto _transaction = new()
+    {
+        //secret PIN: "H5sbN8Ra34KjgaTFEBcN"
+        api_key = SD.ApiKey,
+        from_labels = "HIN-Ventures",
+        to_labels = "FreelancerTest",
+        amounts = "1"
+    };
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var temp = (_blockIo.GetBalance()).Data;
+        HinVenturesBalance = temp;
+        //var temp = (_blockIo.GetAddressByLabel(new { labels = "HIN-Ventures" })).Data; //viser ikke at man må ha data i https://block.io/api/simple/csharp
+
+        //FreelancerBalance = (_blockIo.GetAddressByLabel(new { label = "FreelancerTest" })).Data; //viser ikke at man må ha data i https://block.io/api/simple/csharp
+
+        await base.OnInitializedAsync();
+
+    }
+
+
+    public void SendOneCoin()
+    {
+        _blockIo.PrepareTransaction(new { amounts = "1", from_labels = "HIN-Ventures", to_labels = "FreelancerTest" });
+    }
+}

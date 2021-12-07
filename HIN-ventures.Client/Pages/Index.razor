@@ -65,7 +65,14 @@
                             <div class="card-header">@assignment.Category</div>
                             <div class="card-body">
                                 <h4 class="card-title">@assignment.Title</h4>
-                                <p class="card-text">@assignment.Description[..50]</p>
+                                @if(assignment.Description.Length > 50)
+                                {
+                                    <p class="card-text">@assignment.Description[..50]</p>
+                                }
+                                else
+                                {
+                                    <p class="card-text">@assignment.Description</p>
+                                }
                                 <a class="btn btn-outline-success card-link">Learn More...</a>
                             </div>
                         </div>
