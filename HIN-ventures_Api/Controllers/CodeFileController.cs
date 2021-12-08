@@ -39,6 +39,25 @@ namespace HIN_ventures_Api.Controllers
             }
         }
 
+
+        [HttpGet("{Id:int}")]
+        public async Task<IActionResult> GetCodeFileFromAssignment(int Id)
+        {
+            var codeFileDtoDetails = await _codeFileRepository.GetCodeFileFromAssignment(Id);
+            if (codeFileDtoDetails == null)
+            {
+                return BadRequest(new ErrorModel()
+                {
+                    Title = "No data",
+                    ErrorMessage = "Invalid CodeFile Id",
+                    StatusCode = StatusCodes.Status404NotFound
+                });
+            }
+
+            return Ok(codeFileDtoDetails);
+
+        }
+
         [HttpGet("{assignmentId:int}")]
         public async Task<IActionResult> GetCodeFile(int assignmentId)
         {

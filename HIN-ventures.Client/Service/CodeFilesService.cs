@@ -60,6 +60,33 @@ namespace HIN_ventures_Client.Service
             }
         }
 
+        public async Task<CodeFileDto> GetCodeFileFromAssignment(int Id)
+        {
+            var response = await _client.GetAsync($"api/codeFile/getCodeFileFromAssignment/{Id}");
+            var content = "";
+            if (response.IsSuccessStatusCode)
+            {
+                content = await response.Content.ReadAsStringAsync();
+
+                if (!String.IsNullOrEmpty(content))
+                { 
+                    return null;
+                }
+                else
+                {
+                    var codeFile = JsonConvert.DeserializeObject<CodeFileDto>(content);
+                    return codeFile;
+                }
+            } 
+            else
+            {
+                content = await response.Content.ReadAsStringAsync();
+                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(content);
+                throw new Exception(errorModel.ErrorMessage);
+            }
+        }
+
+        //bruker den over i steden halil
         public async Task<CodeFileDto> GetCodeFile(int assignmentId)
         {
             var response = await _client.GetAsync($"api/codeFile/getCodeFile/{assignmentId}");

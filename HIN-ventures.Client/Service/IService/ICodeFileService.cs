@@ -15,5 +15,6 @@ namespace HIN_ventures_Client.Service.IService
         public Task<CodeFileDto> CreateCodeFile(CodeFileDto codeFile);
 
         public Task<CodeFileDto> UpdateCodeFile(int codeFileId, CodeFileDto codeFile);
+        public Task<CodeFileDto> GetCodeFileFromAssignment(int Id);
     }
 }
