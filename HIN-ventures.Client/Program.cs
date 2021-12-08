@@ -36,6 +36,7 @@ namespace HIN_ventures.Client
             builder.Services.AddScoped<IBookingDetailsService, BookingDetailsService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
+            builder.Services.AddScoped<ICodeFileService, CodeFilesService>();
 
             builder.Services.AddMudServices();
 

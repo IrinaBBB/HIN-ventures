@@ -74,6 +74,7 @@ namespace HIN_ventures.Server
             services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IDbInitializer, DbInitializer>();
+            services.AddScoped<ICodeFileRepository, CodeFileRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)

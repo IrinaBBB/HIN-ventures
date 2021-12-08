@@ -1,29 +1,85 @@
 ﻿@page "/freelancer/assignment/details/{Id:int}"
 @using HIN_ventures.Client.Service.IService
 @inject IAssignmentService _assignmentService
+@inject ICodeFileService _codeFileService
 @using Microsoft.AspNetCore.Authorization
 
 @attribute [Authorize(Roles = SD.Role_Freelancer)]
 
-<h3>AssignmentDetails</h3>
+<div class="container">
+
+    <h1 class="my-4">Page Heading
+        <small>Secondary Text</small>
+    </h1>
+
+    <div class="row">
+  
+        <div class="col-md-8">
+            <img class="img-fluid" src="https://via.placeholder.com/750x500" alt="">
+        </div>
+  
+        <div class="col-md-4">
+            <h3 class="my-3">AssignmentDetails</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+            <h3 class="my-3">Project Details</h3>
+            <ul>
+                <li>@AssignmentModel.Title</li>
+                <li>Dolor Sit Amet</li>
+                <li>Consectetur</li>
+                <li>Adipiscing Elit</li>
+            </ul>
+        </div>
+  
+    </div>
+
+    <h3 class="my-4">Related Projects</h3>
+  
+    <div class="row">
+  
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+        </div>
+  
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+        </div>
+  
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+        </div>
+  
+        <div class="col-md-3 col-sm-6 mb-4">
+            <a href="#">
+                <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+        </div>
+    </div>
+</div>
+
 
 @code {
     [Parameter]
     public int? Id { get; set; }
 
     private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
-    private CodeFileDto CodeFileDto { get; set; } = new CodeFileDto();
+    private List<CodeFileDto> CodeFileList { get; set; } = new List<CodeFileDto>();
+    private CodeFileDto CodeFileDto { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         if (Id != null)
         {
             AssignmentModel = await _assignmentService.GetAssignment(Id.Value);
-            CodeFileDto = await _assignmentService.GetCodeFileForAssignment(Id.Value);
-        }
-        else 
-        {
-            AssignmentModel = new AssignmentDto();
+            await Task.Delay(5000);
+            //CodeFileList = (await _codeFileService.GetCodeFiles()).ToList();
+            //CodeFileDto = (from c in CodeFileList where c.Id== AssignmentModel.Id select c).FirstOrDefault();
+            CodeFileDto = await _codeFileService.GetCodeFile(Id.Value);
         }
     }
 

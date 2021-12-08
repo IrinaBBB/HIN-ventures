@@ -125,6 +125,8 @@
     public string IdentityId { get; set; }
     public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
 
+    private RatingDto RatingModel { get; set; } //opprett ett nytt sett med ratings knyttet til denne assignment
+
     public IEnumerable<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
     public IEnumerable<CustomerDto> CustomerList { get; set; } = new List<CustomerDto>();
 

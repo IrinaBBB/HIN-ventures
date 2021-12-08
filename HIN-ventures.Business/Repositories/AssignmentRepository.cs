@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HIN_ventures.Business.Repositories.IRepositories;
@@ -59,16 +61,51 @@ namespace HIN_ventures.Business.Repositories
 
         }
 
-        public async Task<AssignmentDto> GetAssignment(int assignmentId)
+        public async Task<AssignmentDto> GetAssignment(int? assignmentId)
         {
             var assignment = _mapper.Map<Assignment, AssignmentDto>
                 (await _context.Assignments.Include(x=>x.CodeFiles).FirstOrDefaultAsync(x => x.Id == assignmentId));
             return assignment;
         }
 
+        //public async Task<AssignmentDto> GetOnlyAssignment(int assignmentId)
+        //{
+        //    var assignment = _mapper.Map<Assignment, AssignmentDto>
+        //        (await _context.Assignments.Where(x => x.Id == assignmentId));
+        //    return assignment;
+        //}
+
         public IEnumerable<AssignmentDto> GetAllAssignments()
         {
             return _mapper.Map<IEnumerable<Assignment>, IEnumerable<AssignmentDto>>( _context.Assignments);
         }
+
+
+        //public async Task<AssignmentDto> GetAssignment(int assignmentId)
+        //{
+        //    try
+        //    {
+        //        //forandre tilbake etter å ha funnet feil
+        //        var exists = await _context.CodeFiles.Where(c => c.AssignmentId == assignmentId).AnyAsync();
+
+        //        var assignment = _mapper.Map<Assignment, AssignmentDto>
+        //            (await _context.Assignments.FirstOrDefaultAsync(x => x.Id == assignmentId));
+
+        //        if (exists)
+        //        {
+        //            assignment = _mapper.Map<Assignment, AssignmentDto>
+        //            (await _context.Assignments.Include(x => x.CodeFiles)
+        //                .FirstOrDefaultAsync(x => x.Id == assignmentId));
+        //        }
+
+        //        return assignment;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.Write(e.Message);
+        //        return null;
+        //    }
+
+        //}
     }
 }

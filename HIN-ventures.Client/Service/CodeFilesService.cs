@@ -60,9 +60,9 @@ namespace HIN_ventures_Client.Service
             }
         }
 
-        public async Task<CodeFileDto> GetCodeFile(int codeFileId)
+        public async Task<CodeFileDto> GetCodeFile(int assignmentId)
         {
-            var response = await _client.GetAsync($"api/codeFile/getCodeFile/{codeFileId}");
+            var response = await _client.GetAsync($"api/codeFile/getCodeFile/{assignmentId}");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

@@ -27,9 +27,9 @@ namespace HIN_ventures.Client.Service
             return assignments;
         }
 
-        public async Task<AssignmentDto> GetAssignment(int assignmentId)
+        public async Task<AssignmentDto> GetAssignment(int Id)
         {
-            var response = await _client.GetAsync($"api/assignment/{assignmentId}");
+            var response = await _client.GetAsync($"api/singleassignment/getassignmentbyid/{Id}");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();

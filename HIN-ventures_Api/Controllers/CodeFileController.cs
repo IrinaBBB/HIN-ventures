@@ -57,6 +57,13 @@ namespace HIN_ventures_Api.Controllers
 
         }
 
+        //[HttpGet]
+        //public async Task<IActionResult> GetCodeFiles()
+        //{
+        //    var freelancers = await _codeFileRepository.GetCodeFiles();
+        //    return Ok(freelancers);
+        //}
+
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] CodeFileDto codeFileDto)
         {

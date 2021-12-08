@@ -22,10 +22,11 @@ namespace HIN_ventures_Api.Controllers
             return Ok(assignments);
         }
 
-        [HttpGet("{assignmentId}")]
-        public IActionResult GetAssignmentById(int assignmentId)
+        [Route("GetAssignmentById/{Id:int}")]
+        [HttpGet]
+        public IActionResult GetAssignmentById(int Id)
         {
-            var assignment = _assignmentRepository.GetAssignment(assignmentId);
+            var assignment = _assignmentRepository.GetAssignment(Id);
             return Ok(assignment);
         }
 

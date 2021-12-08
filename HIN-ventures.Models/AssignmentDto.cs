@@ -43,6 +43,6 @@ namespace HIN_ventures.Models
         public int? CustomerId { get; set; }
         public CustomerDto CustomerDto { get; set; }
 
-        public virtual ICollection<CodeFile> CodeFiles { get; set; }
+        public virtual ICollection<CodeFileDto> CodeFileDto { get; set; }
     }
 }
