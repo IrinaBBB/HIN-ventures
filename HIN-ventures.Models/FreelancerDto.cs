@@ -25,6 +25,7 @@ namespace HIN_ventures.Models
         
         public string Speciality { get; set; }
 
+        [Range(0,5)]
         public int AverageRating{ get ; set ; }
 
         public int TotalLinesOfCode { get; set; }
@@ -35,9 +36,9 @@ namespace HIN_ventures.Models
 
         public bool IsAvailable { get; set; } = true; 
 
-        public virtual ICollection<AssignmentDto> AssignmentsDtos { get; set; }
+        public virtual ICollection<AssignmentDto> AssignmentDtos { get; set; }
       
-        public virtual ICollection<RatingDto> RatingsDtos { get; set; }
+        public virtual ICollection<RatingDto> RatingDtos { get; set; }
 
         [Required]
         public string IdentityId { get; set; }

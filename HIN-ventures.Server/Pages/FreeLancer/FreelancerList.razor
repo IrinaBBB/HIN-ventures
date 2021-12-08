@@ -53,9 +53,9 @@
                             <MudCardHeader>
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">@freelancer.LastName</MudText>
-                                    @if (@freelancer.RatingsDtos.Any())
+                                    @if (@freelancer.RatingDtos.Any())
                                     {
-                                        <MudRating SelectedValue="@GetAverage(@freelancer.RatingsDtos)" Size="Size.Medium"/>
+                                        <MudRating SelectedValue="@GetAverage(@freelancer.RatingDtos)" Size="Size.Medium"/>
                                     
                                     }
                                     else

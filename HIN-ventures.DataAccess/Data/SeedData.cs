@@ -9,6 +9,27 @@ namespace HIN_ventures.DataAccess.Data
     {
         public static void Initialize(ApplicationDbContext db)
         {
+
+            //may not seed unless hooking up foregin keys
+            if (!db.Ratings.Any())
+            {
+
+                ICollection<Rating> ratings = new List<Rating>();
+                for (var i = 0; i < 50; i++)
+                {
+                    ratings.Add(new Rating()
+                    {
+                        RatingValue = new Random(i).Next(5), //a rating between 0 and 5
+                        //FreelancerId = //new Random(i).Next(db.Freelancers.Count()), //pick a random freelancer
+                        //CustomerId = new Random(i).Next(db.Customers.Count()) //pick a random customer
+                    });
+                }
+
+                db.Ratings.AddRange(ratings);
+                db.SaveChanges();
+            }
+
+
             if (!db.ApplicationUser.Any() && !db.Customers.Any() && !db.Freelancers.Any() && !db.Assignments.Any())
             {
                 ApplicationUser user1 = new()
@@ -71,7 +92,8 @@ namespace HIN_ventures.DataAccess.Data
                     TotalLinesOfCode = 7722,
                     CryptoAddress = "TEST123123123123",
                     IdentityId = user3.Id,
-                    Email = user3.Email
+                    Email = user3.Email,
+
                 };
 
                 Freelancer freelancer2 = new()
@@ -143,6 +165,8 @@ namespace HIN_ventures.DataAccess.Data
 
                 //var customers = new[] { customer1, customer2 };
                 //db.Customers.AddRange(customers);
+
+
 
                 db.SaveChanges();
             }

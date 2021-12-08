@@ -112,6 +112,9 @@
     public UserDto LoggedInUser { get; set; }
     public string IdentityId { get; set; }
 
+    //[CascadingParameter]
+    //public Task<AuthenticationState> AuthenticationState { get; set; }
+
 
     //private FreelancerImageDto FreelancerImage { get; set; } = new FreelancerImageDto();
     //private List<string> DeletedImageNames { get; set; } = new List<string>();
@@ -119,6 +122,13 @@
 
     protected override async Task OnInitializedAsync()
     {
+        //var authenticationState = await AuthenticationState;
+        //if (!authenticationState.User.IsInRole(SD.Role_Customer) || (!authenticationState.User.IsInRole(SD.Role_Freelancer))) //(!authenticationState.User.IsInRole(SD.RoleAdmin) || 
+        //{
+        //    var uri = new Uri(NavigationManager.Uri);
+        //    NavigationManager.NavigateTo("/}");
+        //}
+
         //await Task.Delay(5000); //must be commented in if I want to debug
         LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
         IdentityId = LoggedInUser.Id;
@@ -166,8 +176,8 @@
         //AssignmentList.Remove(toDelete);
         assignmentDto.FreelancerDto = null;
         assignmentDto.FreelancerId = null;
-        assignmentDto.IsActive = false; 
-        
+        assignmentDto.IsActive = false;
+
         await _assignmentService.UpdateAssignment(assignmentDto.Id, assignmentDto);
         SelectedCounter--;
     }

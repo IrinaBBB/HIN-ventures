@@ -107,9 +107,11 @@ else
     private bool IsProcessing { get; set; } = false;
     private int _newRating;
     private int _ratedFreelancerId;
+    ICollection<RatingDto> RatingDtos = new List<RatingDto>();
 
     protected override async Task OnInitializedAsync()
     {
+        //await Task.Delay(2000);
         try
         {
             if (await localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails) != null)
@@ -118,6 +120,8 @@ else
             }
 
             await LoadFreelancers();
+            SimulateRatings();
+
         }
         catch (Exception e)
         {
@@ -125,17 +129,73 @@ else
         }
     }
 
+    private void SimulateRatings()
+    {
+        for (var i = 0; i < 6; i++)
+        {
+            var ratingDto = new RatingDto()
+            {
+                RatingValue = new Random().Next(1,6), //a rating between 0 and 5
+                FreelancerId = new Random().Next(1, FreelancerDtos.Count()+1), //pick a random freelancer
+                CustomerId = new Random().Next(1,6) //pick a random customer
+            };
+
+            RatingDtos.Add(ratingDto);
+
+            var mod = i % FreelancerDtos.Count(); //start på nytt i lista så lenge det finnes verdier
+            if (mod == 0) {mod++;} //make sure mod never is zero, because no freelancers has FreelancerId Zero}
+
+            var freelancer  = (from f in FreelancerDtos where f.FreelancerId == mod select f).First();
+
+            if (freelancer.FirstName.Equals("Erna"))
+            {
+                var test = "success";
+            }
+
+            freelancer.RatingDtos.Add(ratingDto);
+
+        }
+
+        foreach (var freelancer in FreelancerDtos)
+        {
+
+            var sumRating = 0;
+
+            foreach (var rating in freelancer.RatingDtos) //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
+            {
+                sumRating += rating.RatingValue;
+            }
+
+            if (!freelancer.RatingDtos.Count().Equals(0))
+            {
+                freelancer.AverageRating = sumRating / freelancer.RatingDtos.Count();
+            }
+
+            if (freelancer.FirstName.Equals("Erna"))
+            {
+                var test = sumRating;
+            }
+
+        }
+    }
+
+
     private async Task LoadFreelancers()
     {
         FreelancerDtos = await freelancerService.GetFreelancers();
 
-        var sumRating = 0;
+        foreach (var f in FreelancerDtos)
+        {
+            f.RatingDtos = new List<RatingDto>(); //to avoid nullpointerex further up
+        }
 
-        var freelancerDtos = FreelancerDtos.ToList();
+        //var sumRating = 0;
+
+        //var freelancerDtos = FreelancerDtos.ToList();
 
         //foreach (var freelancer in freelancerDtos)
         //{
-        //    foreach (var rating in freelancer.RatingsDtos)  //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
+        //    foreach (var rating in freelancer.RatingDtos)  //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
         //    {
         //        sumRating += rating.RatingValue;
         //    }
@@ -152,9 +212,13 @@ else
         IsProcessing = false;
     }
 
-    private void UpdateRating(string message)
+    private async Task UpdateRating(string message)
     {
         _newRating = int.Parse(message[..^1]);
         _ratedFreelancerId = int.Parse(message[^1..]);
+
+        FreelancerModel.FreelancerDto = await freelancerService.GetFreelancer(_ratedFreelancerId); //FreelancerDto inside FreelancerModel
+
+
     }
 }
