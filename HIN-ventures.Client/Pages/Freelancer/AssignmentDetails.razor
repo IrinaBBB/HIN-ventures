@@ -1,0 +1,30 @@
+﻿@page "/freelancer/assignment/details/{Id:int}"
+@using HIN_ventures.Client.Service.IService
+@inject IAssignmentService _assignmentService
+@using Microsoft.AspNetCore.Authorization
+
+@attribute [Authorize(Roles = SD.Role_Freelancer)]
+
+<h3>AssignmentDetails</h3>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
+    private CodeFileDto CodeFileDto { get; set; } = new CodeFileDto();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            AssignmentModel = await _assignmentService.GetAssignment(Id.Value);
+            CodeFileDto = await _assignmentService.GetCodeFileForAssignment(Id.Value);
+        }
+        else 
+        {
+            AssignmentModel = new AssignmentDto();
+        }
+    }
+
+}

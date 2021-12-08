@@ -1,20 +1,21 @@
 ﻿@using HIN_ventures.Models
 
-    <div class="bg-light border p-2 col-5 offset-1">
-        <h4 class="text-secondary"> @AssignmentDto.Title</h4>
-        @*@if (!AssignmentDto.IsActive) //check if it is already taken by other freelancers
-            {*@
-        @AssignmentDto.Description<br />
-        Price @AssignmentDto.Price.ToString("c")<br />
-        @*}*@
+<div class="bg-light border p-2 col-5 offset-1">
+    <h4 class="text-secondary"> @AssignmentDto.Title</h4>
+    @*@if (!AssignmentDto.IsActive) //check if it is already taken by other freelancers
+        {*@
+    @AssignmentDto.Description<br />
+    Price @AssignmentDto.Price.ToString("c")<br />
+    @*}*@
 
 
-        @*<input type="checkbox" @bind-value="AssignmentDto.IsActive" checked="@(AssignmentDto.IsActive?" checked":null)" /> &nbsp; Sign off this assignment!<br />
+    @*<input type="checkbox" @bind-value="AssignmentDto.IsActive" checked="@(AssignmentDto.IsActive?" checked":null)" /> &nbsp; Sign off this assignment!<br />
         <span>This Assignment is @(AssignmentDto.IsActive?"Assigned": "Not Assigned")</span>*@
-        
-        <input type="button" class="btn btn-danger" @onclick="AssignmentSelectionRemove"  value="Remove Assignmnent" />
 
-    </div>
+    <input type="button" class="btn btn-danger" @onclick="AssignmentSelectionRemove" value="Remove Assignmnent" />
+    <input type="button" class="btn btn-success" @onclick="GoToAssignmentDetails" value="Details" />
+
+</div>
 
 
 @code {
@@ -25,8 +26,19 @@
     [Parameter]
     public EventCallback<AssignmentDto> OnButtonClicked { get; set; }
 
+    [Inject]
+    NavigationManager Navigation { get; set; }
+
     protected async Task AssignmentSelectionRemove()
     {
         await OnButtonClicked.InvokeAsync(AssignmentDto);
+    }
+
+    protected async Task GoToAssignmentDetails()
+    {
+        var id = AssignmentDto.Id;
+        Navigation.NavigateTo($"/freelancer/assignment/details/{id}");
+
+
     }
 }

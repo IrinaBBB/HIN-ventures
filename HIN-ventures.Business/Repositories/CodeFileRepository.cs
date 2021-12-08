@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -47,6 +48,41 @@ namespace HIN_ventures.Business.Repositories
         {
             return _mapper.Map<IEnumerable<CodeFile>, IEnumerable<CodeFileDto>>(await _context.CodeFiles
                 .Where(x => x.AssignmentId == assignmentId).ToListAsync());
+        }
+
+        public async Task<CodeFileDto> UpdateCodeFile(int codeFileId, CodeFileDto codeFileDto)
+        {
+            if (codeFileId != codeFileDto.Id) return null;
+
+            var codeFileDetails = await _context.CodeFiles.FindAsync(codeFileId);
+            var codeFile = _mapper.Map(codeFileDto, codeFileDetails);
+
+            var updatedCodeFile = _context.CodeFiles.Update(codeFile);
+            var result = _context.SaveChangesAsync().Result;
+            if (result == 1)
+            {
+                return _mapper.Map<CodeFile, CodeFileDto>(updatedCodeFile.Entity);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<CodeFileDto> GetCodeFile(int codeFileId)
+        {
+            try
+            {
+                CodeFileDto codeFileDto = _mapper.Map<CodeFile, CodeFileDto>(
+                    await _context.CodeFiles.FirstOrDefaultAsync(x => x.Id == codeFileId));
+
+                return codeFileDto;
+            }
+            catch (Exception e)
+            {
+                Console.Write(e.Message);
+                return null;
+            }
         }
     }
 }
