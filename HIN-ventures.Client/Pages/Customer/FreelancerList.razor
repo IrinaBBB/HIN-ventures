@@ -6,6 +6,7 @@
 @inject ILocalStorageService _localStorage
 @inject IJSRuntime _jsRuntime
 @inject IFreelancerService _freelancerService
+@inject NavigationManager navmanager
 
 @if (FreelancerDtos != null && FreelancerDtos.Any())
 {
@@ -219,7 +220,7 @@ else
             IEnumerable<RatingDto> ratingsOnFreelancer = from rating in ratings where rating.FreelancerId == ratingDto.FreelancerId select rating;
 
             FreelancerModel.FreelancerDto.AverageRating = GetAverageRating(ratingsOnFreelancer);
-            
+
             await _freelancerService.UpdateFreelancer(_ratedFreelancerId, FreelancerModel.FreelancerDto);
         }
         else
@@ -228,7 +229,8 @@ else
 
         }
 
-        await InvokeAsync(StateHasChanged); //to refresh ui with updated ratings
+
+        navmanager.NavigateTo($"customer/requestfreelancer/{CustomerId}", true); //force page to refresh
     }
 
     private static int GetAverageRating(IEnumerable<RatingDto> ratings)
