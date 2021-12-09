@@ -125,7 +125,8 @@
     public string IdentityId { get; set; }
     public BlazoredTextEditor QuillHtml { get; set; } = new BlazoredTextEditor();
 
-    private RatingDto RatingModel { get; set; } //opprett ett nytt sett med ratings knyttet til denne assignment
+    [Parameter]
+    public RatingDto RatingDto { get; set; } = new RatingDto();//opprett ett nytt sett med ratings knyttet til denne assignment
 
     public IEnumerable<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
     public IEnumerable<CustomerDto> CustomerList { get; set; } = new List<CustomerDto>();
@@ -146,7 +147,7 @@
     {
         try
         {
-            await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
+            //await Task.Delay(5000); //For debugging. The debugger wont stop if I don't delay.
 
 
             //Create a new assignment
@@ -155,11 +156,16 @@
             if (FreelancerId != null) // A freelancer has been chosen from the list
             {
                 FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
+                //FreelancerDto.RatingDtos.Add(RatingDto); //cannot be set to a null value
+
             }
+
             else //A freelancer has not been chosen....make an empty object of Freelancer
             {
                 FreelancerDto = null;
             }
+
+
 
             //Info about logged in user (customer)
 
@@ -234,6 +240,10 @@
 
         try
         {
+            RatingDto.CustomerId = CustomerDto.CustomerId;
+            RatingDto.FreelancerId = FreelancerDto.FreelancerId;
+            RatingDto.RatingValue = 0; //initializing
+
             AssignmentModel.Description = await QuillHtml.GetHTML();
             AssignmentModel.CustomerDto = CustomerDto;
             AssignmentModel.CustomerId = CustomerDto.CustomerId;
