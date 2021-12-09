@@ -12,6 +12,8 @@ using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+//https://docs.microsoft.com/en-us/aspnet/core/blazor/file-uploads?view=aspnetcore-6.0&pivots=webassembly
+
 
 namespace HIN_ventures_Api.Controllers
 {
@@ -52,8 +54,7 @@ namespace HIN_ventures_Api.Controllers
                 {
                     if (file.Length == 0)
                     {
-                        logger.LogInformation("{FileName} length is 0 (Err: 1)",
-                            trustedFileNameForDisplay);
+                        logger.LogInformation("{FileName} length is 0 (Err: 1)", trustedFileNameForDisplay);
                         uploadResult.ErrorCode = 1;
                     }
                     else if (file.Length > maxFileSize)
@@ -68,8 +69,7 @@ namespace HIN_ventures_Api.Controllers
                         try
                         {
                             trustedFileNameForFileStorage = Path.GetRandomFileName();
-                            var path = Path.Combine(env.ContentRootPath,
-                                env.EnvironmentName, "unsafe_uploads",
+                            var path = Path.Combine(env.ContentRootPath, env.EnvironmentName, "unsafe_uploads",
                                 trustedFileNameForFileStorage);
 
                             await using FileStream fs = new(path, FileMode.Create);

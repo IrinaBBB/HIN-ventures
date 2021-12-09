@@ -38,6 +38,9 @@ namespace HIN_ventures.Client
             builder.Services.AddScoped<ICustomerService, CustomerService>();
             builder.Services.AddScoped<ICodeFileService, CodeFilesService>();
 
+            ////Denne er for fileupload
+            //builder.Services.AddHttpClient();
+
             builder.Services.AddMudServices();
 
             await builder.Build().RunAsync();

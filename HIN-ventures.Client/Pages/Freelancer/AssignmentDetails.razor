@@ -8,10 +8,8 @@
 @using System.Linq
 @using System.Net.Http.Headers
 @using System.Text.Json
-@using Microsoft.Extensions.Logging
-@using System.IO
-@inject ILogger<CodeFileDto> Logger
-@inject IWebHostEnvironment Environment
+@inject HttpClient Http
+@inject ILogger<AssignmentDetails> Logger
 
 @attribute [Authorize(Roles = SD.Role_Freelancer)]
 
@@ -25,7 +23,6 @@
             <div class="card-body mb-2">
                 <h3 class="my-3">@AssignmentModel.Title</h3>
                 <p>@AssignmentModel.Description</p>
-
             </div>
             <MudDivider DividerType="DividerType.Middle" Class="my-2" />
             <div class="card-body">
@@ -46,56 +43,62 @@
             </div>
         </div>
     }
-    <div class="card">
-        <h3>Upload File with your code. Only one file are can be uploaded</h3>
+    @*<div class="card">
+        <h3>Upload your code file here. Only one file can be uploaded</h3>
         <div class="card-body mb-2">
             <p>
                 <label>
-                    Max allowed files:
-                    <input type="number" @bind="maxAllowedFiles" />
+                    Upload up to @maxAllowedFiles files:
+                    <InputFile OnChange="@OnInputFileChange" multiple />
                 </label>
             </p>
-            <p>
-                <label>
-                    Upload up to @maxAllowedFiles of up to @maxFileSize bytes:
-                    <InputFile OnChange="@LoadFiles" />
-                </label>
-            </p>
-
-            @if (isLoading)
+            @if (files.Count > 0)
             {
-                <p>Uploading...</p>
-            }
-            else
-            {
-                <ul>
-                    @foreach (var file in loadedFiles)
-                    {
-                        <li>
-                            <ul>
-                                <li>Name: @file.Name</li>
-                                <li>Last modified: @file.LastModified.ToString()</li>
-                                <li>Size (bytes): @file.Size</li>
-                                <li>Content type: @file.ContentType</li>
-                            </ul>
-                        </li>
-                    }
-                </ul>
+                <div class="card">
+                    <div class="card-body">
+                        <ul>
+                            @foreach (var file in files)
+                            {
+                                <li>
+                                    File: @file.Name
+                                    <br>
+                                    @if (FileUpload(uploadResults, file.Name, Logger,
+                                        out var result))
+                                    {
+                                        <span>
+                                            Stored File Name: @result.StoredFileName
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            There was an error uploading the file
+                                            (Error: @result.ErrorCode).
+                                        </span>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
             }
         </div>
-    </div>
+    </div>*@
 </div>
 
 
 
 @code {
+
     [Parameter]
     public int? Id { get; set; }
 
-    private List<IBrowserFile> loadedFiles = new();
-    private long maxFileSize = 1024 * 15;
-    private int maxAllowedFiles = 3;
-    private bool isLoading;
+    //private List<File> files = new();
+    private List<CodeFileDto> uploadResults = new();
+    private int maxAllowedFiles = 1;
+    private bool shouldRender;
+
+    protected override bool ShouldRender() => shouldRender;
 
     private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
     private List<CodeFileDto> CodeFileList { get; set; } = new List<CodeFileDto>();
@@ -105,39 +108,89 @@
     {
         if (Id != null)
         {
-            AssignmentModel = await _assignmentService.GetAssignment(Id.Value); ;
+            AssignmentModel = await _assignmentService.GetAssignment(Id.Value);
             CodeFileDto = await _codeFileService.GetCodeFileFromAssignment(Id.Value);
         }
     }
 
-    private void LoadFiles(InputFileChangeEventArgs e)
-    {
-        isLoading = true;
-        loadedFiles.Clear();
+    //private async Task OnInputFileChange(InputFileChangeEventArgs e)
+    //{
+    //    shouldRender = false;
+    //    long maxFileSize = 1024 * 1024 * 15;
+    //    var upload = false;
 
-        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
-        {
-            try
-            {
-                loadedFiles.Add(file);
+    //    using var content = new MultipartFormDataContent();
 
-                var trustedFileNameForFileStorage = Path.GetRandomFileName();
-                var path = Path.Combine(Environment.ContentRootPath,
-                    Environment.EnvironmentName, "unsafe_uploads",
-                    trustedFileNameForFileStorage);
+    //    foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+    //    {
+    //        if (uploadResults.SingleOrDefault(
+    //            f => f.FileName == file.Name) is null)
+    //        {
+    //            try
+    //            {
+    //                var fileContent =
+    //                    new StreamContent(file.OpenReadStream(maxFileSize));
 
-                await using FileStream fs = new(path, FileMode.Create);
-                await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
-            }
-            catch (Exception ex)
-            {
-                Logger<>.LogError("File: {Filename} Error: {Error}",
-                    file.Name, ex.Message);
-            }
-        }
+    //                fileContent.Headers.ContentType =
+    //                    new MediaTypeHeaderValue(file.ContentType);
 
-        isLoading = false;
-    }
-}
+    //                files.Add(new() {Name = file.Name});
 
+    //                content.Add(
+    //                    content: fileContent,
+    //                    name: "\"files\"",
+    //                    fileName: file.Name);
+
+    //                upload = true;
+    //            }
+    //            catch (Exception ex)
+    //            {
+    //                Logger.LogInformation(
+    //                    "{FileName} not uploaded (Err: 6): {Message}",
+    //                    file.Name, ex.Message);
+
+    //                uploadResults.Add(
+    //                    new()
+    //                    {
+    //                        FileName = file.Name,
+    //                        ErrorCode = 6,
+    //                        Uploaded = false
+    //                    });
+    //            }
+    //        }
+    //    }
+    //    if (upload)
+    //    {
+    //        var response = await Http.PostAsync("/Filesave", content);
+
+    //        var newUploadResults = await response.Content
+    //            .ReadFromJsonAsync<IList<CodeFileDto>>();
+
+    //        if (newUploadResults is not null)
+    //        {
+    //            uploadResults = uploadResults.Concat(newUploadResults).ToList();
+    //        }
+    //    }
+
+    //    shouldRender = true;
+    //}
+
+    //private static bool FileUpload(IList<CodeFileDto> uploadResults,
+    //    string? fileName, ILogger<AssignmentDetails> logger, out CodeFileDto result)
+    //{
+    //    result = uploadResults.SingleOrDefault(f => f.FileName == fileName) ?? new();
+
+    //    if (!result.Uploaded)
+    //    {
+    //        logger.LogInformation("{FileName} not uploaded (Err: 5)", fileName);
+    //        result.ErrorCode = 5;
+    //    }
+
+    //    return result.Uploaded;
+    //}
+
+    //private class File
+    //{
+    //    public string? Name { get; set; }
+    //}
 }
