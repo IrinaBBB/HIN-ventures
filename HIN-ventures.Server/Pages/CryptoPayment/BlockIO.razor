@@ -11,12 +11,12 @@
 </div>
 
 @*<button class="btn btn-primary" @onclick="@SomeTask">Send 1 DogeCoin to test account</button>*@
-<button class="btn btn-primary" @onclick="@SendOneCoin">Send 1 DogeCoin to test account</button>
+<button class="btn btn-primary" @onclick="ShowBalance">Get balance</button>
 
 
 @code {
 
-    readonly BlockIo _blockIo = new("DOGECOIN", "H5sbN8Ra34KjgaTFEBcN");
+    private readonly BlockIo _blockIo = new("9da8-f106-e0c7-e733", "H5sbN8Ra34KjgaTFEBcN"); //"DOGECOIN"
 
     [Parameter]
     public double HinVenturesBalance { get; set; }
@@ -59,19 +59,35 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var temp = (_blockIo.GetBalance()).Data;
-        HinVenturesBalance = temp;
+        //await Task.Delay(5000);
+
+        //HinVenturesBalance = data.ToString();
+
+        //HinVenturesBalance = temp;
         //var temp = (_blockIo.GetAddressByLabel(new { labels = "HIN-Ventures" })).Data; //viser ikke at man må ha data i https://block.io/api/simple/csharp
 
         //FreelancerBalance = (_blockIo.GetAddressByLabel(new { label = "FreelancerTest" })).Data; //viser ikke at man må ha data i https://block.io/api/simple/csharp
 
         await base.OnInitializedAsync();
+        BlockIoResponse<dynamic> data = _blockIo.GetBalance();
+        //HinVenturesBalance = data;
+
+        StateHasChanged();
 
     }
 
 
     public void SendOneCoin()
     {
-        _blockIo.PrepareTransaction(new { amounts = "1", from_labels = "HIN-Ventures", to_labels = "FreelancerTest" });
+        //await Task.Delay(4000);
+        //_blockIo.PrepareTransaction(new { amounts = "1", from_labels = "HIN-Ventures", to_labels = "FreelancerTest" });
+
+    }
+
+    public void ShowBalance()
+    {
+        //await Task.Delay(4000);
+        //_blockIo.PrepareTransaction(new { amounts = "1", from_labels = "HIN-Ventures", to_labels = "FreelancerTest" });
+
     }
 }

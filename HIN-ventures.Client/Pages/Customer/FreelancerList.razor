@@ -81,9 +81,9 @@
 
                                     <span class="float-right">
                                         @*<span class="float-right">Current rating : @freelancer.AverageRating </span><br />*@
-                                        <span class="float-right pt-1">Lines of Code pr. month : @freelancer.LinesOfCodeMonth</span><br/>
+                                        <span class="float-right pt-1">Lines of Code pr. month : @freelancer.LinesOfCodeMonth</span><br />
 
-                                        <IndividualFreelancer Message="message" OnClickCallback="@UpdateRating" Freelancer="@freelancer"></IndividualFreelancer>
+                                        <IndividualFreelancer OnClickCallback="@UpdateRating" Freelancer="@freelancer"></IndividualFreelancer> <!--Message="message"-->
                                     </span>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@ else
             }
 
             await LoadFreelancers();
-            SimulateRatings();
+            SimulatePreviousRatings();
 
         }
         catch (Exception e)
@@ -129,31 +129,25 @@ else
         }
     }
 
-    private void SimulateRatings()
+    private void SimulatePreviousRatings()
     {
-        for (var i = 0; i < 6; i++)
+        for (var i = 0; i < 100; i++)
         {
             var ratingDto = new RatingDto()
             {
-                RatingValue = new Random().Next(1,6), //a rating between 0 and 5
-                FreelancerId = new Random().Next(1, FreelancerDtos.Count()+1), //pick a random freelancer
-                CustomerId = new Random().Next(1,6) //pick a random customer
+                RatingValue = new Random().Next(1,6), //[1,5]
+                FreelancerId = new Random().Next(1, FreelancerDtos.Count()+1), //[1, ant. freelancere]
+                CustomerId = new Random().Next(1,6) //Hardkodet CustomerId
             };
 
             RatingDtos.Add(ratingDto);
 
-            var mod = i % FreelancerDtos.Count(); //start på nytt i lista så lenge det finnes verdier
-            if (mod == 0) {mod++;} //make sure mod never is zero, because no freelancers has FreelancerId Zero}
+            var mod = i % (FreelancerDtos.Count()+1); //start på nytt forfra så lenge det finnes frelancere
+            if (mod == 0) {mod++;} //aldri la mod bli 0}
 
             var freelancer  = (from f in FreelancerDtos where f.FreelancerId == mod select f).First();
 
-            if (freelancer.FirstName.Equals("Erna"))
-            {
-                var test = "success";
-            }
-
             freelancer.RatingDtos.Add(ratingDto);
-
         }
 
         foreach (var freelancer in FreelancerDtos)
@@ -166,16 +160,10 @@ else
                 sumRating += rating.RatingValue;
             }
 
-            if (!freelancer.RatingDtos.Count().Equals(0))
+            if (!freelancer.RatingDtos.Count.Equals(0))
             {
                 freelancer.AverageRating = sumRating / freelancer.RatingDtos.Count();
             }
-
-            if (freelancer.FirstName.Equals("Erna"))
-            {
-                var test = sumRating;
-            }
-
         }
     }
 
