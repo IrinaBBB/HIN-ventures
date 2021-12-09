@@ -68,12 +68,12 @@ namespace HIN_ventures.Business.Repositories
             return assignment;
         }
 
-        //public async Task<AssignmentDto> GetOnlyAssignment(int assignmentId)
-        //{
-        //    var assignment = _mapper.Map<Assignment, AssignmentDto>
-        //        (await _context.Assignments.Where(x => x.Id == assignmentId));
-        //    return assignment;
-        //}
+        public async Task<AssignmentDto> GetOnlyAssignment(int? assignmentId)
+        {
+            var assignment = _mapper.Map<Assignment, AssignmentDto>
+                (await _context.Assignments.FirstOrDefaultAsync(x => x.Id == assignmentId));
+            return assignment;
+        }
 
         public IEnumerable<AssignmentDto> GetAllAssignments()
         {

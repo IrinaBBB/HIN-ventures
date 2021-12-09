@@ -44,6 +44,13 @@ namespace HIN_ventures.Business.Repositories
             return await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<CodeFileDto>> GetCodeFileFromAssignment(int Id)
+        {
+            var result = _mapper.Map<IEnumerable<CodeFile>, IEnumerable<CodeFileDto>>(await _context.CodeFiles
+                .Where(x => x.AssignmentId == Id).ToListAsync());
+            return result;
+        }
+
         public async Task<IEnumerable<CodeFileDto>> GetCodeFiles(int assignmentId)
         {
             return _mapper.Map<IEnumerable<CodeFile>, IEnumerable<CodeFileDto>>(await _context.CodeFiles

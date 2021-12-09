@@ -59,7 +59,33 @@ namespace HIN_ventures_Client.Service
                 throw new Exception(errorModel.ErrorMessage);
             }
         }
+        public async Task<CodeFileDto> GetCodeFileFromAssignment(int Id)
+        {
+            var response = await _client.GetAsync($"api/codeFile/getCodeFileFromAssignment/{Id}");
+            var content = "";
+            if (response.IsSuccessStatusCode)
+            {
+                content = await response.Content.ReadAsStringAsync();
+                // Så vi ikke får feil melding om content ikke inneholder Code file
+                if (!String.IsNullOrEmpty(content))
+                {
+                    return null;
+                }
+                else
+                {
+                    var codeFile = JsonConvert.DeserializeObject<CodeFileDto>(content);
+                    return codeFile;
+                }
+            }
+            else
+            {
+                content = await response.Content.ReadAsStringAsync();
+                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(content);
+                throw new Exception(errorModel.ErrorMessage);
+            }
+        }
 
+        //bruker den over i steden halil
         public async Task<CodeFileDto> GetCodeFile(int assignmentId)
         {
             var response = await _client.GetAsync($"api/codeFile/getCodeFile/{assignmentId}");

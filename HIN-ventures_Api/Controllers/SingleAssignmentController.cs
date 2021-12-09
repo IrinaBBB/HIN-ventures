@@ -20,10 +20,10 @@ namespace HIN_ventures_Api.Controllers
             _repository = repository;
         }
 
-        [HttpGet("{assignmentId:int}")]
-        public async Task<IActionResult> GetAssignmentById(int? assignmentId)
+        [HttpGet("{Id:int}")]
+        public async Task<IActionResult> GetAssignmentById(int? Id)
         {
-            if (assignmentId == null)
+            if (Id == null)
             {
                 return BadRequest(new ErrorModel()
                 {
@@ -33,7 +33,7 @@ namespace HIN_ventures_Api.Controllers
                 });
             }
 
-            var assigmentDetails = await _repository.GetAssignment(assignmentId);
+            var assigmentDetails = await _repository.GetOnlyAssignment(Id);
             if (assigmentDetails == null)
             {
                 return BadRequest(new ErrorModel()

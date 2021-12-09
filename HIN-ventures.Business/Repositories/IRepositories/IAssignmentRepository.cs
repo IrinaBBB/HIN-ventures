@@ -10,6 +10,7 @@ namespace HIN_ventures.Business.Repositories.IRepositories
         public Task<AssignmentDto> UpdateAssignment(int assignmentId, AssignmentDto assignmentDto);
         public Task<int> DeleteAssignment(int assignmentId);
         public Task<AssignmentDto> GetAssignment(int? assignmentId);
+        public Task<AssignmentDto> GetOnlyAssignment(int? assignmentId);
         public IEnumerable<AssignmentDto> GetAllAssignments();
     }
 }
