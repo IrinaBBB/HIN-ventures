@@ -108,7 +108,7 @@
                     </div>
                     <div class="form-group">
                         <br />
-                        <div><a href="customer/requestfreelancer" class="btn btn-success form-control">View All Freelancers</a></div><br />
+                        <div><a href="customer/requestfreelancer/@CustomerDto.CustomerId" class="btn btn-success form-control">View All Freelancers</a></div><br />
                     </div>
                     <div class="form-group">
 
@@ -156,7 +156,6 @@
             if (FreelancerId != null) // A freelancer has been chosen from the list
             {
                 FreelancerDto = await _freelancerService.GetFreelancer(FreelancerId.Value);
-                //FreelancerDto.RatingDtos.Add(RatingDto); //cannot be set to a null value
 
             }
 
@@ -173,12 +172,14 @@
             {
                 //input type text fields
                 LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
-                AssignmentModel.CustomerDto = new CustomerDto();
-                AssignmentModel.CustomerDto.IdentityId = LoggedInUser.Id;
-                AssignmentModel.CustomerDto.FirstName = LoggedInUser.FirstName;
-                AssignmentModel.CustomerDto.LastName = LoggedInUser.LastName;
-                AssignmentModel.CustomerDto.Email = LoggedInUser.Email;
-                AssignmentModel.CustomerDto.Phone = LoggedInUser.PhoneNo;
+                AssignmentModel.CustomerDto = new CustomerDto
+                {
+                    IdentityId = LoggedInUser.Id,
+                    FirstName = LoggedInUser.FirstName,
+                    LastName = LoggedInUser.LastName,
+                    Email = LoggedInUser.Email,
+                    Phone = LoggedInUser.PhoneNo
+                };
             }
             await LoadCustomersAndFreelancers();
         }

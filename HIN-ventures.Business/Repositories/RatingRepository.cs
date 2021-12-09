@@ -38,9 +38,19 @@ namespace HIN_ventures.Business.Repositories
         }
         
 
-        public Task<IEnumerable<RatingDto>> GetAllRatings()
+        public async Task<IEnumerable<RatingDto>> GetAllRatings()
         {
-            throw new NotImplementedException();
+            
+            try
+            {
+                IEnumerable<RatingDto> ratingDtos = _mapper.Map<IEnumerable<Rating>, IEnumerable<RatingDto>>(_db.Ratings);
+                return await Task.FromResult(ratingDtos);
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                return null;
+            }
         }
 
         public Task<RatingDto> GetRating(int ratingId)
@@ -48,7 +58,7 @@ namespace HIN_ventures.Business.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateRating(int ratingId)
+        public Task<bool> UpdateRating(int ratingId) //skal bruke averagerating på Freelancer som oppdatering
         {
             throw new NotImplementedException();
         }

@@ -31,9 +31,16 @@ namespace HIN_ventures_Api.Controllers
             {
                 return BadRequest(new ErrorModel()
                 {
-                    ErrorMessage = "Error while creating new Assignment/ Booking"
+                    ErrorMessage = "Error while creating new Rating"
                 });
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetRatings()
+        {
+            var ratings = await _ratingRepository.GetAllRatings();
+            return Ok(ratings);
         }
     }
 }

@@ -84,6 +84,7 @@ namespace HIN_ventures_Api
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<ICodeFileRepository, CodeFileRepository>();
+            services.AddScoped<IRatingRepository,RatingRepository>();
             //services.AddScoped<IBookingDetailsRepository, BookingDetailsRepository>();
             //services.AddScoped(IFreelancerImages, FreelancerImages)
 

@@ -41,7 +41,7 @@ namespace HIN_ventures.Client.Service
 
         public async Task<IEnumerable<RatingDto>> GetRatings()
         {
-            var response = await _client.GetAsync($"api/rating");
+            var response = await _client.GetAsync($"api/rating/GetRatings");
             var content = await response.Content.ReadAsStringAsync();
             var ratings = JsonConvert.DeserializeObject<IEnumerable<RatingDto>>(content);
             return ratings;

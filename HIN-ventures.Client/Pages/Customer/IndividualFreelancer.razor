@@ -1,25 +1,41 @@
-﻿<input type="text" @bind="@_rating" />
+﻿@*<input type="text" @bind="@_rating" />*@
 
-<button @onclick="ChangeMessage">Give a rating!</button>
+
+<h4 class="text-warning font-weight-bold pt-4">
+    Giva <span style="border-bottom: 1px solid #ff6a00"> rating</span>
+    <input type="number" name="rating" id="rating" @bind="@_rating"
+           min="1" max="5" step="1">
+    to @Freelancer.FirstName
+</h4>
+<button class="btn btn-success" @onclick="ChangeRating">Rate!</button>
+
+@*<button @onclick="ChangeRating">Rating!</button>*@
 
 
 @code {
 
-    private string _rating;
+    private int _rating;
 
     [Parameter]
-    public string Message {get; set;}
+    public RatingDto NewRating { get; set; }
+
 
     [Parameter]
-    public EventCallback<string> OnClickCallback {get; set;}
+    public EventCallback<RatingDto> OnClickCallback { get; set; }
 
     [Parameter]
     public FreelancerDto Freelancer { get; set; }
 
 
-    private async Task ChangeMessage()
+    private async Task ChangeRating()
     {
+        NewRating = new()
+        {
+            FreelancerId = Freelancer.FreelancerId,
+            RatingValue = _rating//Convert.ToInt32(_rating)
+        };
 
-        await OnClickCallback.InvokeAsync(_rating + $"{Freelancer.FreelancerId}");
+        await OnClickCallback.InvokeAsync(NewRating);
     }
+
 }

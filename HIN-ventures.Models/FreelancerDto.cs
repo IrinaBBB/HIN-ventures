@@ -25,7 +25,6 @@ namespace HIN_ventures.Models
         
         public string Speciality { get; set; }
 
-        [Range(0,5)]
         public int AverageRating{ get ; set ; }
 
         public int TotalLinesOfCode { get; set; }

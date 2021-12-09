@@ -13,7 +13,7 @@ namespace HIN_ventures.Models
 
         public int FreelancerId { get; set; }
 
-        [Range(0,5)]
+        [Range(0,5,ErrorMessage = "Value for {0} must be between {1} and {2}.")]
         public int RatingValue { get; set; }
     }
 }

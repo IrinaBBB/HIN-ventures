@@ -1,9 +1,11 @@
 ﻿@page "/customer/requestfreelancer"
-@using MudBlazor
-@using HIN_ventures.Client.Model.ViewModel
-@inject ILocalStorageService localStorage
-@inject IJSRuntime jsRuntime
-@inject IFreelancerService freelancerService
+@page "/customer/requestfreelancer/{CustomerId:int}"
+@using HIN_ventures.Client.Service.IService
+@using System.Collections.ObjectModel
+@inject IRatingService _ratingsService
+@inject ILocalStorageService _localStorage
+@inject IJSRuntime _jsRuntime
+@inject IFreelancerService _freelancerService
 
 @if (FreelancerDtos != null && FreelancerDtos.Any())
 {
@@ -32,7 +34,7 @@
                         }
                         else
                         {
-                            <input type="submit" value="Request" class="btn btn-success btn-block form-control"/>
+                            <input type="submit" value="Request" class="btn btn-success btn-block form-control" />
                         }
                     </div>
                 </div>
@@ -62,29 +64,28 @@
                             <p class="card-text">
                                 Average Rating: @freelancer.AverageRating
                             </p>
+                            <p class="card-text">
+                                Lines of Code last month: @freelancer.LinesOfCodeMonth
+                            </p>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="row pb-3 pt-2">
-                                <div class="col-1 col-lg-11 offset-lg-1">
-                                    <a href="@($"customer/createassignment/{freelancer.FreelancerId}")" class="btn btn-success btn-block">Book</a>
-                                </div>
+                                @*<div class="col-1 col-lg-11 offset-lg-1">*@
+                                <a href="@($"customer/createassignment/{freelancer.FreelancerId}")" class="btn btn-success btn-block">Hire This Freelancer</a>
+                                @*</div>*@
                             </div>
-                            
+
+
                             <div class="row ">
-                                @*<MudCard>
-                                    <MudCardContent>
-                                        <MudRating SelectedValue="@freelancer.AverageRating" Size="Size.Small"/>
-                                    </MudCardContent>
-                                </MudCard>*@
                                 <div class="col-12 pb-1">
-                                    <h4 class="text-warning font-weight-bold pt-4">Price <span style="border-bottom: 1px solid #ff6a00">?</span></h4>
+                                    @*<h4 class="text-warning font-weight-bold pt-4">Price <span style="border-bottom: 1px solid #ff6a00">:</span></h4>*@
 
-                                    <span class="float-right">
-                                        @*<span class="float-right">Current rating : @freelancer.AverageRating </span><br />*@
-                                        <span class="float-right pt-1">Lines of Code pr. month : @freelancer.LinesOfCodeMonth</span><br />
+                                    @*<span class="float-right">*@
+                                    @*<span class="float-right">Current rating : @freelancer.AverageRating </span><br />*@
 
-                                        <IndividualFreelancer OnClickCallback="@UpdateRating" Freelancer="@freelancer"></IndividualFreelancer> <!--Message="message"-->
-                                    </span>
+
+                                    <IndividualFreelancer OnClickCallback="@UpdateRating" Freelancer="@freelancer"></IndividualFreelancer> <!--Message="message"-->
+                                    @*</span>*@
                                 </div>
                             </div>
                         </div>
@@ -98,54 +99,63 @@
 else
 {
     <div style="position:fixed;top:50%;left:50%;margin-top:-50px;margin-left:-100px;">
-        <img src="images/ajax-loader.gif" alt="img/work-from-home.png"/>
+        <img src="images/ajax-loader.gif" alt="img/work-from-home.png" />
     </div>
 }
 @code {
-    private FreelancerVM FreelancerModel { get; set; } = new();
+
+    [Parameter]
+    public int CustomerId { get; set; }
+
+    //[Parameter]
+    //public FreelancerDto FreelancerDto { get; set; }
+
+    [Parameter]
+    public FreelancerVM FreelancerModel { get; set; } = new FreelancerVM(); //model holdes data in local storage
     public IEnumerable<FreelancerDto> FreelancerDtos { get; set; } = new List<FreelancerDto>();
+
     private bool IsProcessing { get; set; } = false;
     private int _newRating;
     private int _ratedFreelancerId;
-    ICollection<RatingDto> RatingDtos = new List<RatingDto>();
+    //ICollection<RatingDto> RatingDtos = new List<RatingDto>(); //denne lista kan fylles med simulerte ratings lengre ned
 
     protected override async Task OnInitializedAsync()
     {
-        //await Task.Delay(2000);
+        await Task.Delay(2000);
         try
         {
-            if (await localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails) != null)
+            if (await _localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails) != null)
             {
-                FreelancerModel = await localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails);
+                FreelancerModel = await _localStorage.GetItemAsync<FreelancerVM>(SD.FreelancerDetails);
             }
 
             await LoadFreelancers();
-            SimulatePreviousRatings();
+            //SimulatePreviousRatings();
 
         }
         catch (Exception e)
         {
-            await jsRuntime.ToastrError(e.Message);
+            await _jsRuntime.ToastrError(e.Message);
         }
     }
 
     private void SimulatePreviousRatings()
     {
-        for (var i = 0; i < 100; i++)
+        for (var i = 0; i < 20; i++)
         {
             var ratingDto = new RatingDto()
             {
-                RatingValue = new Random().Next(1,6), //[1,5]
-                FreelancerId = new Random().Next(1, FreelancerDtos.Count()+1), //[1, ant. freelancere]
-                CustomerId = new Random().Next(1,6) //Hardkodet CustomerId
+                RatingValue = new Random().Next(1, 6), //[1,5]
+                FreelancerId = new Random().Next(1, FreelancerDtos.Count() + 1), //[1, ant. freelancere]
+                CustomerId = new Random().Next(1, 6) //Hardkodet CustomerId
             };
 
-            RatingDtos.Add(ratingDto);
+            //RatingDtos.Add(ratingDto);
 
-            var mod = i % (FreelancerDtos.Count()+1); //start på nytt forfra så lenge det finnes frelancere
-            if (mod == 0) {mod++;} //aldri la mod bli 0}
+            var mod = i % (FreelancerDtos.Count() + 1); //start på nytt forfra så lenge det finnes frelancere
+            if (mod == 0) { mod++; } //aldri la mod bli 0}
 
-            var freelancer  = (from f in FreelancerDtos where f.FreelancerId == mod select f).First();
+            var freelancer = (from f in FreelancerDtos where f.FreelancerId == mod select f).First();
 
             freelancer.RatingDtos.Add(ratingDto);
         }
@@ -162,51 +172,76 @@ else
 
             if (!freelancer.RatingDtos.Count.Equals(0))
             {
-                freelancer.AverageRating = sumRating / freelancer.RatingDtos.Count();
+                FreelancerModel.FreelancerDto.AverageRating = freelancer.AverageRating = sumRating / freelancer.RatingDtos.Count();
             }
+
+
         }
     }
 
 
     private async Task LoadFreelancers()
     {
-        FreelancerDtos = await freelancerService.GetFreelancers();
+
+        FreelancerDtos = await _freelancerService.GetFreelancers();
 
         foreach (var f in FreelancerDtos)
         {
-            f.RatingDtos = new List<RatingDto>(); //to avoid nullpointerex further up
+            f.RatingDtos = new List<RatingDto>(); //to avoid nullpointer ex.
         }
-
-        //var sumRating = 0;
-
-        //var freelancerDtos = FreelancerDtos.ToList();
-
-        //foreach (var freelancer in freelancerDtos)
-        //{
-        //    foreach (var rating in freelancer.RatingDtos)  //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
-        //    {
-        //        sumRating += rating.RatingValue;
-        //    }
-        //    freelancer.AverageRating = sumRating/freelancerDtos.Count();
-        //}
 
     }
 
     private async Task SaveBookingInfo()
     {
         IsProcessing = true;
-        await localStorage.SetItemAsync(SD.LocalUserDetails, FreelancerModel);
+        await _localStorage.SetItemAsync(SD.LocalUserDetails, FreelancerModel);
         await LoadFreelancers();
         IsProcessing = false;
     }
 
-    private async Task UpdateRating(string message)
+
+    private async Task UpdateRating(RatingDto ratingDto)
     {
-        _newRating = int.Parse(message[..^1]);
-        _ratedFreelancerId = int.Parse(message[^1..]);
 
-        FreelancerModel.FreelancerDto = await freelancerService.GetFreelancer(_ratedFreelancerId); //FreelancerDto inside FreelancerModel
+        if (ratingDto.RatingValue is > 0 and < 6)
+        {
+            _newRating = ratingDto.RatingValue;
+            _ratedFreelancerId = ratingDto.FreelancerId;
+            ratingDto.CustomerId = CustomerId;
 
+            await _ratingsService.SaveRating(ratingDto);
 
+            FreelancerModel.FreelancerDto = await _freelancerService.GetFreelancer(_ratedFreelancerId); //FreelancerDto inside FreelancerModel
+
+            var ratings = await _ratingsService.GetRatings();
+
+            IEnumerable<RatingDto> ratingsOnFreelancer = from rating in ratings where rating.FreelancerId == ratingDto.FreelancerId select rating;
+
+            FreelancerModel.FreelancerDto.AverageRating = GetAverageRating(ratingsOnFreelancer);
+            
+            await _freelancerService.UpdateFreelancer(_ratedFreelancerId, FreelancerModel.FreelancerDto);
+        }
+        else
+        {
+            await _jsRuntime.InvokeVoidAsync("Must be within valid range [1,5]");
+
+        }
+
+        await InvokeAsync(StateHasChanged); //to refresh ui with updated ratings
     }
+
+    private static int GetAverageRating(IEnumerable<RatingDto> ratings)
+    {
+        var sumRating = 0;
+
+        var ratingList = ratings.ToList();
+        foreach (var rating in ratingList) //LINQ: sumRating += freelancer.Ratings.Sum(rating => rating.RatingValue);
+        {
+            sumRating += rating.RatingValue;
+        }
+
+        return sumRating / ratingList.Count;
+    }
+
 }
