@@ -33,8 +33,7 @@ namespace HIN_ventures_Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<IList<CodeFileDto>>> PostFile(
-            [FromForm] IEnumerable<IFormFile> files)
+        public async Task<ActionResult<IList<CodeFileDto>>> PostFile([FromForm] IEnumerable<IFormFile> files)
         {
             var maxAllowedFiles = 3;
             long maxFileSize = 1024 * 1024 * 15;
