@@ -164,8 +164,8 @@
         }
         if (upload)
         {
-            //Går til FileSaveController. Usikker på requestUri skal være slik
-            var response = await Http.PostAsync("/Filesave", content);
+            //Går til FileSaveController. Usikker på requestUri skal være slik"api/freelancer/create
+            var response = await Http.PostAsync("api/FileSave/PostFile", content);
 
             var newUploadResults = await response.Content
                 .ReadFromJsonAsync<IList<CodeFileDto>>();

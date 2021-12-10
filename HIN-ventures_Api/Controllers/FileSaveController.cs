@@ -18,7 +18,8 @@ using Microsoft.Extensions.Logging;
 namespace HIN_ventures_Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    //[Route("[controller]")]
+    [Route("api/[controller]/[action]")]
     public class FileSaveController : ControllerBase
     {
         private readonly IWebHostEnvironment env;
