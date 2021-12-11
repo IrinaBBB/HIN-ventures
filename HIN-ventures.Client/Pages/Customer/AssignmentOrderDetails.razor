@@ -60,22 +60,22 @@
 
 
                     <div class="form-group pt-2">
-                        <label class="text-warning">Name</label>
+                        <label class="text-warning">First Name</label>
                         <input type="text" value="@LoggedInUser.FirstName" class="form-control">
                     </div>
 
                     <div class="form-group pt-2">
-                        <label class="text-warning">Name</label>
+                        <label class="text-warning">Last Name</label>
                           <input type="text" value="@LoggedInUser.LastName" class="form-control">
                     </div>
 
                     <div class="form-group pt-2">
-                        <label class="text-warning">Name</label>
+                        <label class="text-warning">Phone</label>
                         <input type="text" value="@LoggedInUser.PhoneNo" class="form-control">
                     </div>
 
                     <div class="form-group pt-2">
-                        <label class="text-warning">Phone</label>
+                        <label class="text-warning">E-mail</label>
                         <input type="text" value="@LoggedInUser.Email" class="form-control">
                     </div>
 
@@ -234,18 +234,18 @@
 
     private async Task AddAssignment()
     {
-        //if (!await HandleValidation())
-        //{
-        //    return;
-        //}
+        if (!await HandleValidation())
+        {
+            return;
+        }
 
         try
         {
-            RatingDto.CustomerId = CustomerDto.CustomerId;
-            RatingDto.FreelancerId = FreelancerDto.FreelancerId;
-            RatingDto.RatingValue = 0; //initializing
+            //RatingDto.CustomerId = CustomerDto.CustomerId;
+            //RatingDto.FreelancerId = FreelancerDto.FreelancerId;
+            //RatingDto.RatingValue = 0; //initializing
 
-            AssignmentModel.Description = await QuillHtml.GetHTML();
+            AssignmentModel.Description = await QuillHtml.GetText();
             AssignmentModel.CustomerDto = CustomerDto;
             AssignmentModel.CustomerId = CustomerDto.CustomerId;
             AssignmentModel.FreelancerDto = FreelancerDto;
@@ -257,13 +257,15 @@
             var assignmentToSave = await _assignmentService.CreateAssignment(AssignmentModel);
             //If I want to save to local storage....
             //await _localStorage.SetItemAsync(SD.Local_OrderDetails, orderDetailsSaved);
+            await jsRuntime.InvokeVoidAsync("ShowSwal", "success", "The assigment has been created!");
         }
         catch (Exception e)
         {
+
             await jsRuntime.ToastrError(e.Message);
         }
 
-        await InvokeAsync(StateHasChanged); //rerender the ui...also display a message that the request has been made (toaster)
+        //await InvokeAsync(StateHasChanged);
     }
 
     private async Task<bool>
@@ -274,7 +276,7 @@
         //    await jsRuntime.ToastrError("Name cannot be empty");
         //    return false;
         //}
-        if (string.IsNullOrEmpty(AssignmentModel.CustomerDto.Phone.ToString()))
+        if (string.IsNullOrEmpty(AssignmentModel.CustomerDto.Phone))
         {
             await jsRuntime.ToastrError("Phone cannot be empty");
             return false;
