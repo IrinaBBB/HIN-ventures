@@ -83,7 +83,7 @@
         </div>
         <div class="col-md-3 p-3">
             <h2 class="h4 text-center" style="text-transform: uppercase">Freelancers</h2>
-            @*@foreach (var freelancer in Freelancers)
+            @foreach (var freelancer in Freelancers)
             {
                 <div class="card text-white bg-light mb-3 mr-3" style="max-width: 20rem;">
                     <div class="card-header">@freelancer.Speciality</div>
@@ -96,11 +96,11 @@
                             </div>
                             <img class="freelancer-image" src=@($"images/coder{freelancer.FreelancerId}.png")/>
                         </div>
-                        <a class="btn btn-success card-link m-3">Learn More...</a>
+                        <a class="btn btn-success card-link m-3" href="@($"chat/{freelancer.FreelancerId}")">Chat</a>
                     </div>
                 </div>
                 
-            }*@
+            }
             <a class="btn btn-outline-warning col-12 mt-3">Get More Freelancers...</a>
         </div>
     </div>
