@@ -39,6 +39,22 @@ namespace HIN_ventures_Client.Service
                 throw new Exception(errorModel.ErrorMessage);
             }
         }
+        public async Task<int> CreateCodeFileReturnInt(CodeFileDto codeFile)
+        {
+            var content = JsonConvert.SerializeObject(codeFile);
+            var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
+            var response = await _client.PostAsync("api/codeFile/create", bodyContent);
+            string res = response.Content.ReadAsStringAsync().Result;
+            if (response.IsSuccessStatusCode)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
 
         public async Task<CodeFileDto> UpdateCodeFile(int codeFileId, CodeFileDto codeFile)
         {
@@ -59,36 +75,25 @@ namespace HIN_ventures_Client.Service
                 throw new Exception(errorModel.ErrorMessage);
             }
         }
-        public async Task<CodeFileDto> GetCodeFileFromAssignment(int Id)
+
+        public async Task<IEnumerable<CodeFileDto>> GetCodeFilesFromAssignment(int Id)
         {
-            var response = await _client.GetAsync($"api/codeFile/getCodeFileFromAssignment/{Id}");
-            var content = "";
+            var response = await _client.GetAsync($"api/codeFile/GetCodeFilesFromAssignment/{Id}");
             if (response.IsSuccessStatusCode)
             {
-                content = await response.Content.ReadAsStringAsync();
-                // Så vi ikke får feil melding om content ikke inneholder Code file
-                if (!String.IsNullOrEmpty(content))
-                {
-                    return null;
-                }
-                else
-                {
-                    var codeFile = JsonConvert.DeserializeObject<CodeFileDto>(content);
-                    return codeFile;
-                }
+                var content = await response.Content.ReadAsStringAsync();
+                var codeFiles = JsonConvert.DeserializeObject<IEnumerable<CodeFileDto>>(content);
+                return codeFiles;
             }
             else
             {
-                content = await response.Content.ReadAsStringAsync();
-                var errorModel = JsonConvert.DeserializeObject<ErrorModel>(content);
-                throw new Exception(errorModel.ErrorMessage);
+                return null;
             }
         }
 
-        //bruker den over i steden halil
-        public async Task<CodeFileDto> GetCodeFile(int assignmentId)
+        public async Task<CodeFileDto> GetCodeFile(int Id)
         {
-            var response = await _client.GetAsync($"api/codeFile/getCodeFile/{assignmentId}");
+            var response = await _client.GetAsync($"api/codeFile/getCodeFile/{Id}");
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
@@ -112,6 +117,6 @@ namespace HIN_ventures_Client.Service
             return codeFiles;
         }
 
-     
+      
     }
 }

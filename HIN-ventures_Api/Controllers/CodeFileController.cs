@@ -41,9 +41,9 @@ namespace HIN_ventures_Api.Controllers
 
 
         [HttpGet("{Id:int}")]
-        public async Task<IActionResult> GetCodeFileFromAssignment(int Id)
+        public async Task<IActionResult> GetCodeFilesFromAssignment(int Id)
         {
-            var codeFileDtoDetails = await _codeFileRepository.GetCodeFileFromAssignment(Id);
+            var codeFileDtoDetails = await _codeFileRepository.GetCodeFilesFromAssignment(Id);
             if (codeFileDtoDetails == null)
             {
                 return BadRequest(new ErrorModel()
@@ -58,10 +58,10 @@ namespace HIN_ventures_Api.Controllers
 
         }
 
-        [HttpGet("{assignmentId:int}")]
-        public async Task<IActionResult> GetCodeFile(int assignmentId)
+        [HttpGet("{Id:int}")]
+        public async Task<IActionResult> GetCodeFile(int Id)
         {
-            var codeFileDtoDetails = await _codeFileRepository.GetCodeFile(assignmentId);
+            var codeFileDtoDetails = await _codeFileRepository.GetCodeFilesFromAssignment(Id);
             if (codeFileDtoDetails == null)
             {
                 return BadRequest(new ErrorModel()

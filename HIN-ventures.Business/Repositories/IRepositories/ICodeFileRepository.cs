@@ -13,7 +13,7 @@ namespace HIN_ventures.Business.Repositories.IRepositories
         public Task<int> DeleteCodeFileByAssignmentId(int assignmentId);
         public Task<IEnumerable<CodeFileDto>> GetCodeFiles(int assignmentId);
         public Task<CodeFileDto> GetCodeFile(int codeFileId);
-        public Task<IEnumerable<CodeFileDto>> GetCodeFileFromAssignment(int Id);
+        public Task<IEnumerable<CodeFileDto>> GetCodeFilesFromAssignment(int Id);
         public Task<CodeFileDto> UpdateCodeFile(int codeFileId, CodeFileDto codeFileDto);
     }
 }

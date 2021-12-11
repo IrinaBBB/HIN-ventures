@@ -7,6 +7,7 @@
 @using System.IO
 @using System.Linq
 @using System.Net.Http.Headers
+@using Microsoft.AspNetCore.Components.Forms
 @using System.Text.Json
 @inject IJSRuntime _jsRuntime
 @inject NavigationManager navigationManager
@@ -16,16 +17,6 @@
 
 @attribute [Authorize(Roles = SD.Role_Freelancer)]
 
-<!--For Testing AuthorizeView with claimsbased authroization-->
-@*<AuthorizeView>
-        <Authorized>
-            <p>Welcome, @context.User.Identity.Name</p>
-        </Authorized>
-        <NotAuthorized>
-            <p>Not signed in</p>
-        </NotAuthorized>
-    </AuthorizeView>*@
-
 <div class="row container">
     <h1 class="my-4">
         <small>Details of assignment: </small>
@@ -34,12 +25,12 @@
     {
         <div class="card">
             <div class="card-body mb-2">
-                <h3 class="my-3">@AssignmentModel.Title</h3>
+                <h3 class="my-2">@AssignmentModel.Title</h3>
                 <p>@AssignmentModel.Description</p>
             </div>
-            @*<MudDivider DividerType="DividerType.Middle" Class="my-2" />*@
-            <div class="card-body mt-3">
-                <h3 class="my-3">Assignment Details</h3>
+            <MudDivider DividerType="DividerType.Middle" Class="my-2" />
+            <div class="card-body mt-2">
+                <h3 class="mt-1">Assignment Details</h3>
                 <ul>
                     <li>Who working on:</li>
                     <p>@AssignmentModel.FreelancerId</p>
@@ -53,17 +44,30 @@
                     <li>Last Updated By: @AssignmentModel.UpdatedBy</li>
                     <li>Last Updated Date: @AssignmentModel.UpdatedDate</li>
                 </ul>
+
+                @if (@CodeFileList != null)
+                {
+                    <h4 class="mt-1">Assignment Code Files</h4>
+                    <ul>
+                        @foreach (var codeFile in @CodeFileList)
+                        {
+                            <li>@codeFile.FileName</li>
+                            <li>@codeFile.CodeFileUrl</li>
+                            <br>
+                        }
+                    </ul>
+                }
             </div>
         </div>
     }
     @*https://docs.microsoft.com/en-us/aspnet/core/blazor/file-uploads?view=aspnetcore-6.0&pivots=webassembly*@
-    <div class="card mt-5">
-        <h3>Upload your code file here. Only one file can be uploaded</h3>
-        <div class="card-body mb-2">
-            <p>
+    <div class="card mt-2">
+        <div class="card-body my-2">
+            <h5>Upload your code file here. Only one file can be uploaded</h5>
+            <p class="mt-1">
                 <label>
                     Upload up to @maxAllowedFiles files:
-                    <InputFile OnChange="@OnInputFileChange" multiple />
+                    <InputFile OnChange="@OnInputFileChange" />
                 </label>
             </p>
             @if (files.Count > 0)
@@ -76,8 +80,7 @@
                                 <li>
                                     File: @file.Name
                                     <br>
-                                    @if (FileUpload(uploadResults, file.Name, Logger,
-                                   out var result))
+                                    @if (FileUpload(uploadResults, file.Name, Logger, out var result))
                                     {
                                         <span>
                                             Stored File Name: @result.StoredFileName
@@ -95,22 +98,27 @@
                         </ul>
                     </div>
                 </div>
+                <div class="card-body mt-1">
+                    <button class="btn btn-outline-success" type="submit" @onclick="OnSubmit">Upload Selected File</button>
+                </div>
             }
         </div>
+
     </div>
 </div>
-
-
-
 
 @code {
 
     [Parameter]
     public int? Id { get; set; }
 
-    private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
-    private List<CodeFileDto> CodeFileList { get; set; } = new List<CodeFileDto>();
+    [Parameter]
+    public AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
+    [Parameter]
+    public List<CodeFileDto> CodeFileList { get; set; } = new List<CodeFileDto>();
+
     private CodeFileDto CodeFileDto { get; set; }
+    public IList<CodeFileDto> newUploadResults;
 
     public UserDto LoggedInUser { get; set; }
 
@@ -125,16 +133,22 @@
 
     protected override async Task OnInitializedAsync()
     {
-        LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
-
         if (Id != null)
         {
             IsProcessing = true;
             AssignmentModel = await _assignmentService.GetAssignment(Id.Value);
             await Task.Delay(2000);
-            CodeFileDto = await _codeFileService.GetCodeFileFromAssignment(Id.Value);
+            CodeFileList = (await _codeFileService.GetCodeFilesFromAssignment(Id.Value)).ToList();
             IsProcessing = false;
         }
+        LoggedInUser = await _localStorage.GetItemAsync<UserDto>(SD.LocalUserDetails);
+        shouldRender = true;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
     }
 
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
@@ -142,66 +156,49 @@
         shouldRender = false;
         long maxFileSize = 1024 * 1024 * 15; //15 728 640.. 15Mb
         var upload = false;
-
         using var content = new MultipartFormDataContent();
 
         foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
         {
-            if (uploadResults.SingleOrDefault(
-                f => f.FileName == file.Name) is null)
+            if (uploadResults.SingleOrDefault(f => f.FileName == file.Name) is null)
             {
                 try
                 {
-                    var fileContent =
-                        new StreamContent(file.OpenReadStream(maxFileSize));
-
-                    fileContent.Headers.ContentType =
-                        new MediaTypeHeaderValue(file.ContentType);
+                    var fileContent = new StreamContent(file.OpenReadStream(maxFileSize));
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
 
                     files.Add(new() { Name = file.Name });
-
-                    content.Add(
-                        content: fileContent,
-                        name: "\"files\"",
-                        fileName: file.Name);
+                    content.Add(content: fileContent, name: "\"files\"", fileName: file.Name);
 
                     upload = true;
-
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogInformation(
-                        "{FileName} not uploaded (Err: 6): {Message}",
-                        file.Name, ex.Message);
-
-                    uploadResults.Add(
-                        new()
-                        {
-                            FileName = file.Name,
-                            ErrorCode = 6,
-                            Uploaded = false
-                        });
+                    Logger.LogInformation("{FileName} not uploaded (Err: 6): {Message}", file.Name, ex.Message);
+                    uploadResults.Add(new() { FileName = file.Name, ErrorCode = 6, Uploaded = false });
+                    await FailureSwal();
                 }
             }
         }
         if (upload)
         {
-            //Går til FileSaveController. Usikker på requestUri skal være slik"api/freelancer/create
             var response = await Http.PostAsync("api/FileSave/PostFile", content);
-
-            var newUploadResults = await response.Content.ReadFromJsonAsync<IList<CodeFileDto>>();
+            newUploadResults = await response.Content.ReadFromJsonAsync<IList<CodeFileDto>>();
 
             if (newUploadResults is not null)
             {
-                await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "File uploaded!");
                 uploadResults = uploadResults.Concat(newUploadResults).ToList();
+                foreach (var uploaded in uploadResults)
+                {
+                    uploaded.AssignmentId = AssignmentModel.Id;
+                }
+                await _jsRuntime.ToastrSuccess("File upload process started.");
             }
             else
             {
                 await FailureSwal();
             }
         }
-
         shouldRender = true;
     }
 
@@ -215,8 +212,36 @@
             result.ErrorCode = 5;
 
         }
-
         return result.Uploaded;
+    }
+
+    private async void OnSubmit()
+    {
+        var codeFileToSave = newUploadResults.FirstOrDefault();
+        if (newUploadResults != null)
+        {
+            if (codeFileToSave.Uploaded)
+            {
+                var resultInt = await _codeFileService.CreateCodeFileReturnInt(codeFileToSave);
+                if (resultInt == 1)
+                {
+                    await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "File uploaded Successfully!");
+                    newUploadResults = new List<CodeFileDto>();
+                    shouldRender = true;
+                    StateHasChanged();
+                }
+                else
+                {
+                    Failure();
+                }
+
+            }
+            else
+            {
+                Failure();
+            }
+
+        }
     }
 
     private class File

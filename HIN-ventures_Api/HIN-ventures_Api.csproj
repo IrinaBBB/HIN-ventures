@@ -24,4 +24,8 @@
     <ProjectReference Include="..\HIN-ventures.DataAccess\HIN-ventures.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Development\unsafe_uploads\" />
+  </ItemGroup>
+
 </Project>

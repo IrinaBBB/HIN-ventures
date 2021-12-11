@@ -12,6 +12,7 @@ using System.IO;
 using System.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+
 //https://docs.microsoft.com/en-us/aspnet/core/blazor/file-uploads?view=aspnetcore-6.0&pivots=webassembly
 
 
@@ -35,7 +36,7 @@ namespace HIN_ventures_Api.Controllers
         [HttpPost]
         public async Task<ActionResult<IList<CodeFileDto>>> PostFile([FromForm] IEnumerable<IFormFile> files)
         {
-            var maxAllowedFiles = 3;
+            var maxAllowedFiles = 1;
             long maxFileSize = 1024 * 1024 * 15;
             var filesProcessed = 0;
             var resourcePath = new Uri($"{Request.Scheme}://{Request.Host}/");
@@ -43,48 +44,49 @@ namespace HIN_ventures_Api.Controllers
 
             foreach (var file in files)
             {
-                var uploadResult = new CodeFileDto();
+                var uploadResultCodeFileDto = new CodeFileDto();
                 string trustedFileNameForFileStorage;
                 var untrustedFileName = file.FileName;
-                uploadResult.FileName = untrustedFileName;
-                var trustedFileNameForDisplay =
-                    WebUtility.HtmlEncode(untrustedFileName);
+                uploadResultCodeFileDto.FileName = untrustedFileName;
+                var trustedFileNameForDisplay = WebUtility.HtmlEncode(untrustedFileName);
 
                 if (filesProcessed < maxAllowedFiles)
                 {
                     if (file.Length == 0)
                     {
                         logger.LogInformation("{FileName} length is 0 (Err: 1)", trustedFileNameForDisplay);
-                        uploadResult.ErrorCode = 1;
+                        uploadResultCodeFileDto.ErrorCode = 1;
                     }
                     else if (file.Length > maxFileSize)
                     {
                         logger.LogInformation("{FileName} of {Length} bytes is " +
                                               "larger than the limit of {Limit} bytes (Err: 2)",
                             trustedFileNameForDisplay, file.Length, maxFileSize);
-                        uploadResult.ErrorCode = 2;
+                        uploadResultCodeFileDto.ErrorCode = 2;
                     }
                     else
                     {
                         try
                         {
                             trustedFileNameForFileStorage = Path.GetRandomFileName();
-                            var path = Path.Combine(env.ContentRootPath, env.EnvironmentName, "unsafe_uploads",
-                                trustedFileNameForFileStorage);
+                            var v = env.ContentRootPath; //"C:\\Users\\Ny\\source\\repos\\HIN-ventures\\HIN-ventures_Api"
+                            var bv = env.EnvironmentName; //"Development"
+                            var path = Path.Combine(env.ContentRootPath, env.EnvironmentName, "unsafe_uploads", trustedFileNameForFileStorage);
+                            uploadResultCodeFileDto.CodeFileUrl = path;
+
 
                             await using FileStream fs = new(path, FileMode.Create);
                             await file.CopyToAsync(fs);
 
-                            logger.LogInformation("{FileName} saved at {Path}",
-                                trustedFileNameForDisplay, path);
-                            uploadResult.Uploaded = true;
-                            uploadResult.StoredFileName = trustedFileNameForFileStorage;
+                            logger.LogInformation("{FileName} saved at {Path}", trustedFileNameForDisplay, path);
+                            uploadResultCodeFileDto.Uploaded = true;
+                            uploadResultCodeFileDto.StoredFileName = trustedFileNameForFileStorage;
                         }
                         catch (IOException ex)
                         {
                             logger.LogError("{FileName} error on upload (Err: 3): {Message}",
                                 trustedFileNameForDisplay, ex.Message);
-                            uploadResult.ErrorCode = 3;
+                            uploadResultCodeFileDto.ErrorCode = 3;
                         }
                     }
 
@@ -95,10 +97,10 @@ namespace HIN_ventures_Api.Controllers
                     logger.LogInformation("{FileName} not uploaded because the " +
                                           "request exceeded the allowed {Count} of files (Err: 4)",
                         trustedFileNameForDisplay, maxAllowedFiles);
-                    uploadResult.ErrorCode = 4;
+                    uploadResultCodeFileDto.ErrorCode = 4;
                 }
 
-                uploadResults.Add(uploadResult);
+                uploadResults.Add(uploadResultCodeFileDto);
             }
 
             return new CreatedResult(resourcePath, uploadResults);

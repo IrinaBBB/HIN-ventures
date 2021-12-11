@@ -24,27 +24,27 @@ namespace HIN_ventures.Business.Repositories
 
         public async Task<int> CreateCodeFile(CodeFileDto codeFileDto)
         {
-            var assignment = _mapper.Map<CodeFileDto, CodeFile>(codeFileDto);
-            await _context.CodeFiles.AddAsync(assignment);
+            var codeFile = _mapper.Map<CodeFileDto, CodeFile>(codeFileDto);
+            await _context.CodeFiles.AddAsync(codeFile);
             return await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteCodeFileById(int id)
         {
-            var assignment = await _context.CodeFiles.FindAsync(id);
-            _context.Remove(assignment);
+            var codeFile = await _context.CodeFiles.FindAsync(id);
+            _context.Remove(codeFile);
             return await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteCodeFileByAssignmentId(int assignmentId)
         {
-            var assignments = await _context.CodeFiles.Where(x => x.Id == assignmentId).ToListAsync();
-            _context.RemoveRange(assignments);
+            var codeFile = await _context.CodeFiles.Where(x => x.Id == assignmentId).ToListAsync();
+            _context.RemoveRange(codeFile);
 
             return await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<CodeFileDto>> GetCodeFileFromAssignment(int Id)
+        public async Task<IEnumerable<CodeFileDto>> GetCodeFilesFromAssignment(int Id)
         {
             var result = _mapper.Map<IEnumerable<CodeFile>, IEnumerable<CodeFileDto>>(await _context.CodeFiles
                 .Where(x => x.AssignmentId == Id).ToListAsync());
