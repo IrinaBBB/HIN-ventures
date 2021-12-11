@@ -41,10 +41,12 @@
                         <InputText @bind-Value="FreelancerModel.Email" class="form-control"></InputText>
                         <ValidationMessage For="()=>FreelancerModel.Email"></ValidationMessage>
                     </div>
-                    <div class="col">
-                        <label>Are you available for assignments?</label>
+                    <div class="form-group">
+                        <br />
+                        <label class="text-warning font-weight-bold pt-4">Are you available for assignments?</label>
                         <InputCheckbox @bind-Value="FreelancerModel.IsAvailable"></InputCheckbox>
                     </div>
+                    <br />
                     <div class="form-group" style="height:250px;">
 
                         <button class="btn btn-primary">Update Profile</button>
@@ -219,7 +221,7 @@
 
                 //            await AddFreelancerImage(updateFreelancerResult);
                 //        }
-                await JsRuntime.ToastrSuccess("Freelancer updated successfully.");
+                await JsRuntime.InvokeVoidAsync("ShowSwal", "success", "The assigment has been created!");
             }
 
         }

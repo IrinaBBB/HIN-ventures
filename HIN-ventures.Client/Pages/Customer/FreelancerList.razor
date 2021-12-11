@@ -45,15 +45,14 @@
 
 
     <div class="mt-4 mx-4 px-0 px-md-5 mx-md-5">
-        <p>Freelancer with Id @_ratedFreelancerId received a rating of @_newRating</p>
+        @*<p>Freelancer with Id @_ratedFreelancerId received a rating of @_newRating</p>*@
 
         @foreach (var freelancer in FreelancerDtos)
         {
 
             <div class="row p-2 my-3 " style="border-radius:20px; border: 1px solid #ffffff">
                 <div class="col-12 col-lg-3 col-md-4">
-                    <img class="d-block w-100" src=@($"images/coder{freelancer.FreelancerId}.png") alt="First slide">
-
+                    <img class="d-block w-100" src=@($"images/coder{freelancer.FreelancerId}.png")>
                 </div>
                 <div class="col-12 col-lg-9 col-md-8">
                     <div class="row pt-3">
@@ -68,6 +67,10 @@
                             <p class="card-text">
                                 Lines of Code last month: @freelancer.LinesOfCodeMonth
                             </p>
+                            <p class="card-text">
+                                Total lines of code: @freelancer.TotalLinesOfCode
+                            </p>
+                            <br/>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="row pb-3 pt-2">
@@ -94,7 +97,7 @@
                 </div>
             </div>
         }
-        <p>Freelancer with Id @_ratedFreelancerId received a rating of @_newRating</p>
+        @*<p>Freelancer with Id @_ratedFreelancerId received a rating of @_newRating</p>*@
     </div>
 }
 else
@@ -138,6 +141,11 @@ else
         {
             await _jsRuntime.ToastrError(e.Message);
         }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await InvokeAsync(StateHasChanged);
     }
 
     private void SimulatePreviousRatings()
@@ -222,16 +230,20 @@ else
             FreelancerModel.FreelancerDto.AverageRating = GetAverageRating(ratingsOnFreelancer);
 
             await _freelancerService.UpdateFreelancer(_ratedFreelancerId, FreelancerModel.FreelancerDto);
+
+            await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "The rating has been updated!");
         }
         else
         {
-            await _jsRuntime.InvokeVoidAsync("Must be within valid range [1,5]");
+            await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Must be within valid range [1,5]");
 
         }
 
 
         navmanager.NavigateTo($"customer/requestfreelancer/{CustomerId}", true); //force page to refresh
     }
+
+
 
     private static int GetAverageRating(IEnumerable<RatingDto> ratings)
     {
