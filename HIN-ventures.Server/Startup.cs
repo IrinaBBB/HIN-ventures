@@ -71,9 +71,9 @@ namespace HIN_ventures.Server
             services.AddMudServices();
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<IFreelancerRepository, FreelancerRepository>();
-            services.AddScoped<ITransactionRepository, TransactionRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IDbInitializer, DbInitializer>();
+            services.AddScoped<ICrytoService, CryptoService>();
             services.AddScoped<ICodeFileRepository, CodeFileRepository>();
             services.AddScoped<IRatingRepository, RatingRepository>();
         }

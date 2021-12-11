@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Client", "HIN-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Shared", "HIN-ventures.Shared\HIN-ventures.Shared.csproj", "{7EFFC7B8-AF57-425C-8E68-88CB56DFD804}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockIOTest", "BlockIOTest\BlockIOTest.csproj", "{DBD151A4-C57E-4DAC-8916-AA3BE95804FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto", "Crypto\Crypto.csproj", "{919E7447-BE94-426A-8438-8DAA545835C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,10 @@ Global
 		{7EFFC7B8-AF57-425C-8E68-88CB56DFD804}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EFFC7B8-AF57-425C-8E68-88CB56DFD804}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EFFC7B8-AF57-425C-8E68-88CB56DFD804}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DBD151A4-C57E-4DAC-8916-AA3BE95804FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DBD151A4-C57E-4DAC-8916-AA3BE95804FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DBD151A4-C57E-4DAC-8916-AA3BE95804FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DBD151A4-C57E-4DAC-8916-AA3BE95804FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{919E7447-BE94-426A-8438-8DAA545835C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{919E7447-BE94-426A-8438-8DAA545835C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{919E7447-BE94-426A-8438-8DAA545835C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{919E7447-BE94-426A-8438-8DAA545835C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

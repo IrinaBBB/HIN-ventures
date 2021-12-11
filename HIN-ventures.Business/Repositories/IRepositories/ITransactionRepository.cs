@@ -8,6 +8,5 @@ namespace HIN_ventures.Business.Repositories.IRepositories
 {
     public interface ITransactionRepository
     {
-        void TransferOneCoin();
     }
 }
