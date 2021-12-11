@@ -14,29 +14,19 @@
 
         <div class="pt-3 pb-2 px-5 mx-1 mx-md-0 bg-secondary">
             <DataAnnotationsValidator />
-            <div class="row px-3 mx-3">
-                <div class=" col-4 col-md-2">
+            <div class="row px-3 mx-4">
+                <div class=" col-4 col-md-3">
                     <div class="form-group">
-                        <label class="text-warning">Freelancer based on expertise</label>
-                        <select class="form-control" @bind="FreelancerModel.Speciality">
-                            <option value="Select" selected disabled="disabled">(Select field of expertise)</option>
+                        <label class="text-warning" style="font-size:x-large">Freelancer Based On Expertise</label>
+                        <select class="form-control" value="@FreelancerModel.Speciality" @onchange="SortBySpeciality">
+                            <option value="Select" selected disabled="disabled"> Select Field Of Expertise From Menu</option>
+                            <option value="None">None</option>
                             @foreach (var freelancer in FreelancerDtos)
                             {
+
                                 <option value="@freelancer.Speciality">@freelancer.Speciality</option>
                             }
                         </select>
-                    </div>
-                </div>
-                <div class="col-8 col-md-2">
-                    <div class="form-group" style="margin-top: 1.9rem !important;">
-                        @if (IsProcessing)
-                        {
-                            <button class="btn btn-success btn-block form-control"><i class="fa fa-spin fa-spinner"></i>Processing...</button>
-                        }
-                        else
-                        {
-                            <input type="submit" value="Request" class="btn btn-success btn-block form-control" />
-                        }
                     </div>
                 </div>
             </div>
@@ -70,7 +60,7 @@
                             <p class="card-text">
                                 Total lines of code: @freelancer.TotalLinesOfCode
                             </p>
-                            <br/>
+                            <br />
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="row pb-3 pt-2">
@@ -140,6 +130,24 @@ else
         catch (Exception e)
         {
             await _jsRuntime.ToastrError(e.Message);
+        }
+    }
+
+    private async Task SortBySpeciality(ChangeEventArgs e)
+    {
+        if (e.Value != null)
+        {
+            // ReSharper disable once PossibleNullReferenceException
+            if (e.Value.ToString().Equals("None"))
+            {
+                await LoadFreelancers();
+                //await InvokeAsync(StateHasChanged);
+            }
+            else
+            {
+                string test = e.Value.ToString();
+                FreelancerDtos = (from f in FreelancerDtos where e.Value != null && f.Speciality.Equals(e.Value.ToString()) select f).ToList();
+            }
         }
     }
 
