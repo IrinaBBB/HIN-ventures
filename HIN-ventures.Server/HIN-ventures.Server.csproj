@@ -13,8 +13,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-    <PackageReference Include="Block.Io.Core" Version="1.0.1" />
-    <PackageReference Include="BlockIo" Version="2.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.12" />
