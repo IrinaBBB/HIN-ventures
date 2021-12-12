@@ -3,6 +3,7 @@
 @using HIN_ventures.Business.Repositories.IRepositories
 @using HIN_ventures.DataAccess.Entities
 @inject ICustomerRepository _customerRepository
+@inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
 @attribute [Authorize(Roles = Common.SD.RoleAdmin)]
@@ -48,17 +49,15 @@
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
 
         <MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
-        <MudText Typo="Typo.subtitle2">Code Files:</MudText>
-        @if (CountAssingments != 0)
+        <MudText Typo="Typo.subtitle2">Assignments:</MudText>
+        @if (@Assignments != null)
         {
-            /*Hent isteden ut alle Assignments...*/
-            @foreach (var assignment in CustomerModel.AssignmentsDtos)
+            @foreach (var assignment in @Assignments)
             {
-                /*...og test om hver assignment tilhører kunden*/
                 <MudText>@assignment.Title</MudText>
                 <MudText>@assignment.CreatedBy</MudText>
                 <MudText>@assignment.Deadline</MudText>
-                <MudText> --- </MudText>
+                <MudDivider DividerType="DividerType.Inset" />
             }
         }
         else
@@ -76,17 +75,14 @@
     [Parameter]
     public int? Id { get; set; }
     private CustomerDto CustomerModel { get; set; } = new CustomerDto();
-    public int CountAssingments { get; set; }
+    private IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
 
     protected override async Task OnInitializedAsync()
     {
         if (Id != null)
         {
             CustomerModel = await _customerRepository.GetCustomer(Id.Value);
-            if (CustomerModel.AssignmentsDtos.Count != 0)
-            {
-                CountAssingments = CustomerModel.AssignmentsDtos.Count;
-            }
+            Assignments = _assignmentRepository.GetAllAssignmentsForCustomer(CustomerModel.CustomerId);
         }
         else
         {

@@ -35,9 +35,9 @@ namespace HIN_ventures.Server
         public void ConfigureServices(IServiceCollection services)
         {
             
-            services.AddResponseCompression(
-                options => options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                    new[] { MediaTypeNames.Application.Octet }));
+            //services.AddResponseCompression(
+            //    options => options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+            //        new[] { MediaTypeNames.Application.Octet }));
 
             services.AddRazorPages();
             services.AddSignalR();
@@ -69,6 +69,7 @@ namespace HIN_ventures.Server
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMudServices();
+
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<IFreelancerRepository, FreelancerRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
@@ -81,7 +82,7 @@ namespace HIN_ventures.Server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbInitializer dbInitializer)
         {
 
-            app.UseResponseCompression();
+            //app.UseResponseCompression();
          
             if (env.IsDevelopment())
             {

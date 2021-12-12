@@ -12,5 +12,7 @@ namespace HIN_ventures.Business.Repositories.IRepositories
         public Task<AssignmentDto> GetAssignment(int? assignmentId);
         public Task<AssignmentDto> GetOnlyAssignment(int? assignmentId);
         public IEnumerable<AssignmentDto> GetAllAssignments();
+        public IEnumerable<AssignmentDto> GetAllAssignmentsForFreelancer(int? FreelancerId); 
+        public IEnumerable<AssignmentDto> GetAllAssignmentsForCustomer(int? CustomerId);
     }
 }

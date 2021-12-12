@@ -53,8 +53,9 @@ namespace HIN_ventures.Business.Repositories
 
         public async Task<IEnumerable<CodeFileDto>> GetCodeFiles(int assignmentId)
         {
-            return _mapper.Map<IEnumerable<CodeFile>, IEnumerable<CodeFileDto>>(await _context.CodeFiles
+            var result = _mapper.Map<IEnumerable<CodeFile>, IEnumerable<CodeFileDto>>(await _context.CodeFiles
                 .Where(x => x.AssignmentId == assignmentId).ToListAsync());
+            return result;
         }
 
         public async Task<CodeFileDto> UpdateCodeFile(int codeFileId, CodeFileDto codeFileDto)
