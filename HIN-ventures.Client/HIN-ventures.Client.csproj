@@ -13,6 +13,9 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="5.0.12" />
     <PackageReference Include="MudBlazor" Version="5.2.0" />
+    <PackageReference Include="PlantUml.Reflector" Version="2021.514.0.42598" />
+    <PackageReference Include="Syncfusion.Blazor.Diagram" Version="19.3.0.57" />
+    <PackageReference Include="Syncfusion.SfDiagram.WPF" Version="19.3.0.57" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 

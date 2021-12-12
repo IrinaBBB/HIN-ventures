@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="HIN_ventures.DataAccess.Properties.Resources">
+    <Position X="0.75" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Data.ApplicationDbContext">
+    <Position X="3.5" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EIMAAAAAABAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\ApplicationDbContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Data.SeedData">
+    <Position X="5.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Data\SeedData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Entities.ApplicationUser">
+    <Position X="0.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAEAAAAAAQAAAAAAAAAAAAAAAgBAAAAAAAAAAAAg=</HashCode>
+      <FileName>Entities\ApplicationUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Entities.Assignment">
+    <Position X="6" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAECEAAAAQAgQEAAEAAAAAAAAAAAgBAAAgEAAAIACAE=</HashCode>
+      <FileName>Entities\Assignment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Entities.BookingDetails">
+    <Position X="11.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAACACQAAAAAAAAQwAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Entities\BookingDetails.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Entities.CodeFile">
+    <Position X="2.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAQAAgAAAAAABAAQAAAAgAAAAAAAAAAQBAAAA=</HashCode>
+      <FileName>Entities\CodeFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Entities.Customer">
+    <Position X="7.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAEAAACAAAAABAgAAAARAAAAAABAAIBAAIAkAAAg=</HashCode>
+      <FileName>Entities\Customer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Entities.Freelancer">
+    <Position X="9.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAEAAACAAAAAAAgAAAABAAAAAgAAAADAAAIECAAg=</HashCode>
+      <FileName>Entities\Freelancer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.DataAccess.Entities.Rating">
+    <Position X="4.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAgBAAAAAAAAgAAAA=</HashCode>
+      <FileName>Entities\Rating.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

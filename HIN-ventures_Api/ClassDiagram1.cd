@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="HIN_ventures_Api.Controllers.AccountController">
+    <Position X="0.5" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAABACAAAAACAAAAADIAAAgCAAAAAAAAAAABAAAACA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Controllers.AssignmentController">
+    <Position X="0.5" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAACAAAAAAAAAAACEAAAAAAAAAgAAA=</HashCode>
+      <FileName>Controllers\AssignmentController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Controllers.AssignmentOrderController">
+    <Position X="7.5" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\AssignmentOrderController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Controllers.CodeFileController">
+    <Position X="2.75" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAIAAAgAEAQAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\CodeFileController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Controllers.CustomerController">
+    <Position X="2.75" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAABAABAAA=</HashCode>
+      <FileName>Controllers\CustomerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Controllers.FileSaveController">
+    <Position X="7.5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAACAAAAAAAAAAAAAAAAAAAAAEAAAAA=</HashCode>
+      <FileName>Controllers\FileSaveController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Controllers.FreelancerController">
+    <Position X="5" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAQEAAAAAAAAAAAAAACAIAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\FreelancerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Controllers.RatingController">
+    <Position X="5" Y="3.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAACUAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\RatingController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Controllers.SingleAssignmentController">
+    <Position X="9.75" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Controllers\SingleAssignmentController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures_Api.Helper.APISettings">
+    <Position X="10.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAACAAAAAAAAgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helper\APISettings.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
