@@ -32,16 +32,16 @@
     protected override async Task OnInitializedAsync()
     {
 
-        //CryptoDto request = new()
-        //{
+        CryptoDto request = new()
+        {
 
-        //    api_key = SD.ApiKey,
-        //    from_labels = "HIN-Ventures",
-        //    to_labels = "Ben_Reddik",
-        //    amounts = "1"
-        //};
+            api_key = SD.ApiKey,
+            from_labels = "HIN-Ventures",
+            to_labels = "Ben_Reddik",
+            amounts = "1"
+        };
 
-        //await _cryptoService.CreateTransaction(request);
+        await _cryptoService.CreateTransaction(request);
 
 
         await base.OnInitializedAsync();
@@ -51,7 +51,7 @@
 
     public async Task TransferCrypto()
     {
-        await Task.Delay(5000);
+        // await Task.Delay(5000);
         CryptoDto request = new()
         {
 

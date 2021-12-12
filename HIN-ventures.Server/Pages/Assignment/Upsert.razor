@@ -6,6 +6,7 @@
 @inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 
 <MudCard>
     <MudCardHeader>
@@ -31,10 +32,12 @@
                              HelperText="Price estimate for completion of this assignment."
                              Required="true"
                              RequiredError="Price is required!" />
-            <MudDatePicker PickerVariant="PickerVariant.Dialog"
-                           Label="Deadline"
-                           @bind-Date="@AssignmentModel.Deadline"
-                           HelperText="Assignment should be ready due to this date." />
+            <MudItem>
+                <MudDatePicker PickerVariant="PickerVariant.Dialog"
+                               Label="Deadline"
+                               @bind-Date="@AssignmentModel.Deadline"
+                               HelperText="Assignment should be ready due to this date." />
+            </MudItem>
             <MudTextField Label="Description"
                           @bind-Value="@AssignmentModel.Description"
                           HelperText="Describe in detail what your assignment involves."

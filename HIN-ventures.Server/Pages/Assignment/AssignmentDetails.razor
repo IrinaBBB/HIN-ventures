@@ -7,6 +7,7 @@
 @inject IFreelancerRepository _freelancerRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 
 <MudCard>
     <MudCardHeader>

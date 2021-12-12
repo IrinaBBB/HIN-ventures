@@ -1,4 +1,6 @@
-﻿@inject IJSRuntime _jsRuntime
+﻿@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
+@inject IJSRuntime _jsRuntime
+
 @page "/"
 
 <h1>Hello, world!</h1>
