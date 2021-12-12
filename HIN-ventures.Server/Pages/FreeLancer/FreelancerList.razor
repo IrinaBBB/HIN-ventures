@@ -8,6 +8,7 @@
 @inject IJSRuntime _jsRuntime
 @inject NavigationManager _navigationManager
 @inject IDialogService _dialogService
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 
 <div class="mt-2">
     <div class="ml-1 mb-5">
@@ -53,8 +54,8 @@
                             <MudCardHeader>
                                 <CardHeaderContent>
                                     <MudText Typo="Typo.h5">@freelancer.LastName</MudText>
-                              
-                                        <MudRating SelectedValue="@freelancer.AverageRating" Size="Size.Medium"/>
+
+                                    <MudRating SelectedValue="@freelancer.AverageRating" Size="Size.Medium" />
 
                                 </CardHeaderContent>
                             </MudCardHeader>
@@ -62,7 +63,7 @@
                                 <MudText Typo="Typo.subtitle2">Speciality: </MudText>
                                 <MudText>@freelancer.Speciality</MudText>
                                 <MudDivider DividerType="DividerType.Middle" Class="my-1" />
-                               
+
                                 <MudText Typo="Typo.subtitle2">Lines of code this month: </MudText>
                                 <MudText>@freelancer.LinesOfCodeMonth</MudText>
                                 <MudDivider DividerType="DividerType.Middle" Class="my-1" />
@@ -157,8 +158,9 @@
             {
                 await _jsRuntime.ToastrError($"Failed To Delete {freelancerToDelete.LastName}.");
             }
-            _navigationManager.NavigateTo("freelancers", forceLoad:true);
-        } else
+            _navigationManager.NavigateTo("freelancers", forceLoad: true);
+        }
+        else
         {
             _navigationManager.NavigateTo("freelancers", forceLoad: true);
         }

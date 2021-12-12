@@ -3,11 +3,12 @@
 @using HIN_ventures.Business.Repositories.IRepositories
 @inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 
 <div class="mt-2">
     <div class="ml-1 mb-5">
         <MudText Typo="Typo.h4" Align="Align.Center">Assignments</MudText>
-        <MudDivider DividerType="DividerType.FullWidth" Class="my-5"/>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-5" />
     </div>
     <div class="col-12">
         <MudGrid Spacing="2" Justify="Justify.Center">

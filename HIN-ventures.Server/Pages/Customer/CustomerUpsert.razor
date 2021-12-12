@@ -29,12 +29,13 @@
                           @bind-Value="@CustomerModel.Email"
                           HelperText="Please enter your Email."
                           Required="true"
-                          RequiredError="Email is required!"/>
+                          RequiredError="Email is required!" />
             <MudTextField Label="Crypto Address"
                           @bind-Value="@CustomerModel.CryptoAddress"
                           HelperText="CryptoAddress for you to get payments and pay freelancers from." />
-            <MudCardContent> <!--Hent Fra AssigmentDto isteden, men bare de som tilhører denne kunden-->
-                <MudTable Items="@CustomerModel.AssignmentsDtos" Hover="true" Breakpoint="Breakpoint.None" Dense="@true"> 
+            <MudCardContent>
+                <!--Hent Fra AssigmentDto isteden, men bare de som tilhører denne kunden-->
+                <MudTable Items="@CustomerModel.AssignmentsDtos" Hover="true" Breakpoint="Breakpoint.None" Dense="@true">
                     <HeaderContent>
                         <MudTh>Title</MudTh>
                         <MudTh>Category</MudTh>
@@ -43,17 +44,17 @@
                     <RowTemplate>
                         <MudTd DataLabel="Title">
                             <MudForm Model="@context">
-                                <MudTextField Label="Title" @bind-Value="context.Title" For="(() => context.Title)"/>
+                                <MudTextField Label="Title" @bind-Value="context.Title" For="(() => context.Title)" />
                             </MudForm>
                         </MudTd>
                         <MudTd DataLabel="Category">
                             <MudForm Model="@context">
-                                <MudTextField Label="Category" @bind-Value="context.Category" For="(() => context.Category)"/>
+                                <MudTextField Label="Category" @bind-Value="context.Category" For="(() => context.Category)" />
                             </MudForm>
                         </MudTd>
                         <MudTd DataLabel="CreatedBy">
                             <MudForm Model="@context">
-                                <MudTextField Label="CreatedBy" @bind-Value="context.CreatedBy" For="(() => context.CreatedBy)"/>
+                                <MudTextField Label="CreatedBy" @bind-Value="context.CreatedBy" For="(() => context.CreatedBy)" />
                             </MudForm>
                         </MudTd>
                     </RowTemplate>
@@ -103,13 +104,13 @@
         {
             var updateCustomerResult =
                 await _customerRepository.UpdateCustomer(CustomerModel.CustomerId, CustomerModel);
-                //await _jsRuntime.ToastrSuccess($"{updateCustomerResult.Name} Updated Successfully.");
+            //await _jsRuntime.ToastrSuccess($"{updateCustomerResult.Name} Updated Successfully.");
         }
         else
         {
             var createdCustomer =
                 await _customerRepository.CreateCustomer(CustomerModel);
-                //await _jsRuntime.ToastrSuccess($"{createdCustomer.Name} Updated Successfully.");
+            //await _jsRuntime.ToastrSuccess($"{createdCustomer.Name} Updated Successfully.");
         }
         _navigationManager.NavigateTo("customers");
     }

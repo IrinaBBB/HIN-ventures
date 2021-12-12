@@ -5,6 +5,7 @@
 @inject ICustomerRepository _customerRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 
 <MudCard>
     <MudCardHeader>
@@ -12,7 +13,7 @@
             <MudText Typo="Typo.h5">@CustomerModel.Name</MudText>
         </CardHeaderContent>
     </MudCardHeader>
-    
+
     <MudCardContent>
         <MudText Typo="Typo.subtitle2">Customer Id:</MudText>
         <MudText>@CustomerModel.CustomerId</MudText>
@@ -33,15 +34,15 @@
         <MudText Typo="Typo.subtitle2">CryptoAddress:</MudText>
         <MudText>@CustomerModel.CryptoAddress</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
-        
+
         <MudText Typo="Typo.subtitle2">Subscription Type:</MudText>
         <MudText>@CustomerModel.SubscriptionType</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
-        
+
         <MudText Typo="Typo.subtitle2">TotalLines Of Code This Month:</MudText>
         <MudText>@CustomerModel.TotalLinesOfCode</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
-        
+
         <MudText Typo="Typo.subtitle2">TotalCost:</MudText>
         <MudText>@CustomerModel.TotalCost</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
@@ -51,7 +52,7 @@
         @if (CountAssingments != 0)
         {
             /*Hent isteden ut alle Assignments...*/
-            @foreach (var assignment in CustomerModel.AssignmentsDtos)  
+            @foreach (var assignment in CustomerModel.AssignmentsDtos)
             {
                 /*...og test om hver assignment tilhører kunden*/
                 <MudText>@assignment.Title</MudText>

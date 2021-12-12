@@ -6,7 +6,7 @@
 @inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
-
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 @*<button class="btn btn-secondary" @onclick="TestSuccess"></button>
     <button class="btn btn-secondary" @onclick="TestFailure"></button>
     <button class="btn btn-secondary" @onclick="TestSuccessSwal"></button>
