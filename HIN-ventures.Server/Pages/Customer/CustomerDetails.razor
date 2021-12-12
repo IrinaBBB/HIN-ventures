@@ -3,6 +3,7 @@
 @using HIN_ventures.Business.Repositories.IRepositories
 @using HIN_ventures.DataAccess.Entities
 @inject ICustomerRepository _customerRepository
+@inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
 
@@ -12,7 +13,7 @@
             <MudText Typo="Typo.h5">@CustomerModel.Name</MudText>
         </CardHeaderContent>
     </MudCardHeader>
-    
+
     <MudCardContent>
         <MudText Typo="Typo.subtitle2">Customer Id:</MudText>
         <MudText>@CustomerModel.CustomerId</MudText>
@@ -33,27 +34,25 @@
         <MudText Typo="Typo.subtitle2">CryptoAddress:</MudText>
         <MudText>@CustomerModel.CryptoAddress</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
-        
+
         <MudText Typo="Typo.subtitle2">Subscription Type:</MudText>
         <MudText>@CustomerModel.SubscriptionType</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
-        
+
         <MudText Typo="Typo.subtitle2">TotalLines Of Code This Month:</MudText>
         <MudText>@CustomerModel.TotalLinesOfCode</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
-        
+
         <MudText Typo="Typo.subtitle2">TotalCost:</MudText>
         <MudText>@CustomerModel.TotalCost</MudText>
         <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
 
         <MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
-        <MudText Typo="Typo.subtitle2">Code Files:</MudText>
-        @if (CountAssingments != 0)
+        <MudText Typo="Typo.subtitle2">Assignments:</MudText>
+        @if (@Assignments != null)
         {
-            /*Hent isteden ut alle Assignments...*/
-            @foreach (var assignment in CustomerModel.AssignmentsDtos)  
+            @foreach (var assignment in @Assignments)
             {
-                /*...og test om hver assignment tilhører kunden*/
                 <MudText>@assignment.Title</MudText>
                 <MudText>@assignment.CreatedBy</MudText>
                 <MudText>@assignment.Deadline</MudText>
@@ -75,17 +74,14 @@
     [Parameter]
     public int? Id { get; set; }
     private CustomerDto CustomerModel { get; set; } = new CustomerDto();
-    public int CountAssingments { get; set; }
+    private IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
 
     protected override async Task OnInitializedAsync()
     {
         if (Id != null)
         {
             CustomerModel = await _customerRepository.GetCustomer(Id.Value);
-            if (CustomerModel.AssignmentsDtos.Count != 0)
-            {
-                CountAssingments = CustomerModel.AssignmentsDtos.Count;
-            }
+            Assignments = _assignmentRepository.GetAllAssignmentsForCustomer(CustomerModel.CustomerId);
         }
         else
         {

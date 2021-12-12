@@ -80,6 +80,34 @@ namespace HIN_ventures.Business.Repositories
             return _mapper.Map<IEnumerable<Assignment>, IEnumerable<AssignmentDto>>( _context.Assignments);
         }
 
+        public IEnumerable<AssignmentDto> GetAllAssignmentsForFreelancer(int? FreelancerId)
+        {
+            var assignmenList = _mapper.Map<IEnumerable<Assignment>, IEnumerable<AssignmentDto>>( _context.Assignments);
+            List<AssignmentDto> assignmenListTemp = new List<AssignmentDto>();
+            foreach (var ass in assignmenList)
+            {
+                if (ass.FreelancerId == FreelancerId)
+                {
+                    assignmenListTemp.Add(ass);
+                }
+            }
+            return assignmenListTemp;
+        }
+
+        public IEnumerable<AssignmentDto> GetAllAssignmentsForCustomer(int? CustomerId)
+        {
+            var assignmenList = _mapper.Map<IEnumerable<Assignment>, IEnumerable<AssignmentDto>>(_context.Assignments);
+            List<AssignmentDto> assignmenListTemp = new List<AssignmentDto>();
+            foreach (var ass in assignmenList)
+            {
+                if (ass.FreelancerId == CustomerId)
+                {
+                    assignmenListTemp.Add(ass);
+                }
+            }
+            return assignmenListTemp;
+        }
+
 
         //public async Task<AssignmentDto> GetAssignment(int assignmentId)
         //{
