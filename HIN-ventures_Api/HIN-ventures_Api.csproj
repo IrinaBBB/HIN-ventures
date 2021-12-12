@@ -16,6 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Syncfusion.Blazor.Diagram" Version="19.3.0.57" />
   </ItemGroup>
 
   <ItemGroup>

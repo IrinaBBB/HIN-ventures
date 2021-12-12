@@ -3,19 +3,19 @@
 @inject ILocalStorageService _localStorage
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
-@inject IAssignmentService _iAssignmentService 
+@inject IAssignmentService _iAssignmentService
 @inject IFreelancerService _iFreelancerService
 @using HIN_ventures.Client.Pages.NavButtonComponent
 
 <!--For Testing AuthorizeView with claimsbased authroization-->
 @*<AuthorizeView>
-    <Authorized>
-        <p>Welcome, @context.User.Identity.Name</p>
-    </Authorized>
-    <NotAuthorized>
-        <p>Not signed in</p>
-    </NotAuthorized>
-</AuthorizeView>*@
+        <Authorized>
+            <p>Welcome, @context.User.Identity.Name</p>
+        </Authorized>
+        <NotAuthorized>
+            <p>Not signed in</p>
+        </NotAuthorized>
+    </AuthorizeView>*@
 
 
 <div class="container-fluid">
@@ -121,12 +121,12 @@
                                 <h4 class="card-title">@freelancer.LastName</h4>
                                 <div>@freelancer.Email</div>
                             </div>
-                            <img class="freelancer-image" src=@($"images/coder{freelancer.FreelancerId}.png")/>
+                            <img class="freelancer-image" src=@($"images/coder{freelancer.FreelancerId}.png") />
                         </div>
                         <a class="btn btn-success card-link m-3" href="@($"chat/{freelancer.FreelancerId}")">Chat</a>
                     </div>
                 </div>
-                
+
             }
             <a class="btn btn-outline-warning col-12 mt-3">Get More Freelancers...</a>
         </div>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="HIN_ventures.Shared.Models.ChatHistory">
+    <Position X="1.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAwAAgAAAAAAAAAAAAgAAAAAAAAAAAAgAAICAAAAA=</HashCode>
+      <FileName>Models\ChatHistory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.Shared.Models.Message">
+    <Position X="3.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAA=</HashCode>
+      <FileName>Models\Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HIN_ventures.Shared.Models.User">
+    <Position X="5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEEAAgAgAgAAAAAAAAgACAAQAAACAgAAEgAQQAg=</HashCode>
+      <FileName>Models\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

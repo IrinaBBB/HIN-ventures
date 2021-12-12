@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using Syncfusion.Blazor;
 
 namespace HIN_ventures_Api
 {
@@ -87,6 +88,9 @@ namespace HIN_ventures_Api
             services.AddScoped<IRatingRepository,RatingRepository>();
             //services.AddScoped<IBookingDetailsRepository, BookingDetailsRepository>();
             //services.AddScoped(IFreelancerImages, FreelancerImages)
+
+            //For UML diagram i blazor
+            services.AddSyncfusionBlazor();
 
             services.AddCors(o => o.AddPolicy("HIN-ventures", builder =>
             {
