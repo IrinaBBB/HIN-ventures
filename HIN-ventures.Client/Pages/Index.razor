@@ -61,22 +61,49 @@
                     <h2 class="h4 text-center" style="text-transform: uppercase">Available Assignments</h2>
                     @foreach (var assignment in Assignments)
                     {
-                        <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem; margin-right: 10px">
-                            <div class="card-header">@assignment.Category</div>
-                            <div class="card-body">
-                                <h4 class="card-title">@assignment.Title</h4>
-                                @if (assignment.Description.Length > 50)
-                                {
-                                    <p class="card-text">@assignment.Description[..50]</p>
-                                }
-                                else
-                                {
-                                    <p class="card-text">@assignment.Description</p>
-                                }
-                                <a class="btn btn-outline-success card-link">Learn More...</a>
+                        if (!assignment.IsActive)
+                        {
+                            <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem; margin-right: 10px">
+                                <div class="card-header">@assignment.Category</div>
+                                <div class="card-body">
+                                    <h4 class="card-title">@assignment.Title</h4>
+                                    @if (assignment.Description.Length > 50)
+                                    {
+                                        <p class="card-text">@assignment.Description[..50]</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text">@assignment.Description</p>
+                                    }
+                                    <a class="btn btn-outline-success card-link">Learn More...</a>
+                                </div>
                             </div>
-                        </div>
+                        }
                     }
+                    
+                    <h2 class="h4 text-center" style="text-transform: uppercase">Ongoing Assignments</h2>
+                    @foreach (var assignment in Assignments)
+                    {
+                        if (assignment.IsActive)
+                        {
+                            <div class="card text-white bg-dark mb-3 mr-3 col-md-4" style="max-width: 20rem; margin-right: 10px">
+                                <div class="card-header">@assignment.Category</div>
+                                <div class="card-body">
+                                    <h4 class="card-title">@assignment.Title</h4>
+                                    @if (assignment.Description.Length > 50)
+                                    {
+                                        <p class="card-text">@assignment.Description[..50]</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text">@assignment.Description</p>
+                                    }
+                                    <a class="btn btn-outline-success card-link">Learn More...</a>
+                                </div>
+                            </div>
+                        }
+                    }
+
                     <a class="btn btn-outline-warning col-12">Get More Assignments...</a>
                 </div>
             </div>
