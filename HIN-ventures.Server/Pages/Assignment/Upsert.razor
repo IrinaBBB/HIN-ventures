@@ -1,9 +1,5 @@
 ﻿@page "/assignment/create"
 @page "/assignment/edit/{Id:int}"
-
-@using HIN_ventures.Models
-@using HIN_ventures.Business.Repositories.IRepositories
-@using Microsoft.AspNetCore.Components
 @inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
@@ -89,13 +85,13 @@
     {
         if (AssignmentModel.Id != 0 && Title == "Update")
         {
-            var updateAssignmentResult = await _assignmentRepository.UpdateAssignment(AssignmentModel.Id, AssignmentModel); 
-            /await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.Title} Updated Successfully.");
+            var updateAssignmentResult = await _assignmentRepository.UpdateAssignment(AssignmentModel.Id, AssignmentModel);
+            //await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.Title} Updated Successfully.");
         }
         else
         {
-            var createdAssignment = await _assignmentRepository.CreateAssignment(AssignmentModel); 
-            await _jsRuntime.ToastrSuccess($"{createdAssignment.Title} Updated Successfully.");
+            var createdAssignment = await _assignmentRepository.CreateAssignment(AssignmentModel);
+            //await _jsRuntime.ToastrSuccess($"{createdAssignment.Title} Updated Successfully.");
         }
         _navigationManager.NavigateTo("assignments");
 

@@ -4,6 +4,13 @@
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
 @attribute [Authorize(Roles = Common.SD.RoleAdmin)]
+@using System.Net.Http
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
 
 
 <MudCard>
@@ -103,13 +110,13 @@
         {
             var updateAssignmentResult =
                 await _freelancerRepository.UpdateFreelancer(FreelancerModel.FreelancerId, FreelancerModel);
-            await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.FreelancerId} Updated Successfully.");
+            //await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.FreelancerId} Updated Successfully.");
         }
         else
         {
             var createdAssignment =
                 await _freelancerRepository.CreateFreelancer(FreelancerModel);
-            await _jsRuntime.ToastrSuccess($"{createdAssignment.FreelancerId} Updated Successfully.");
+            //await _jsRuntime.ToastrSuccess($"{createdAssignment.FreelancerId} Updated Successfully.");
         }
         _navigationManager.NavigateTo("freelancers");
     }
