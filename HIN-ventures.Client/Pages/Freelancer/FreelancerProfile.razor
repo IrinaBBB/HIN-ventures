@@ -1,5 +1,4 @@
 ﻿@page "/freelancer/profile"
-@*@page "/freelancer/profile/{IdentityId:string}" unsupported routing string*@
 @using HIN_ventures.Client.Service.IService
 @inject ILocalStorageService _localStorage
 @inject IJSRuntime JsRuntime
@@ -125,7 +124,7 @@
     protected override async Task OnInitializedAsync()
     {
         //var authenticationState = await AuthenticationState;
-        //if (!authenticationState.User.IsInRole(SD.Role_Customer) || (!authenticationState.User.IsInRole(SD.Role_Freelancer))) //(!authenticationState.User.IsInRole(SD.RoleAdmin) || 
+        //if (!authenticationState.User.IsInRole(SD.Role_Customer) || (!authenticationState.User.IsInRole(SD.Role_Freelancer))) //(!authenticationState.User.IsInRole(SD.RoleAdmin) ||
         //{
         //    var uri = new Uri(NavigationManager.Uri);
         //    NavigationManager.NavigateTo("/}");

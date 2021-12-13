@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 namespace HIN_ventures_Api.Controllers
 {
     [Route("api/[controller]/[action]")]
+    
     public class FreelancerController : Controller
     {
         private readonly IFreelancerRepository _freelancerRepository;
@@ -47,6 +48,7 @@ namespace HIN_ventures_Api.Controllers
             return Ok(freelancers);
         }
 
+        
         [HttpGet("{freelancerId:int}")]
         public async Task<IActionResult> GetFreelancer(int? freelancerId)
         {
