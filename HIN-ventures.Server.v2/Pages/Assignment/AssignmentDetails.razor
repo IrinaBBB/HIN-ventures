@@ -1,0 +1,91 @@
+﻿@page "/assignment/details/{Id:int}"
+@using HIN_ventures.Business.Repositories.IRepositories
+@using HIN_ventures.Models
+@inject IAssignmentRepository _assignmentRepository
+@inject ICodeFileRepository _codeFileRepository
+@inject IFreelancerRepository _freelancerRepository
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">@AssignmentModel.Title</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+
+    <MudCardContent>
+        <MudText Typo="Typo.subtitle2">Category:</MudText>
+        <MudText>@AssignmentModel.Category</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle2">Deadline:</MudText>
+        <MudText>@AssignmentModel.Deadline</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle2">Description:</MudText>
+        <MudText>@AssignmentModel.Description</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle2">Price:</MudText>
+        <MudText>@AssignmentModel.Price</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle2">Who working on it:</MudText>
+        <MudText>@AssignmentModel.FreelancerId</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle2">Code Files:</MudText>
+        @if (CodeFileList.Count != 0)
+        {
+            @foreach (var codeFile in CodeFileList)
+            {
+                <MudText>@codeFile.FileName</MudText>
+                <MudText>@codeFile.CodeFileUrl</MudText>
+            }
+        }
+        else
+        {
+            <MudText>@GetNoDataString()</MudText>
+        }
+        <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Class="ml-auto" Link="assignments">Back To List</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    //[CascadingParameter]
+    public int CountFreelancer { get; set; }
+    private AssignmentDto AssignmentModel { get; set; } = new AssignmentDto();
+    private List<CodeFileDto> CodeFileList { get; set; } = new List<CodeFileDto>();
+    private List<FreelancerDto> FreelancerList { get; set; } = new List<FreelancerDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            AssignmentModel = await _assignmentRepository.GetAssignment(Id.Value);
+            CodeFileList = (await _codeFileRepository.GetCodeFiles(Id.Value)).ToList();
+        }
+        else
+        {
+            AssignmentModel = new AssignmentDto();
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
+    }
+
+    private string GetNoDataString()
+    {
+        return "No data of this kind...";
+    }
+}

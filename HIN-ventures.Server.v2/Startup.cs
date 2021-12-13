@@ -9,7 +9,11 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using HIN_ventures.Business.Repositories;
+using HIN_ventures.Business.Repositories.IRepositories;
+using HIN_ventures.DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
+using MudBlazor.Services;
 
 namespace HIN_ventures.Server.v2
 {
@@ -29,6 +33,21 @@ namespace HIN_ventures.Server.v2
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddMudServices();
+
+            string dbConnectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseMySql(dbConnectionString, ServerVersion.AutoDetect(dbConnectionString));
+            });
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+            services.AddScoped<IFreelancerRepository, FreelancerRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<ICodeFileRepository, CodeFileRepository>();
+            services.AddScoped<IRatingRepository, RatingRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
