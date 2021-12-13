@@ -41,17 +41,17 @@
                     <RowTemplate>
                         <MudTd DataLabel="Title">
                             <MudForm Model="@context">
-                                <MudTextField Label="Title" @bind-Value="context.Title" For="(() => context.Title)"/>
+                                <MudTextField Label="Title" @bind-Value="context.Title" For="(() => context.Title)" />
                             </MudForm>
                         </MudTd>
                         <MudTd DataLabel="Category">
                             <MudForm Model="@context">
-                                <MudTextField Label="Category" @bind-Value="context.Category" For="(() => context.Category)"/>
+                                <MudTextField Label="Category" @bind-Value="context.Category" For="(() => context.Category)" />
                             </MudForm>
                         </MudTd>
                         <MudTd DataLabel="CreatedBy">
                             <MudForm Model="@context">
-                                <MudTextField Label="CreatedBy" @bind-Value="context.CreatedBy" For="(() => context.CreatedBy)"/>
+                                <MudTextField Label="CreatedBy" @bind-Value="context.CreatedBy" For="(() => context.CreatedBy)" />
                             </MudForm>
                         </MudTd>
                     </RowTemplate>
@@ -103,13 +103,13 @@
         {
             var updateAssignmentResult =
                 await _freelancerRepository.UpdateFreelancer(FreelancerModel.FreelancerId, FreelancerModel);
-            //await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.Name} Updated Successfully.");
+            await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.FreelancerId} Updated Successfully.");
         }
         else
         {
             var createdAssignment =
                 await _freelancerRepository.CreateFreelancer(FreelancerModel);
-            //await _jsRuntime.ToastrSuccess($"{createdAssignment.Name} Updated Successfully.");
+            await _jsRuntime.ToastrSuccess($"{createdAssignment.FreelancerId} Updated Successfully.");
         }
         _navigationManager.NavigateTo("freelancers");
     }
