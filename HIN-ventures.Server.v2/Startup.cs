@@ -12,6 +12,9 @@ using System.Linq;
 using HIN_ventures.Business.Repositories;
 using HIN_ventures.Business.Repositories.IRepositories;
 using HIN_ventures.DataAccess.Data;
+using HIN_ventures.DataAccess.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 
@@ -40,6 +43,17 @@ namespace HIN_ventures.Server.v2
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseMySql(dbConnectionString, ServerVersion.AutoDetect(dbConnectionString));
+            });
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders()
+                .AddDefaultUI();
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
             });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
