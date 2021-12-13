@@ -1,0 +1,142 @@
+﻿@page "/customer/create"
+@page "/customer/edit/{Id:int}"
+@using HIN_ventures.Business.Repositories.IRepositories
+@using HIN_ventures.Models
+@using HIN_ventures.Server.Helper
+@using Microsoft.AspNetCore.Components
+@inject ICustomerRepository _customerRepository
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
+
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h4">@Title customer</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+
+    <MudCardContent>
+        <MudForm>
+            <MudTextField Label="Name"
+                          @bind-Value="@CustomerModel.Name"
+                          HelperText="Name is required!"
+                          Required="true"
+                          RequiredError="Name is required!" />
+            <MudTextField Label="VAT number"
+                          @bind-Value="@CustomerModel.VAT_number"
+                          HelperText="Your norwegian VAT number (ORG number), ORG999888777."
+                          Required="true"
+                          RequiredError="VAT number is required!" />
+            <MudTextField Label="Email"
+                          @bind-Value="@CustomerModel.Email"
+                          HelperText="Please enter your Email."
+                          Required="true"
+                          RequiredError="Email is required!" />
+            <MudTextField Label="Crypto Address"
+                          @bind-Value="@CustomerModel.CryptoAddress"
+                          HelperText="CryptoAddress for you to get payments and pay freelancers from." />
+            <MudCardContent>
+                <!--Hent Fra AssigmentDto isteden, men bare de som tilhører denne kunden-->
+                <MudTable Items="@CustomerModel.AssignmentsDtos" Hover="true" Breakpoint="Breakpoint.None" Dense="@true">
+                    <HeaderContent>
+                        <MudTh>Title</MudTh>
+                        <MudTh>Category</MudTh>
+                        <MudTh>CreatedBy</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Title">
+                            <MudForm Model="@context">
+                                <MudTextField Label="Title" @bind-Value="context.Title" For="(() => context.Title)" />
+                            </MudForm>
+                        </MudTd>
+                        <MudTd DataLabel="Category">
+                            <MudForm Model="@context">
+                                <MudTextField Label="Category" @bind-Value="context.Category" For="(() => context.Category)" />
+                            </MudForm>
+                        </MudTd>
+                        <MudTd DataLabel="CreatedBy">
+                            <MudForm Model="@context">
+                                <MudTextField Label="CreatedBy" @bind-Value="context.CreatedBy" For="(() => context.CreatedBy)" />
+                            </MudForm>
+                        </MudTd>
+                    </RowTemplate>
+                </MudTable>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled" Class="ml-auto" Link="customers">Back To List</MudButton>
+                <MudButton Variant="Variant.Filled" Class="ml-4" Color="Color.Primary" OnClick="@(async () => await HandelCustomerUpsert())">@Title Customer</MudButton>
+            </MudCardActions>
+        </MudForm>
+    </MudCardContent>
+</MudCard>
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    private CustomerDto CustomerModel { get; set; } = new CustomerDto();
+    private string Title { get; set; } = "Add";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticationState = await AuthenticationState;
+        if (!authenticationState.User.IsInRole(Common.SD.RoleAdmin))
+        {
+            var uri = new Uri(_navigationManager.Uri);
+            _navigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        }
+        if (Id != null)
+        {
+            Title = "Update";
+            CustomerModel = await _customerRepository.GetCustomer(Id.Value);
+        }
+        else
+        {
+            CustomerModel = new CustomerDto();
+        }
+    }
+
+    private async Task HandelCustomerUpsert()
+    {
+        if (CustomerModel.CustomerId != 0 && Title == "Update")
+        {
+            var updateCustomerResult =
+                await _customerRepository.UpdateCustomer(CustomerModel.CustomerId, CustomerModel);
+            //await _jsRuntime.ToastrSuccess($"{updateCustomerResult.Name} Updated Successfully.");
+        }
+        else
+        {
+            var createdCustomer =
+                await _customerRepository.CreateCustomer(CustomerModel);
+            //await _jsRuntime.ToastrSuccess($"{createdCustomer.Name} Updated Successfully.");
+        }
+        _navigationManager.NavigateTo("customers");
+    }
+
+    private async Task TestSuccess()
+    {
+        await _jsRuntime.ToastrSuccess("Success");
+    }
+
+    private async Task TestFailure()
+    {
+        await _jsRuntime.ToastrError("Error");
+    }
+
+    private async Task TestSuccessSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "Task Completed Successfully!");
+    }
+
+    private async Task TestFailureSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
+    }
+}
+

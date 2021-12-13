@@ -1,0 +1,116 @@
+﻿@page "/customer/details/{Id:int}"
+@using HIN_ventures.Business.Repositories.IRepositories
+@using HIN_ventures.Models
+@using HIN_ventures.Server.Helper
+@inject ICustomerRepository _customerRepository
+@inject IAssignmentRepository _assignmentRepository
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">@CustomerModel.Name</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+
+    <MudCardContent>
+        <MudText Typo="Typo.subtitle2">Customer Id:</MudText>
+        <MudText>@CustomerModel.CustomerId</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Name:</MudText>
+        <MudText>@CustomerModel.Name</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">VAT number:</MudText>
+        <MudText>@CustomerModel.VAT_number</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Email:</MudText>
+        <MudText>@CustomerModel.Email</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">CryptoAddress:</MudText>
+        <MudText>@CustomerModel.CryptoAddress</MudText>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Subscription Type:</MudText>
+        <MudText>@CustomerModel.SubscriptionType</MudText>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">TotalLines Of Code This Month:</MudText>
+        <MudText>@CustomerModel.TotalLinesOfCode</MudText>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">TotalCost:</MudText>
+        <MudText>@CustomerModel.TotalCost</MudText>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
+
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
+        <MudText Typo="Typo.subtitle2">Assignments:</MudText>
+        @if (@Assignments != null)
+        {
+            @foreach (var assignment in @Assignments)
+            {
+                <MudText>@assignment.Title</MudText>
+                <MudText>@assignment.CreatedBy</MudText>
+                <MudText>@assignment.Deadline</MudText>
+                <MudDivider DividerType="DividerType.Inset" />
+            }
+        }
+        else
+        {
+            <MudText>@GetNoDataString()</MudText>
+        }
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Class="ml-auto" Link="customers">Back To List</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+    private CustomerDto CustomerModel { get; set; } = new CustomerDto();
+    private IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            CustomerModel = await _customerRepository.GetCustomer(Id.Value);
+            Assignments = _assignmentRepository.GetAllAssignmentsForCustomer(CustomerModel.CustomerId);
+        }
+        else
+        {
+            CustomerModel = new CustomerDto();
+        }
+    }
+
+    private string GetNoDataString()
+    {
+        return "-No data-";
+    }
+
+    private async Task TestSuccess()
+    {
+        await _jsRuntime.ToastrSuccess("Success");
+    }
+
+    private async Task TestFailure()
+    {
+        await _jsRuntime.ToastrError("Error");
+    }
+
+    private async Task TestSuccessSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "Task Completed Successfully!");
+    }
+
+    private async Task TestFailureSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
+    }
+}

@@ -40,21 +40,24 @@ namespace HIN_ventures.Server
             //        new[] { MediaTypeNames.Application.Octet }));
 
             services.AddRazorPages();
-            services.AddSignalR();
             services.AddServerSideBlazor();
-
+            services.AddSignalR();
+            
             services.AddSingleton<HttpClient>(); //needed to consume external API in razor pages
 
             string dbConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            
+            //MySQL
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseMySql(dbConnectionString, ServerVersion.AutoDetect(dbConnectionString));
             });
+            //SQL local server
             //services.AddDbContext<ApplicationDbContext>(options =>
             //{
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             //});
-            
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders()
@@ -99,8 +102,8 @@ namespace HIN_ventures.Server
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-            dbInitializer.Initalize();
 
+            dbInitializer.Initalize();
 
             app.UseEndpoints(endpoints =>
             {
@@ -108,7 +111,8 @@ namespace HIN_ventures.Server
                 //    name: "default",
                 //    pattern: "{controller=Home}/{ action = Index2}/{ id ?}");
                 endpoints.MapRazorPages();
-                endpoints.MapHub<ChatHub>("/chathub");
+                endpoints.MapBlazorHub();
+                //endpoints.MapHub<ChatHub>("/chathub");
                 endpoints.MapFallbackToPage("/_Host");
                 //endpoints.MapHub<BlazorChatSampleHub>(BlazorChatSampleHub.HubUrl);
             });

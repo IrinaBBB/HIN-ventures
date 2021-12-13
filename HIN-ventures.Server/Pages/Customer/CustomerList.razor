@@ -1,8 +1,5 @@
 ﻿@page "/customers"
 @attribute [Authorize(Roles = Common.SD.RoleAdmin)]
-@using HIN_ventures.DataAccess.Entities
-@using System.Net.Http.Json
-@using Microsoft.CodeAnalysis.CSharp.Syntax
 @inject HttpClient _httpClient
 @inject ICustomerRepository _customerRepository
 @inject IJSRuntime _jsRuntime
@@ -69,9 +66,6 @@
 </div>
 
 @code {
-    //private int _selected = 1;
-    //private bool enabled = true;
-    //private MudTable<CustomerDto> _table;
     private IEnumerable<CustomerDto> Customers { get; set; } = new List<CustomerDto>();
 
     protected override async Task OnInitializedAsync()
@@ -118,43 +112,5 @@
     {
         return "No ratings set";
     }
-
-    //private void PageChanged(int i)
-    //{
-    //    _table.NavigateTo(i - 1);
-    //}
-
-    //tabell om vi bestemmer oss for å bruke den i steden. Må endres litt.
-    @*<div class="mt-2">
-            <div class="ml-1 mb-5">
-                <MudText Typo="Typo.h4" Align="Align.Left">Customers</MudText>
-                <MudDivider DividerType="DividerType.FullWidth" Class="my-5" />
-            </div>
-            <div class="col-12" align="left">
-                <MudTable @ref="@_table" Items="@Customers" Hover="true" SortLabel="Sort By" Breakpoint="Breakpoint.Sm" LoadingProgressColor="Color.Info">
-                    <HeaderContent>
-                        <MudTh><MudTableSortLabel InitialDirection="SortDirection.Descending" SortBy="new Func<CustomersDto, object>(x=>x.LinesOfCodeMonth)">Lines Of Code This Month</MudTableSortLabel></MudTh>
-                        <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.TotalLinesOfCode)">Total Lines Of Code</MudTableSortLabel></MudTh>
-                        <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.customerId)">customer Id</MudTableSortLabel></MudTh>
-                        <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.Name)">Name</MudTableSortLabel></MudTh>
-                        <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.Speciality)">Speciality</MudTableSortLabel></MudTh>
-                        <MudTh><MudTableSortLabel SortBy="new Func<CustomersDto, object>(x => x.CryptoAddress)">CryptoAddress</MudTableSortLabel></MudTh>
-                    </HeaderContent>
-                    <RowTemplate>
-                        <MudTd DataLabel="Name">@context.LinesOfCodeMonth</MudTd>
-                        <MudTd DataLabel="Position">@context.TotalLinesOfCode</MudTd>
-                        <MudTd DataLabel="customerId">@context.customerId</MudTd>
-                        <MudTd DataLabel="Sign">@context.Name</MudTd>
-                        <MudTd DataLabel="Molar mass">@context.Speciality</MudTd>
-                        <MudTd DataLabel="Molar mass">@context.CryptoAddress</MudTd>
-                    </RowTemplate>
-                    <PagerContent>
-                        <MudPagination SelectedChanged="PageChanged" ShowFirstButton="enabled" ShowLastButton="enabled"
-                                       Count="@((_table.GetFilteredItemsCount() + _table.RowsPerPage - 1) / _table.RowsPerPage)" Class="pa-4" />
-                    </PagerContent>
-                </MudTable>
-                <MudDivider DividerType="DividerType.FullWidth" Class="my-5" />
-            </div>
-        </div>*@
 
 }

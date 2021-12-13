@@ -1,11 +1,9 @@
 ﻿@page "/assignment/create"
 @page "/assignment/edit/{Id:int}"
-
-@using HIN_ventures.Models
-@using HIN_ventures.Business.Repositories.IRepositories
 @inject IAssignmentRepository _assignmentRepository
 @inject NavigationManager _navigationManager
 @inject IJSRuntime _jsRuntime
+
 @attribute [Authorize(Roles = Common.SD.RoleAdmin)]
 
 <MudCard>
@@ -53,7 +51,7 @@
 
             <MudCardActions>
                 <MudButton Variant="Variant.Filled" Class="ml-auto" Link="assignments">Back To List</MudButton>
-                <MudButton Variant="Variant.Filled" Class="ml-4" Color="Color.Primary" OnClick="@(async () => await HandleAssignmentUpsert())">@Title Assignment</MudButton>
+                <MudButton Variant="Variant.Filled" Class="ml-4" Color="Color.Primary" @onclick="HandleAssignmentUpsert">@Title Assignment</MudButton>
             </MudCardActions>
         </MudForm>
     </MudCardContent>
@@ -87,12 +85,12 @@
     {
         if (AssignmentModel.Id != 0 && Title == "Update")
         {
-            var updateAssignmentResult = await _assignmentRepository.UpdateAssignment(AssignmentModel.Id, AssignmentModel); 
+            var updateAssignmentResult = await _assignmentRepository.UpdateAssignment(AssignmentModel.Id, AssignmentModel);
             //await _jsRuntime.ToastrSuccess($"{updateAssignmentResult.Title} Updated Successfully.");
         }
         else
         {
-            var createdAssignment = await _assignmentRepository.CreateAssignment(AssignmentModel); 
+            var createdAssignment = await _assignmentRepository.CreateAssignment(AssignmentModel);
             //await _jsRuntime.ToastrSuccess($"{createdAssignment.Title} Updated Successfully.");
         }
         _navigationManager.NavigateTo("assignments");

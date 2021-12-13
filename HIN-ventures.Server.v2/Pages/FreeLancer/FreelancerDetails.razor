@@ -1,0 +1,126 @@
+﻿@page "/freelancer/details/{Id:int}"
+@using HIN_ventures.Models
+@using HIN_ventures.Business.Repositories.IRepositories
+@using HIN_ventures.DataAccess.Entities
+@inject IFreelancerRepository _freelancerRepository
+@inject IAssignmentRepository _assignmentRepository
+@inject NavigationManager _navigationManager
+@inject IJSRuntime _jsRuntime
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
+
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h5">@FreelancerModel.LastName</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+
+    <MudCardContent>
+        <MudRating SelectedValue=@FreelancerModel.AverageRating Size="Size.Large" />
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Freelancer Id:</MudText>
+        <MudText>@FreelancerModel.FreelancerId</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Speciality:</MudText>
+        <MudText>@FreelancerModel.Speciality</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Lines Of Code Month:</MudText>
+        <MudText>@FreelancerModel.LinesOfCodeMonth</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Total Lines Of Code:</MudText>
+        <MudText>@FreelancerModel.TotalLinesOfCode</MudText>
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+
+        <MudText Typo="Typo.subtitle2">Crypto Address:</MudText>
+        <MudText>@FreelancerModel.CryptoAddress</MudText>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-3" />
+
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-6" />
+
+        <MudText Typo="Typo.subtitle2">Assignments:</MudText>
+        @if (@Assignments != null)
+        {
+            @foreach (var assignment in @Assignments)
+            {
+                <MudText>@assignment.Title</MudText>
+                <MudText>@assignment.CreatedBy</MudText>
+                <MudText>@assignment.Deadline</MudText>
+                <MudText> --- </MudText>
+            }
+        }
+        else
+        {
+            <MudText>@GetNoDataString()</MudText>
+        }
+        <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Class="ml-auto" Link="freelancers">Back To List</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    private FreelancerDto FreelancerModel { get; set; } = new FreelancerDto();
+    private IEnumerable<Rating> Ratings { get; set; } = new List<Rating>();
+    private IEnumerable<AssignmentDto> Assignments { get; set; } = new List<AssignmentDto>();
+    private int ratingAverage;
+    private int ratingAverageCount;
+    public int CountRating { get; set; }
+    public int CountAssingments { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != null)
+        {
+            FreelancerModel = await _freelancerRepository.GetFreelancer(Id.Value);
+            CountRating = FreelancerModel.AverageRating;
+            Assignments = _assignmentRepository.GetAllAssignmentsForFreelancer(FreelancerModel.FreelancerId);
+
+        }
+        else
+        {
+            FreelancerModel = new FreelancerDto();
+        }
+    }
+
+    private int GetAverage(IEnumerable<RatingDto> Ratings)
+    {
+        if (Ratings.Any())
+        {
+            ratingAverageCount = 0;
+            foreach (var rating in Ratings)
+            {
+                var rateValue = rating.RatingValue;
+                ratingAverageCount += rateValue;
+            }
+            ratingAverage = ratingAverageCount / Ratings.Count();
+            return ratingAverage;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    private string GetNoDataString()
+    {
+        return "-No data-";
+    }
+
+    private async Task TestSuccessSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "success", "Task Completed Successfully!");
+    }
+
+    private async Task TestFailureSwal()
+    {
+        await _jsRuntime.InvokeVoidAsync("ShowSwal", "error", "Task failed!");
+    }
+}

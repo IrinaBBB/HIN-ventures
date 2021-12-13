@@ -1,0 +1,97 @@
+﻿@page "/customers"
+@using HIN_ventures.Business.Repositories.IRepositories
+@using HIN_ventures.Models
+@using HIN_ventures.Server.Helper
+@using HIN_ventures.Server.Pages
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
+@inject ICustomerRepository _customerRepository
+@inject IJSRuntime _jsRuntime
+@inject NavigationManager _navigationManager
+@inject IDialogService _dialogService
+@attribute [Authorize(Roles = Common.SD.RoleAdmin)]
+
+<div class="mt-2">
+    <div class="ml-1 mb-5">
+        <MudText Typo="Typo.h4" Align="Align.Left">Customers</MudText>
+        <MudDivider DividerType="DividerType.FullWidth" Class="my-5"/>
+    </div>
+    <div class="col-12 align-items-lg-start">
+        <MudGrid Spacing="2" Justify="Justify.Center">
+            @if (Customers.Any())
+            {
+                @foreach (var customer in Customers)
+                {
+                    <MudItem>
+                        <MudCard>
+                            <MudCardHeader>
+                                <CardHeaderContent>
+                                    <MudText Typo="Typo.h5">@customer.Name</MudText>
+                                </CardHeaderContent>
+                            </MudCardHeader>
+                            <MudCardContent>
+                                <MudText Typo="Typo.subtitle2">VAT: </MudText>
+                                <MudText>@customer.VAT_number</MudText>
+                                <MudDivider DividerType="DividerType.Middle" Class="my-1"/>
+
+                                <MudText Typo="Typo.subtitle2">Email: </MudText>
+                                <MudText>@customer.Email</MudText>
+                                <MudDivider DividerType="DividerType.Middle" Class="my-1"/>
+
+                                <MudText Typo="Typo.subtitle2">Subscription Type</MudText>
+                                <MudText>@customer.SubscriptionType</MudText>
+                                <MudDivider DividerType="DividerType.Middle" Class="my-1"/>
+
+                                <MudText Typo="Typo.subtitle2">TotalCost: </MudText>
+                                <MudText>@customer.TotalCost</MudText>
+                                <MudDivider DividerType="DividerType.Middle" Class="my-1"/>
+                            </MudCardContent>
+
+                            <MudCardActions>
+                                <NavLink class="nav-link" href="@($"customer/details/{customer.CustomerId}")">
+                                    <span class="oi oi-list-rich" aria-hidden="true"></span> Details
+                                </NavLink>
+                                <MudButton Link="@($"/customer/edit/{customer.CustomerId}")" Variant="Variant.Text" Color="Color.Info">Edit</MudButton>
+                                <MudButton OnClick="@(async () => await DeleteCustomer(customer.CustomerId))" Variant="Variant.Text" Color="Color.Error">Delete</MudButton>
+                            </MudCardActions>
+
+                        </MudCard>
+                    </MudItem>
+                }
+            }
+            else
+            {
+                <div>No records found</div>
+            }
+        </MudGrid>
+
+    </div>
+    <MudFab Link="/customer/create" Class="fab-button" Color="Color.Primary" Icon="@Icons.Material.Filled.Add" aria-label="add"/>
+</div>
+
+@code {
+    private IEnumerable<CustomerDto> Customers { get; set; } = new List<CustomerDto>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Customers = await _customerRepository.GetAllCustomers();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await OnInitializedAsync();
+        StateHasChanged();
+    }
+
+    private async Task DeleteCustomer(int id)
+    {
+        var customerToDelete = await _customerRepository.GetCustomer(id);
+        var result = await _customerRepository.DeleteCustomer(id);
+        _navigationManager.NavigateTo("Customers", forceLoad: true);
+    }
+
+    private string GetNoDataString()
+    {
+        return "No ratings set";
+    }
+
+}
