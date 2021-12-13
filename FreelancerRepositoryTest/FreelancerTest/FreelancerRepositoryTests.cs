@@ -12,7 +12,7 @@ using HIN_ventures.DataAccess.Entities;
 using System.Threading.Tasks;
 using HIN_ventures.Models;
 
-namespace FreelancerRepositoryTest
+namespace RepositoryTests.FreelancerTest
 {
     public abstract class FreelancerRepositoryTests
     {

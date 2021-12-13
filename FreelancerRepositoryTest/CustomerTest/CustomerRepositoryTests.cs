@@ -12,7 +12,7 @@ using HIN_ventures.DataAccess.Entities;
 using System.Threading.Tasks;
 using HIN_ventures.Models;
 
-namespace FreelancerRepositoryTest
+namespace RepositoryTests.CustomerTest
 {
     public abstract class CustomerRepositoryTests
     {
@@ -115,7 +115,9 @@ namespace FreelancerRepositoryTest
                             "Connect an application to an api. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
                         Category = "FrontEnd/JavaScript",
                         Deadline = DateTime.Now.AddMonths(+2),
-                        Freelancer = freelancer1
+                        Freelancer = freelancer1,
+                        Customer = customer1
+
                     },
                     new Assignment
                     {
@@ -124,7 +126,9 @@ namespace FreelancerRepositoryTest
                             "Creating a project in Arduino. The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.",
                         Category = "Electronics and Arduino",
                         Deadline = DateTime.Now.AddMonths(+1),
-                        Freelancer = freelancer1
+                        Freelancer = freelancer1,
+                        Customer = customer1
+
                     },
                     new Assignment
                     {
@@ -133,7 +137,8 @@ namespace FreelancerRepositoryTest
                             "Create a simple API for a blog using a C# language.  It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.",
                         Category = "C++ / C# Programming",
                         Deadline = DateTime.Now.AddMonths(+3),
-                        Freelancer = freelancer2
+                        Freelancer = freelancer2,
+                        Customer = customer2
                     },
                     new Assignment
                     {
@@ -142,24 +147,27 @@ namespace FreelancerRepositoryTest
                             "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. ",
                         Category = "Kotlin/Android",
                         Deadline = DateTime.Now.AddMonths(+4),
-                        Freelancer = freelancer2
+                        Freelancer = freelancer2,
+                        Customer = customer2
                     }
                 };
 
             context.Assignments.AddRange(assignments);
 
-            //ICollection<Rating> ratings = new List<Rating>();
-            //for (var i = 0; i < 50; i++)
-            //{
-            //    ratings.Add(new Rating()
+            //var ratings = new List<Rating>();
+          
+            //    for (var i = 0; i < 20; i++)
             //    {
-            //        RatingValue = new Random(i).Next(5), //a rating between 0 and 5
-            //        FreelancerId = new Random(i).Next(context.Freelancers.Count()), //pick a random freelancer
-            //        CustomerId = new Random(i).Next(context.Customers.Count()) //pick a random customer
-            //    });
-            //}
+            //        ratings.Add(new Rating()
+            //        {
+            //            RatingValue = new Random(i).Next(5), //a rating between 0 and 5
+               
+            //        });
+            //    }
 
-            //context.Ratings.AddRange(ratings);
+            //    customer1.Ratings = ratings.GetRange(0, 10);
+
+                //context.Ratings.AddRange(ratings);
             context.SaveChanges();
 
         }
@@ -177,15 +185,15 @@ namespace FreelancerRepositoryTest
 
             await using var context = new ApplicationDbContext(ContextOptions);
             //Arrange
-            //var repository = new Cu(context, mapper );
-            ////Act
-            //var item = repository.GetFreelancer(1);
-            ////Assert
-            //Assert.Equal("Anna", item.Result.FirstName);
+            var repository = new CustomerRepository(context, mapper);
+            //Act
+            var item = repository.GetCustomer(1);
+            //Assert
+            Assert.Equal("Erik", item.Result.FirstName);
         }
 
         [Fact]
-        public async Task CanGetAllFreelancers()
+        public async Task CanGetAllCustomers()
         {
             var mockMapper = new MapperConfiguration(cfg =>
             {
@@ -195,16 +203,16 @@ namespace FreelancerRepositoryTest
 
             await using var context = new ApplicationDbContext(ContextOptions);
             //Arrange
-            
-            var repository = new FreelancerRepository(context, mapper);
+
+            var repository = new CustomerRepository(context, mapper);
             //Act
-            var result = await repository.GetAllFreelancers();
+            var result = await repository.GetAllCustomers();
             //Assert
             Assert.Equal(2, result.Count());
         }
 
         [Fact]
-        public async Task CanCreateFreelancer()
+        public async Task CanCreateCustomer()
         {
             var mockMapper = new MapperConfiguration(cfg =>
             {
@@ -213,13 +221,13 @@ namespace FreelancerRepositoryTest
             var mapper = mockMapper.CreateMapper();
 
             await using var context = new ApplicationDbContext(ContextOptions);
-         
+
             //Arrange
-            var repository = new FreelancerRepository(context, mapper);
+            var repository = new CustomerRepository(context, mapper);
 
             //Act
-            var item = repository.CreateFreelancer(
-                new FreelancerDto
+            var item = repository.CreateCustomer(
+                new CustomerDto()
                 {
                     FirstName = "Rocky",
                     LastName = "Balboa",
@@ -230,53 +238,31 @@ namespace FreelancerRepositoryTest
         }
 
         [Fact]
-        public async Task CanDeleteFreelancer()
+        public async Task CanDeleteCustomer()
         {
 
             var mockMapper = new MapperConfiguration(cfg => { cfg.AddProfile(new MappingProfile()); });
             var mapper = mockMapper.CreateMapper();
 
             await using var context = new ApplicationDbContext(ContextOptions);
-         
+
             //Arrange
-            var repository = new FreelancerRepository(context, mapper);
-            var item = new FreelancerDto()
+            var repository = new CustomerRepository(context, mapper);
+            var item = new CustomerDto()
             {
-                FreelancerId = 5,
+                CustomerId = 5,
                 FirstName = "Rocky",
                 LastName = "Balboa",
                 Email = "rocky@boxing.com",
             };
             //Act
-            _ = repository.DeleteFreelancer(item.FreelancerId);
+            _ = repository.DeleteCustomer(item.CustomerId);
             //Assert
-            Assert.False(context.Set<Freelancer>().Any(e => e.Email== "rocky@boxing.com"));
+            Assert.False(context.Set<Customer>().Any(e => e.Email == "rocky@boxing.com"));
         }
 
         [Fact]
-        public async Task CanGetAllAssignmentsOnFreelancer()
-        {
-            var mockMapper = new MapperConfiguration(cfg => { cfg.AddProfile(new MappingProfile()); });
-            var mapper = mockMapper.CreateMapper();
-
-            await using var context = new ApplicationDbContext(ContextOptions);
-
-            //Arrange
-            var repository = new FreelancerRepository(context, mapper);
-
-            //Act
-            var result = repository.GetAllAssignmentsOnFreelancer(1);
-            var items = result.Result.ToList();
-
-            //Assert
-            Assert.Equal("Api Task", items[0].Title);
-            Assert.Equal("FrontEnd/JavaScript", items[0].Category);
-            Assert.Equal("Program in Arduino", items[1].Title);
-            Assert.Equal("Electronics and Arduino", items[1].Category);
-        }
-
-        [Fact]
-        public async Task CanUpdateFreelancer()
+        public async Task CanUpdateCustomer()
         {
 
             var mockMapper = new MapperConfiguration(cfg => { cfg.AddProfile(new MappingProfile()); });
@@ -285,37 +271,31 @@ namespace FreelancerRepositoryTest
             await using var context = new ApplicationDbContext(ContextOptions);
          
             //Arrange
-            var repository = new FreelancerRepository(context, mapper);
+            var repository = new CustomerRepository(context, mapper);
+
+            var item = repository.GetCustomer(2).Result;
             
-            var item = new FreelancerDto()
+            var updatedItem = new CustomerDto()
             {
-                FreelancerId = 10,
-                FirstName = "Rocky",
-                LastName = "Balboa",
-                Email = "rocky@boxing.com",
-            };
-
-            var updatedItem = new FreelancerDto()
-            {
-                FreelancerId = item.FreelancerId,
+                CustomerId = item.CustomerId,
                 FirstName = "John",
                 LastName = "Wayne",
                 Email = "rocky@boxing.com",
-                Speciality = "Games"
+                IdentityId = item.IdentityId
             };
             try
             {
                 //Act
-                var test = await repository.UpdateFreelancer(item.FreelancerId, updatedItem);
+                var test = await repository.UpdateCustomer(updatedItem.CustomerId, updatedItem);
             }
             catch (AggregateException agg)
             {
-                var aggMessage = agg.Message.ToString();
+                var aggMessage = agg.Message;
             }
             
             //Assert
-            Assert.False(context.Set<FreelancerDto>().Any(e => e.Speciality == "Typing"));
-            Assert.True(context.Set<FreelancerDto>().Any(e => e.Speciality == "Games"));
+            Assert.False(context.Set<Customer>().Any(e => e.LastName == "Larsen"));
+            Assert.True(context.Set<Customer>().Any(e => e.LastName == "Wayne"));
         }
     }
 }

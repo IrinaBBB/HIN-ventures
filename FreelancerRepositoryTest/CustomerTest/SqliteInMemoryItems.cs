@@ -9,9 +9,9 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace FreelancerRepositoryTest
+namespace RepositoryTests.CustomerTest
 {
-    public class SqliteInMemoryItems : FreelancerRepositoryTests, IDisposable
+    public class SqliteInMemoryItems : CustomerRepositoryTests, IDisposable
     {
         private readonly DbConnection _connection;
 

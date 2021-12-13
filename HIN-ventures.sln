@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HIN-ventures.Shared", "HIN-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Crypto", "Crypto\Crypto.csproj", "{919E7447-BE94-426A-8438-8DAA545835C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreelancerRepositoryTest", "FreelancerRepositoryTest\FreelancerRepositoryTest.csproj", "{15688761-A4DB-463C-A165-F141DD44F959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RepositoryTests", "FreelancerRepositoryTest\RepositoryTests.csproj", "{15688761-A4DB-463C-A165-F141DD44F959}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
