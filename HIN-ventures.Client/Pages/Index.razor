@@ -174,7 +174,6 @@
 
     private async Task GoToFreelancerProfile()
     {
-        var test = LoggedInUser.Id;
         try
         {
             navigationManager.NavigateTo($"freelancer/profile/", true);
@@ -187,7 +186,6 @@
 
     private async Task GoToChat()
     {
-
         try
         {
             //navigationManager.NavigateTo($"chat/{LoggedInUser.Id}", true);
