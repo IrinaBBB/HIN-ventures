@@ -203,23 +203,7 @@
 
                 //update
                 var updateFreelancerResult = await _freelancerService.UpdateFreelancer(FreelancerModel.FreelancerId, FreelancerModel);
-                //if ((FreelancerModel.ImageUrls != null && FreelancerModel.ImageUrls.Any()) || (DeletedImageNames != null && DeletedImageNames.Any()))
-                //{
-                //    if (DeletedImageNames != null && DeletedImageNames.Any())
-                //    {
-                //                foreach (var deletedImageName in DeletedImageNames)
-                //                {
-                //                    var imageName = deletedImageName.Replace($"{NavigationManager.BaseUri}FreelancerImages/", "");
-
-                //                    var result = FileUpload.DeleteFile(imageName);
-                //                    await FreelancerImagesRepository.DeleteFreelancerImageByImageUrl(deletedImageName);
-                //                }
-                //            }
-
-
-
-                //            await AddFreelancerImage(updateFreelancerResult);
-                //        }
+            }
                 await JsRuntime.InvokeVoidAsync("ShowSwal", "success", "The assigment has been created!");
             }
 
@@ -229,105 +213,6 @@
             //log exceptions
             var msg = ex.Message;
         }
-
-
-
         //NavigationManager.NavigateTo("/");
     }
-
-    //private async Task HandleImageUpload(InputFileChangeEventArgs e)
-    //{
-    //    IsImageUploadProcessStarted = true;
-    //    try
-    //    {
-    //        var images = new List<string>();
-    //        if (e.GetMultipleFiles().Count > 0)
-    //        {
-    //            foreach (var file in e.GetMultipleFiles())
-    //            {
-    //                System.IO.FileInfo fileInfo = new System.IO.FileInfo(file.Name);
-    //                if (fileInfo.Extension.ToLower() == ".jpg" ||
-    //                    fileInfo.Extension.ToLower() == ".png" ||
-    //                    fileInfo.Extension.ToLower() == ".jpeg")
-    //                {
-    //                    var uploadedImagePath = await FileUpload.UploadFile(file);
-    //                    images.Add(uploadedImagePath);
-    //                }
-    //                else
-    //                {
-    //                    await JsRuntime.ToastrError("Please select .jpg/.jpeg/.png file only");
-    //                    return;
-    //                }
-    //            }
-
-    //            if (images.Any())
-    //            {
-    //                if (FreelancerModel.ImageUrls != null && HotelRoomModel.ImageUrls.Any())
-    //                {
-    //                    FreelancerModel.ImageUrls.AddRange(images);
-    //                }
-    //                else
-    //                {
-    //                    FreelancerModel.ImageUrls = new List<string>();
-    //                    FreelancerModel.ImageUrls.AddRange(images);
-    //                }
-    //            }
-    //            else
-    //            {
-    //                await JsRuntime.ToastrError("Image uploading failed");
-    //                return;
-    //            }
-    //        }
-    //        IsImageUploadProcessStarted = false;
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        await JsRuntime.ToastrError(ex.Message);
-    //    }
-
-
-
-    //}
-
-    //private async Task AddFreelancerImage(FreelancerDto freelancerDetails)
-    //{
-    //    foreach (var imageUrl in FreelancerModel.ImageUrls)
-    //    {
-    //        if (FreelancerModel.FreelancerImages == null || FreelancerModel.FreelancerImages.Where(x => x.RoomImageUrl == imageUrl).Count() == 0)
-    //        {
-
-    //            FreelancerImage = new FreelancerImageDTO()
-    //            {
-    //                FreelancerId = freelancerDetails.Id,
-    //                FreelancerImageUrl = imageUrl
-    //            };
-    //            await HotelImagesRepository.CreateHotelRoomImage(RoomImage);
-    //        }
-    //    }
-    //}
-
-    //internal async Task DeletePhoto(string imageUrl)
-    //{
-    //    try
-    //    {
-    //        var imageIndex = HotelRoomModel.ImageUrls.FindIndex(x => x == imageUrl);
-    //        var imageName = imageUrl.Replace($"{NavigationManager.BaseUri}RoomImages/", "");
-    //        if (HotelRoomModel.Id == 0 && Title == "Create")
-    //        {
-    //            var result = FileUpload.DeleteFile(imageName);
-    //        }
-    //        else
-    //        {
-    //            //update
-    //            DeletedImageNames ??= new List<string>();
-    //            DeletedImageNames.Add(imageUrl);
-    //        }
-    //        HotelRoomModel.ImageUrls.RemoveAt(imageIndex);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        await JsRuntime.ToastrError(ex.Message);
-    //    }
-
-    //}
 }
